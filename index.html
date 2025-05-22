@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ravid Translator - نسخه آلترا ویژن</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- نسخه جدیدتر Font Awesome -->
+    <style>
+        @font-face {
+            font-family: 'Vazirmatn'; /* استفاده از وزیرمتن برای قابلیت‌های بیشتر */
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazirmatn';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-Medium.woff2') format('woff2');
+            font-weight: 500; /* Medium */
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazirmatn';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-Bold.woff2') format('woff2');
+            font-weight: bold; /* 700 */
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Vazirmatn';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-SemiBold.woff2') format('woff2');
+            font-weight: 600; /* SemiBold */
+            font-style: normal;
+            font-display: swap;
+        }
+
+
+        :root {
+            --font-primary: 'Vazirmatn', Arial, sans-serif;
+
+            /* --- Palette Refined --- */
+            --primary-hue: 210; /* آبی */
+            --secondary-hue: 35; /* نارنجی/طلایی */
+            --accent-hue: 280; /* بنفش ظریف برای تاکید */
+
+            --primary-color-light: hsl(var(--primary-hue), 79%, 60%); /* #4dabf7 */
+            --primary-color-dark: hsl(var(--primary-hue), 79%, 40%);  /* #1971c2 */
+            --primary-gradient: linear-gradient(140deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
+
+            --secondary-color-light: hsl(var(--secondary-hue), 95%, 65%); /* #fcc419 */
+            --secondary-color-dark: hsl(var(--secondary-hue), 90%, 50%);  /* #f59f00 */
+            --secondary-gradient: linear-gradient(140deg, var(--secondary-color-light) 0%, var(--secondary-color-dark) 100%);
+
+            --accent-color: hsl(var(--accent-hue), 60%, 65%);
+
+            --text-color-light: #212529;
+            --text-color-muted-light: #5f6368;
+            --bg-color-light: #fcfdff; /* تقریبا سفید با ته رنگ آبی */
+            --surface-color-light: #ffffff;
+            --border-color-light: hsl(var(--primary-hue), 30%, 88%); /* #dee2e6 */
+
+            --text-color-dark: #e9ecef;
+            --text-color-muted-dark: #adb5bd;
+            --bg-color-dark: #1a1d24; /* آبی بسیار تیره */
+            --surface-color-dark: #232731; /* کمی روشن‌تر از پس زمینه */
+            --border-color-dark: hsl(var(--primary-hue), 15%, 30%); /* #373A40 */
+
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: var(--secondary-color-light);
+
+            /* --- Sizing & Spacing --- */
+            --border-radius-sm: 8px;
+            --border-radius-md: 16px;
+            --border-radius-lg: 24px;
+            --spacing-unit: 8px;
+
+            /* --- Shadows (Softer & Layered) --- */
+            --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
+            --shadow-sm: 0 2px 5px rgba(0,0,0,0.05), 0 1px 1px rgba(0,0,0,0.03);
+            --shadow-md: 0 5px 15px rgba(0,0,0,0.07), 0 2px 5px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.06);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.15), 0 8px 15px rgba(0,0,0,0.08);
+
+            /* --- Transitions --- */
+            --transition-fast: 0.15s ease-out;
+            --transition-medium: 0.3s ease-out;
+            --transition-slow: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.26, 1.55);
+
+            /* Default to light mode */
+            --text-color: var(--text-color-light);
+            --text-color-muted: var(--text-color-muted-light);
+            --bg-color: var(--bg-color-light);
+            --surface-color: var(--surface-color-light);
+            --border-color: var(--border-color-light);
+            --primary-color: var(--primary-color-light);
+            --primary-color-hover: var(--primary-color-dark);
+            --secondary-color: var(--secondary-color-light);
+        }
+
+        body.dark-mode {
+            --text-color: var(--text-color-dark);
+            --text-color-muted: var(--text-color-muted-dark);
+            --bg-color: var(--bg-color-dark);
+            --surface-color: var(--surface-color-dark);
+            --border-color: var(--border-color-dark);
+            --primary-color: var(--primary-color-light); /* آبی روشن همچنان برای تاکید خوب است */
+            --primary-color-hover: hsl(var(--primary-hue), 79%, 70%);
+            --secondary-color: var(--secondary-color-light);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Base font size */
+        }
+
+        body {
+            font-family: var(--font-primary);
+            direction: rtl;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color var(--transition-medium), color var(--transition-medium);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Custom Scrollbar */
+        body::-webkit-scrollbar {
+            width: 10px;
+        }
+        body::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            border: 2px solid var(--bg-color);
+        }
+        body.dark-mode::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color-light);
+             border: 2px solid var(--bg-color-dark);
+        }
+
+        /* Enhanced Header */
+        .header {
+            padding: calc(var(--spacing-unit) * 6) calc(var(--spacing-unit) * 2.5);
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            background: var(--primary-gradient);
+            border-bottom: 3px solid var(--primary-color-dark); /* Subtle border */
+        }
+
+        .header::before { /* More subtle animated pattern */
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                radial-gradient(hsl(var(--primary-hue), 79%, 90%, 0.1) 1px, transparent 1px),
+                radial-gradient(hsl(var(--primary-hue), 79%, 90%, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px, 30px 30px;
+            background-position: 0 0, 15px 15px;
+            animation: bgPatternAnim 30s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes bgPatternAnim {
+            0% { background-position: 0 0, 15px 15px; }
+            100% { background-position: 30px 30px, 45px 45px; }
+        }
+        body.dark-mode .header::before {
+             background-image:
+                radial-gradient(hsl(var(--primary-hue), 79%, 20%, 0.2) 1px, transparent 1px),
+                radial-gradient(hsl(var(--primary-hue), 79%, 20%, 0.2) 1px, transparent 1px);
+        }
+
+        .header h1 {
+            font-size: clamp(2.2rem, 5vw, 3.2rem); /* Fluid typography */
+            font-weight: 700; /* Bold */
+            margin-bottom: var(--spacing-unit);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            opacity: 0.9;
+            font-weight: 500; /* Medium */
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            flex: 1;
+            padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
+            max-width: 1280px; /* Slightly wider max-width */
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Ultra Translator Box */
+        .translator-box {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-unit) * 3);
+            background: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: calc(var(--spacing-unit) * 3.5);
+            box-shadow: var(--shadow-xl); /* Enhanced shadow */
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+            border: 1px solid var(--border-color);
+            position: relative; /* For potential pseudo-elements */
+        }
+        /* Subtle glow effect for the box */
+        .translator-box::after {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border-radius: inherit; /* inherit from parent */
+            background: linear-gradient(45deg, var(--primary-color-light), var(--accent-color), var(--secondary-color-light));
+            z-index: -1;
+            opacity: 0;
+            filter: blur(15px);
+            transition: opacity var(--transition-slow);
+        }
+        .translator-box:hover::after {
+            opacity: 0.15;
+        }
+        body.dark-mode .translator-box:hover::after {
+            opacity: 0.25;
+        }
+        
+        @media (min-width: 1024px) { /* Changed breakpoint for row layout */
+            .translator-box {
+                flex-direction: row;
+                gap: calc(var(--spacing-unit) * 4);
+            }
+        }
+        
+        .language-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-unit);
+            position: relative;
+        }
+        
+        .language-label {
+            font-weight: 600; /* SemiBold */
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            position: absolute;
+            top: calc(var(--spacing-unit) * -2.5);
+            right: var(--spacing-unit);
+            background-color: var(--surface-color);
+            padding: 0 calc(var(--spacing-unit) * 0.5);
+            border-radius: var(--border-radius-sm);
+            transition: color var(--transition-medium), background-color var(--transition-medium);
+        }
+        
+        .language-selector {
+            display: flex;
+            gap: var(--spacing-unit); /* Reduced gap for tighter packing */
+            align-items: center;
+            margin: 0 auto; /* Center in column layout */
+        }
+        
+        .swap-btn {
+            background: var(--secondary-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform var(--transition-bounce), box-shadow var(--transition-medium);
+            box-shadow: 0 3px 8px hsla(var(--secondary-hue), 90%, 50%, 0.4);
+            z-index: 10;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        
+        .swap-btn:hover {
+            transform: scale(1.1) rotate(25deg);
+            box-shadow: 0 6px 15px hsla(var(--secondary-hue), 90%, 50%, 0.5);
+        }
+        .swap-btn:active {
+            transform: scale(0.95) rotate(10deg);
+        }
+        
+        .swap-btn svg {
+            width: 28px; height: 28px;
+        }
+        .swap-btn svg path {
+            stroke: var(--white);
+            stroke-width: 2.5;
+        }
+        body.dark-mode .swap-btn svg path {
+             stroke: var(--text-color-dark); /* Better contrast in dark mode if needed */
+        }
+        
+        .text-area-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-width: 0; /* Fix for flexbox overflow */
+        }
+        
+        .text-area {
+            width: 100%;
+            height: 300px;
+            padding: calc(var(--spacing-unit) * 2);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            resize: none;
+            font-family: var(--font-primary);
+            font-size: 1.05rem;
+            line-height: 1.75;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            transition: border-color var(--transition-medium), box-shadow var(--transition-medium), background-color var(--transition-medium);
+        }
+        .text-area::placeholder {
+            color: var(--text-color-muted);
+            opacity: 0.8;
+        }
+        
+        .text-area:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            /* Enhanced focus glow */
+            box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 60%, 0.2), var(--shadow-sm);
+            background-color: var(--surface-color); /* Keep surface color */
+        }
+        body.dark-mode .text-area:focus {
+            box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 70%, 0.25), var(--shadow-sm);
+        }
+
+        /* Custom scrollbar for textareas */
+        .text-area::-webkit-scrollbar {
+            width: 8px;
+        }
+        .text-area::-webkit-scrollbar-track {
+            background: transparent; /* Make track invisible within textarea */
+            border-radius: var(--border-radius-md);
+        }
+        .text-area::-webkit-scrollbar-thumb {
+            background-color: hsla(var(--primary-hue), 79%, 60%, 0.5);
+            border-radius: 10px;
+        }
+        .text-area:hover::-webkit-scrollbar-thumb {
+            background-color: hsla(var(--primary-hue), 79%, 60%, 0.8);
+        }
+        body.dark-mode .text-area::-webkit-scrollbar-thumb {
+            background-color: hsla(var(--primary-hue), 79%, 70%, 0.4);
+        }
+         body.dark-mode .text-area:hover::-webkit-scrollbar-thumb {
+            background-color: hsla(var(--primary-hue), 79%, 70%, 0.7);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-unit);
+            align-items: center;
+            gap: var(--spacing-unit);
+        }
+        
+        .btn {
+            border: none;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            font-family: var(--font-primary);
+            font-weight: 600; /* SemiBold */
+            padding: calc(var(--spacing-unit) * 1.2) calc(var(--spacing-unit) * 2.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center; /* Center content in button */
+            gap: var(--spacing-unit);
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            position: relative; /* For potential pseudo-elements or spinners */
+            overflow: hidden; /* For ripple or shine effects */
+        }
+        .btn i {
+            transition: transform var(--transition-fast);
+        }
+        .btn:hover i {
+            transform: scale(1.1);
+        }
+
+        /* Main Translate Button - Supercharged */
+        .translate-btn {
+            background: var(--primary-gradient);
+            color: var(--white);
+            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
+            font-size: 1.1rem;
+            font-weight: 700; /* Bold */
+            box-shadow: 0 4px 12px hsla(var(--primary-hue), 79%, 50%, 0.35);
+        }
+        
+        .translate-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 7px 20px hsla(var(--primary-hue), 79%, 50%, 0.45);
+        }
+        
+        .translate-btn:active {
+            transform: translateY(0px) scale(0.98);
+            box-shadow: 0 2px 8px hsla(var(--primary-hue), 79%, 50%, 0.3);
+        }
+
+        /* Loading state for translate button */
+        .translate-btn.loading {
+            pointer-events: none; /* Disable clicks */
+            color: transparent !important; /* Hide text */
+        }
+        .translate-btn.loading .btn-text {
+            visibility: hidden;
+        }
+        .translate-btn.loading .btn-icon {
+            visibility: hidden;
+        }
+        .translate-btn .spinner {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        .translate-btn.loading .spinner {
+            display: block;
+        }
+        
+        .clear-btn {
+            background-color: transparent;
+            color: var(--text-color-muted);
+            border: 1.5px solid var(--border-color);
+        }
+        
+        .clear-btn:hover {
+            background-color: hsla(var(--primary-hue), 20%, 95%, 1);
+            border-color: hsla(var(--primary-hue), 20%, 80%, 1);
+            color: var(--text-color);
+        }
+        body.dark-mode .clear-btn {
+            color: var(--text-color-muted-dark);
+            border-color: var(--border-color-dark);
+        }
+        body.dark-mode .clear-btn:hover {
+            background-color: hsla(var(--primary-hue), 15%, 25%, 1);
+            border-color: hsla(var(--primary-hue), 15%, 40%, 1);
+            color: var(--text-color-dark);
+        }
+
+        .copy-btn { /* For the button below target textarea */
+            background-color: hsl(var(--primary-hue), 60%, 96%);
+            color: var(--primary-color);
+            border: 1px solid hsl(var(--primary-hue), 60%, 90%);
+        }
+        .copy-btn:hover {
+            background-color: hsl(var(--primary-hue), 60%, 92%);
+            border-color: hsl(var(--primary-hue), 60%, 85%);
+            transform: scale(1.02);
+        }
+         body.dark-mode .copy-btn {
+            background-color: hsla(var(--primary-hue), 20%, 28%, 1);
+            color: var(--primary-color-light);
+            border-color: hsla(var(--primary-hue), 20%, 35%, 1);
+        }
+        body.dark-mode .copy-btn:hover {
+            background-color: hsla(var(--primary-hue), 20%, 32%, 1);
+        }
+        
+        /* Select Element - More Custom */
+        select {
+            padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 2);
+            padding-left: calc(var(--spacing-unit) * 5);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            font-family: var(--font-primary);
+            font-weight: 500;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            min-width: 180px; /* Wider */
+            cursor: pointer;
+            transition: all var(--transition-medium);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left calc(var(--spacing-unit) * 1.5) center;
+        }
+        body.dark-mode select {
+             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23e9ecef' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 60%, 0.15);
+        }
+        select:hover {
+            border-color: hsla(var(--primary-hue), 79%, 70%, 0.7);
+        }
+        
+        .loading { /* Main loading indicator */
+            display: none;
+            text-align: center;
+            padding: calc(var(--spacing-unit) * 4) 0;
+            font-size: 1.1rem;
+            color: var(--text-color-muted);
+        }
+        
+        .loader { /* For main loading indicator */
+            border: 6px solid hsla(var(--primary-hue), 79%, 60%, 0.2);
+            border-radius: 50%;
+            border-top: 6px solid var(--primary-color);
+            width: 60px;
+            height: 60px;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto calc(var(--spacing-unit) * 2);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .char-count {
+            font-size: 0.9rem;
+            color: var(--text-color-muted);
+            transition: color var(--transition-medium), transform var(--transition-fast);
+            font-weight: 500;
+        }
+        
+        .char-count.warning { color: var(--warning-color); transform: scale(1.05); }
+        .char-count.danger { color: var(--error-color); font-weight: 600; transform: scale(1.1); }
+        
+        /* Footer - Cleaner */
+        .footer {
+            background-color: var(--surface-color);
+            padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
+            text-align: center;
+            color: var(--text-color-muted);
+            margin-top: calc(var(--spacing-unit) * 6);
+            border-top: 1px solid var(--border-color);
+            transition: background-color var(--transition-medium), border-color var(--transition-medium);
+        }
+        
+        .footer p {
+            margin: var(--spacing-unit) 0;
+            font-size: 0.95rem;
+        }
+        .footer .fa-heart { color: var(--error-color); animation: heartbeat 1.5s infinite ease-in-out; }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        
+        .footer .social-links {
+            margin-top: calc(var(--spacing-unit) * 2);
+            display: flex;
+            justify-content: center;
+            gap: calc(var(--spacing-unit) * 2.5);
+        }
+        
+        .footer .social-links a {
+            color: var(--text-color-muted);
+            font-size: 1.6rem;
+            transition: color var(--transition-medium), transform var(--transition-medium);
+        }
+        
+        .footer .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-4px) scale(1.15);
+        }
+        
+        /* Notification - Glassmorphism Touch */
+        .notification {
+            position: fixed;
+            top: calc(var(--spacing-unit) * 3);
+            left: 50%;
+            transform: translateX(-50%) translateY(-150px) scale(0.9); /* Initial state for animation */
+            color: var(--white);
+            padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 3.5);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-unit) * 1.5;
+            font-weight: 600; /* SemiBold */
+            font-size: 1.05rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: transform var(--transition-bounce), opacity var(--transition-medium);
+            /* Glassmorphism */
+            background: rgba(0, 0, 0, 0.5); /* Fallback */
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .notification.success {
+             background: hsla(var(--success-hue, 134), 61%, 41%, 0.7); /* Define --success-hue if not already */
+        }
+        .notification.error {
+             background: hsla(var(--error-hue, 354), 70%, 54%, 0.7); /* Define --error-hue if not already */
+        }
+        body.dark-mode .notification { /* Dark mode glassmorphism */
+            background: rgba(40, 43, 51, 0.6); /* Darker glass */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        body.dark-mode .notification.success {
+             background: hsla(var(--success-hue, 134), 61%, 35%, 0.7);
+        }
+        body.dark-mode .notification.error {
+             background: hsla(var(--error-hue, 354), 70%, 48%, 0.7);
+        }
+        :root { /* Add hues for success/error if not defined */
+            --success-hue: 134; --error-hue: 354;
+        }
+
+        .notification.show {
+            transform: translateX(-50%) translateY(0) scale(1);
+            opacity: 1;
+        }
+        .notification i { font-size: 1.3em; }
+
+        /* Feature Section - Dynamic Cards */
+        .language-feature {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: calc(var(--spacing-unit) * 3.5);
+            margin-top: calc(var(--spacing-unit) * 7);
+        }
+        
+        .feature-item {
+            background: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: calc(var(--spacing-unit) * 3);
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow var(--transition-medium);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden; /* For pseudo-elements */
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: var(--shadow-xl);
+        }
+        /* Shine effect on hover */
+        .feature-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%; /* Start off-screen */
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: left 0.7s ease-in-out;
+        }
+        .feature-item:hover::before {
+            left: 150%; /* Move across the card */
+        }
+        body.dark-mode .feature-item::before {
+             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
+        }
+        
+        .feature-icon {
+            background: linear-gradient(135deg, hsla(var(--primary-hue), 79%, 60%, 0.15) 0%, hsla(var(--primary-hue), 79%, 40%, 0.1) 100%);
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto calc(var(--spacing-unit) * 2.5);
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            transition: all var(--transition-slow);
+        }
+        .feature-item:hover .feature-icon {
+            background: var(--primary-gradient);
+            color: var(--white);
+            transform: rotateY(360deg) scale(1.1);
+            box-shadow: 0 5px 15px hsla(var(--primary-hue), 79%, 50%, 0.3);
+        }
+        
+        .feature-title {
+            font-weight: 700; /* Bold */
+            font-size: 1.3rem;
+            margin-bottom: var(--spacing-unit);
+            color: var(--text-color); /* Match body text color */
+        }
+        body.dark-mode .feature-title { color: var(--primary-color-light); }
+        
+        .feature-desc {
+            color: var(--text-color-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        .target-container { position: relative; }
+        
+        /* Action Buttons on Textarea - Grouped & Styled */
+        .action-buttons {
+            position: absolute;
+            top: calc(var(--spacing-unit) * 1.5);
+            left: calc(var(--spacing-unit) * 1.5);
+            display: flex;
+            gap: var(--spacing-unit) * 0.75;
+            background: hsla(var(--surface-color-rgb, 255,255,255), 0.8); /* Use RGB for opacity */
+            padding: calc(var(--spacing-unit) * 0.5);
+            border-radius: var(--border-radius-sm);
+            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-xs);
+            opacity: 0.7;
+            transition: opacity var(--transition-medium);
+        }
+        .text-area-container:hover .action-buttons {
+            opacity: 1;
+        }
+        :root { --surface-color-rgb: 255,255,255; } /* For light mode */
+        body.dark-mode { --surface-color-rgb: 35,39,49; } /* For dark mode */
+        
+        .action-btn {
+            background: transparent;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-color-muted);
+            transition: all var(--transition-fast);
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+         body.dark-mode .action-btn:hover {
+            background-color: var(--primary-color-light);
+            color: var(--bg-color-dark);
+        }
+        
+        /* History Panel - Card-like Items */
+        .history-panel {
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: calc(var(--spacing-unit) * 3);
+            margin-top: calc(var(--spacing-unit) * 5);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .history-title {
+            font-size: 1.4rem;
+            font-weight: 700; /* Bold */
+            margin-bottom: calc(var(--spacing-unit) * 2.5);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-unit) * 1.5;
+        }
+        .history-title i {
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: var(--border-radius-md);
+            /* Custom scrollbar for history list */
+        }
+        .history-list::-webkit-scrollbar { width: 6px; }
+        .history-list::-webkit-scrollbar-track { background: transparent; }
+        .history-list::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 60%, 0.3); border-radius: 6px; }
+        .history-list:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 60%, 0.6); }
+        body.dark-mode .history-list::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.25); }
+        body.dark-mode .history-list:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.5); }
+        
+        .history-item {
+            padding: calc(var(--spacing-unit) * 1.8) calc(var(--spacing-unit) * 2);
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color var(--transition-medium), transform var(--transition-fast);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: var(--border-radius-sm); /* Rounded corners for items */
+            margin-bottom: var(--spacing-unit); /* Space between items */
+        }
+        .history-item:last-child { border-bottom: none; margin-bottom: 0; }
+        
+        .history-item:hover {
+            background-color: hsla(var(--primary-hue), 60%, 95%, 0.7);
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+        body.dark-mode .history-item:hover {
+            background-color: hsla(var(--primary-hue), 15%, 22%, 0.7);
+        }
+        
+        .history-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1; /* Allow text to take available space */
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-right: var(--spacing-unit);
+        }
+        
+        .history-langs {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: var(--spacing-unit) * 1.5;
+            white-space: nowrap;
+            display: inline-flex; align-items: center; gap: calc(var(--spacing-unit) * 0.5);
+        }
+        .history-langs .fa-long-arrow-alt-left { opacity: 0.6; }
+        body.dark-mode .history-langs { color: var(--secondary-color); }
+        
+        .history-item .date-time { /* New class for date-time */
+            color: var(--text-color-muted);
+            font-size: 0.8rem;
+            white-space: nowrap;
+            text-align: left;
+            min-width: 110px; /* Ensure enough space */
+        }
+        
+        /* Theme Toggle - Playful */
+        .theme-toggle {
+            position: fixed;
+            bottom: calc(var(--spacing-unit) * 3); /* Changed to bottom */
+            right: calc(var(--spacing-unit) * 3);  /* Changed to right */
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            transition: all var(--transition-bounce);
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: rotate(360deg) scale(1.15);
+            box-shadow: 0 0 20px hsla(var(--primary-hue), 79%, 60%, 0.5);
+        }
+        body.dark-mode .theme-toggle {
+            color: var(--secondary-color);
+        }
+        body.dark-mode .theme-toggle:hover {
+            background: var(--secondary-color);
+            color: var(--bg-color-dark);
+            box-shadow: 0 0 20px hsla(var(--secondary-hue), 90%, 50%, 0.5);
+        }
+        
+        /* Voice Buttons - Refined */
+        .voice-btn {
+            background-color: hsla(var(--primary-hue), 20%, 95%, 1);
+            border: 1px solid hsla(var(--primary-hue), 20%, 85%, 1);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: all var(--transition-medium);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .voice-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            transform: scale(1.12);
+            box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 60%, 0.3);
+        }
+        
+        .voice-btn.recording {
+            background-color: var(--error-color);
+            color: var(--white);
+            animation: pulseError 1.5s infinite;
+            box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
+        }
+        @keyframes pulseError { /* Renamed from pulse to avoid conflict */
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+         body.dark-mode .voice-btn {
+            background-color: hsla(var(--primary-hue), 15%, 28%, 1);
+            border-color: hsla(var(--primary-hue), 15%, 35%, 1);
+            color: var(--primary-color-light);
+         }
+         body.dark-mode .voice-btn:hover {
+            background-color: var(--primary-color-light);
+            color: var(--bg-color-dark);
+            box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 70%, 0.3);
+         }
+         body.dark-mode .voice-btn.recording {
+            background-color: var(--error-color);
+            color: var(--white);
+            box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
+         }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            html { font-size: 15px; } /* Slightly smaller base for mobile */
+            .header { padding: calc(var(--spacing-unit) * 4) var(--spacing-unit); }
+            .container { padding: calc(var(--spacing-unit) * 2.5) var(--spacing-unit); }
+            
+            .translator-box {
+                padding: calc(var(--spacing-unit) * 2.5);
+                flex-direction: column;
+            }
+            .language-selector {
+                align-self: center;
+                margin: var(--spacing-unit) 0 calc(var(--spacing-unit) * 2);
+            }
+            .swap-btn {
+                transform: rotate(90deg);
+            }
+            .swap-btn:hover {
+                transform: rotate(115deg) scale(1.1); /* 90 + 25 */
+            }
+            .text-area { height: 250px; }
+            
+            .language-feature {
+                grid-template-columns: 1fr; /* Single column */
+                gap: calc(var(--spacing-unit) * 2.5);
+                margin-top: calc(var(--spacing-unit) * 5);
+            }
+             .feature-item:hover {
+                transform: translateY(-6px) scale(1.01); /* Less pronounced on mobile */
+            }
+            .translate-btn {
+                padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 3);
+                font-size: 1rem;
+            }
+            .theme-toggle {
+                width: 50px; height: 50px; font-size: 1.4rem;
+                bottom: var(--spacing-unit) * 2; right: var(--spacing-unit) * 2;
+            }
+             .history-item { flex-wrap: wrap; gap: var(--spacing-unit) * 0.5; }
+             .history-text { width: 100%; order: 1; }
+             .history-langs { order: 2; margin-right: 0; }
+             .history-item .date-time { width: 100%; order: 3; text-align: right; font-size: 0.75rem; }
+        }
+         @media (max-width: 480px) {
+            html { font-size: 14px; }
+            .header h1 { letter-spacing: -0.2px; }
+            .controls {
+                flex-direction: column;
+                gap: var(--spacing-unit);
+                align-items: stretch;
+            }
+            .controls .btn { width: 100%; }
+            .action-buttons {
+                padding: calc(var(--spacing-unit) * 0.3);
+            }
+            .action-btn { width: 34px; height: 34px; }
+            .select { min-width: 150px; }
+            .voice-btn { width: 44px; height: 44px; }
+         }
+
+        /* Entrance Animations for elements */
+        @keyframes fadeInScaleUp {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container {
+            animation: fadeInScaleUp 0.6s var(--transition-slow) backwards;
+        }
+        .language-feature > .feature-item:nth-child(1) { animation-delay: 0.1s; }
+        .language-feature > .feature-item:nth-child(2) { animation-delay: 0.2s; }
+        .language-feature > .feature-item:nth-child(3) { animation-delay: 0.3s; }
+        .history-panel { animation-delay: 0.4s; }
+
+
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" title="تغییر تم">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="header">
+        <h1>Ravid Translator Pro</h1>
+        <p>ترجمه هوشمند، روان و چندزبانه با قدرت هوش مصنوعی پیشرفته</p>
+    </div>
+    
+    <div class="container">
+        <div class="translator-box">
+            <div class="text-area-container">
+                <div class="language-panel">
+                    <div class="language-label">زبان مبدأ</div>
+                    <select id="source-language">
+                        <option value="auto">تشخیص خودکار زبان</option>
+                        <option value="fa">فارسی</option>
+                        <option value="en">انگلیسی</option>
+                        <option value="ar">عربی</option>
+                        <option value="fr">فرانسوی</option>
+                        <option value="de">آلمانی</option>
+                        <option value="es">اسپانیایی</option>
+                        <option value="ru">روسی</option>
+                        <option value="zh">چینی</option>
+                        <option value="ja">ژاپنی</option>
+                        <option value="ko">کره‌ای</option>
+                        <option value="tr">ترکی</option>
+                        <option value="it">ایتالیایی</option>
+                        <option value="pt">پرتغالی</option>
+                        <option value="hi">هندی</option>
+                    </select>
+                    <button class="voice-btn" id="source-voice-btn" title="ورودی صوتی">
+                        <i class="fas fa-microphone-alt"></i>
+                    </button>
+                </div>
+                <textarea id="source-text" class="text-area" placeholder="متن خود را اینجا وارد کنید یا از میکروفون استفاده نمایید..."></textarea>
+                <div class="controls">
+                    <button class="btn clear-btn" onclick="clearSourceText()">
+                        <i class="fas fa-eraser"></i>
+                        <span class="btn-text">پاک کردن</span>
+                    </button>
+                    <span id="source-char-count" class="char-count">0 / 5000</span>
+                </div>
+            </div>
+            
+            <div class="language-selector">
+                <button class="swap-btn" onclick="swapLanguages()" title="جابجایی زبان‌ها">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 3L19 6L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 11V6H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 21L5 18L8 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19 13V18H5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="text-area-container target-container">
+                <div class="language-panel">
+                    <div class="language-label">زبان مقصد</div>
+                    <select id="target-language">
+                        <option value="en">انگلیسی</option>
+                        <option value="fa">فارسی</option>
+                        <option value="ar">عربی</option>
+                        <option value="fr">فرانسوی</option>
+                        <option value="de">آلمانی</option>
+                        <option value="es">اسپانیایی</option>
+                        <option value="ru">روسی</option>
+                        <option value="zh">چینی</option>
+                        <option value="ja">ژاپنی</option>
+                        <option value="ko">کره‌ای</option>
+                        <option value="tr">ترکی</option>
+                        <option value="it">ایتالیایی</option>
+                        <option value="pt">پرتغالی</option>
+                        <option value="hi">هندی</option>
+                    </select>
+                    <button class="voice-btn" id="target-voice-btn" title="خواندن ترجمه">
+                        <i class="fas fa-volume-high"></i>
+                    </button>
+                </div>
+                <textarea id="target-text" class="text-area" placeholder="ترجمه متن شما در اینجا نمایش داده خواهد شد..." readonly></textarea>
+                <div class="action-buttons">
+                    <button class="action-btn" id="copy-btn-target" title="کپی ترجمه">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button class="action-btn" id="share-btn" title="اشتراک‌گذاری">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                    <button class="action-btn" id="download-btn" title="دانلود متن">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <div class="controls">
+                    <button class="btn copy-btn" onclick="copyTranslation()">
+                        <i class="fas fa-clipboard-check"></i>
+                       <span class="btn-text">کپی ترجمه</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading-indicator">
+            <div class="loader"></div>
+            <p>در حال پردازش و ترجمه دقیق متن شما...</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 4);" class="translate-btn-container">
+            <button class="btn translate-btn" id="main-translate-btn" onclick="translateText()">
+                <i class="fas fa-magic-wand-sparkles btn-icon"></i> <!-- آیکون جذاب‌تر -->
+                <span class="btn-text">ترجمه کن</span>
+                <span class="spinner"></span>
+            </button>
+        </div>
+        
+        <div class="language-feature">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="feature-title">ترجمه با هوش مصنوعی</div>
+                <div class="feature-desc">بهره‌گیری از آخرین نسل مدل‌های زبانی برای ترجمه‌هایی دقیق، طبیعی و با درک عمیق از مفهوم و لحن متن اصلی.</div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-globe-asia"></i>
+                </div>
+                <div class="feature-title">پشتیبانی گسترده از زبان‌ها</div>
+                <div class="feature-desc">ترجمه روان بین بیش از ۱۵ زبان پرکاربرد دنیا، از جمله زبان‌های پیچیده با ساختارهای گرامری متفاوت.</div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="feature-title">تعامل صوتی پیشرفته</div>
+                <div class="feature-desc">تجربه‌ای بی‌نظیر با ورودی صوتی دقیق و خروجی گفتاری طبیعی و واضح، ترجمه را آسان‌تر از همیشه می‌کند.</div>
+            </div>
+        </div>
+        
+        <div class="history-panel">
+            <div class="history-title">
+                <i class="fas fa-history"></i>
+                تاریخچه ترجمه‌های اخیر شما
+            </div>
+            <div class="history-list" id="history-list">
+                <!-- تاریخچه ترجمه‌ها اینجا نمایش داده می‌شود -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-info-circle"></i>
+        <span id="notification-text"></span>
+    </div>
+    
+    <div class="footer">
+        <p>با <i class="fas fa-heart"></i> طراحی و توسعه یافته توسط Ravid</p>
+        <p>مترجم Ravid نسخه Pro | © 2025 - تمامی حقوق محفوظ است.</p>
+        <div class="social-links">
+            <a href="https://t.me/raviiiid" title="تلگرام Ravid" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
+            <a href="#" title="پروژه در گیت‌هاب" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            <a href="#" title="ارتباط با ما در توییتر" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+        </div>
+    </div>
+
+    <script>
+// DOM Elements Cache
+const sourceTextEl = document.getElementById('source-text');
+const targetTextEl = document.getElementById('target-text');
+const sourceLangEl = document.getElementById('source-language');
+const targetLangEl = document.getElementById('target-language');
+const sourceCharCountEl = document.getElementById('source-char-count');
+const loadingIndicatorEl = document.getElementById('loading-indicator');
+const notificationEl = document.getElementById('notification');
+const notificationTextEl = document.getElementById('notification-text');
+const themeToggleBtn = document.getElementById('theme-toggle');
+const historyListEl = document.getElementById('history-list');
+const mainTranslateBtn = document.getElementById('main-translate-btn');
+const sourceVoiceBtn = document.getElementById('source-voice-btn');
+const targetVoiceBtn = document.getElementById('target-voice-btn');
+
+
+// Debounce function for input handling
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadTheme();
+    loadHistory();
+    
+    sourceTextEl.addEventListener('input', debounce(handleSourceTextInput, 300));
+    
+    document.getElementById('copy-btn-target').addEventListener('click', copyTranslation);
+    document.querySelector('.controls .copy-btn').addEventListener('click', copyTranslation);
+
+    document.getElementById('share-btn').addEventListener('click', shareTranslation);
+    document.getElementById('download-btn').addEventListener('click', downloadTranslation);
+    themeToggleBtn.addEventListener('click', toggleTheme);
+    sourceVoiceBtn.addEventListener('click', startVoiceInput);
+    targetVoiceBtn.addEventListener('click', speakTranslation);
+    mainTranslateBtn.addEventListener('click', translateText);
+    
+    sourceTextEl.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'Enter') {
+            e.preventDefault();
+            translateText();
+        }
+    });
+
+    // Apply entrance animations after a short delay
+    // This can be done with Intersection Observer for better performance on longer pages
+    const animatedElements = document.querySelectorAll('.translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container');
+    animatedElements.forEach((el, index) => {
+        el.style.animationDelay = `${index * 100}ms`;
+    });
+});
+
+function handleSourceTextInput() {
+    const text = sourceTextEl.value;
+    const charCount = text.length;
+    sourceCharCountEl.textContent = `${charCount} / 5000`;
+    
+    sourceCharCountEl.classList.remove('warning', 'danger');
+    if (charCount > 4800) {
+        sourceCharCountEl.classList.add('danger');
+    } else if (charCount > 4000) {
+        sourceCharCountEl.classList.add('warning');
+    }
+    
+    if (charCount > 5000) {
+        sourceTextEl.value = text.substring(0, 5000);
+        sourceCharCountEl.textContent = `5000 / 5000`;
+        showNotification('حداکثر تعداد کاراکتر (5000) وارد شده است.', 'error');
+    }
+}
+
+function clearSourceText() {
+    sourceTextEl.value = '';
+    targetTextEl.value = '';
+    handleSourceTextInput();
+    sourceTextEl.focus();
+}
+
+function copyTranslation() {
+    const text = targetTextEl.value.trim();
+    if (!text) {
+        showNotification('ترجمه‌ای برای کپی کردن وجود ندارد.', 'error', 'fas fa-exclamation-triangle');
+        return;
+    }
+    navigator.clipboard.writeText(text)
+        .then(() => showNotification('متن ترجمه با موفقیت در کلیپ‌بورد کپی شد!', 'success', 'fas fa-clipboard-check'))
+        .catch(() => {
+            targetTextEl.select();
+            targetTextEl.setSelectionRange(0, 99999);
+            try {
+                document.execCommand('copy');
+                showNotification('متن ترجمه کپی شد (روش جایگزین).', 'success', 'fas fa-clipboard-check');
+            } catch (err) {
+                showNotification('کپی خودکار ناموفق بود. لطفاً دستی اقدام کنید.', 'error', 'fas fa-times-circle');
+            }
+        });
+}
+
+function shareTranslation() {
+    const text = targetTextEl.value.trim();
+    if (!text) {
+        showNotification('ترجمه‌ای برای اشتراک‌گذاری موجود نیست.', 'error', 'fas fa-exclamation-triangle');
+        return;
+    }
+    if (navigator.share) {
+        navigator.share({ title: 'ترجمه از Ravid Translator Pro', text: text })
+            .then(() => showNotification('محتوا برای اشتراک‌گذاری آماده شد.', 'success', 'fas fa-share-square'))
+            .catch(error => {
+                if (error.name !== 'AbortError') {
+                    showNotification('اشتراک‌گذاری ناموفق بود.', 'error', 'fas fa-times-circle');
+                }
+            });
+    } else {
+        copyTranslation(); // Fallback to copy
+        showNotification('قابلیت اشتراک‌گذاری مستقیم در این مرورگر نیست. متن کپی شد.', 'info', 'fas fa-paste');
+    }
+}
+
+function downloadTranslation() {
+    const text = targetTextEl.value.trim();
+    if (!text) {
+        showNotification('ترجمه‌ای برای دانلود وجود ندارد.', 'error', 'fas fa-exclamation-triangle');
+        return;
+    }
+    const sourceLanguage = sourceLangEl.options[sourceLangEl.selectedIndex].text;
+    const targetLanguage = targetLangEl.options[targetLangEl.selectedIndex].text;
+    const filename = `RavidTranslate-${sourceLanguage}-به-${targetLanguage}.txt`;
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+    showNotification('فایل ترجمه با موفقیت دانلود شد.', 'success', 'fas fa-file-download');
+}
+
+function swapLanguages() {
+    if (sourceLangEl.value === 'auto' && !targetTextEl.value.trim() && !sourceTextEl.value.trim()) {
+        showNotification('ابتدا متنی وارد یا ترجمه‌ای انجام دهید، یا زبان مبدأ را مشخص کنید.', 'info', 'fas fa-info-circle');
+        return;
+    }
+    [sourceLangEl.value, targetLangEl.value] = [targetLangEl.value, sourceLangEl.value];
+    [sourceTextEl.value, targetTextEl.value] = [targetTextEl.value, sourceTextEl.value];
+    handleSourceTextInput();
+    
+    const swapBtn = document.querySelector('.swap-btn');
+    const isMobile = window.innerWidth <= 768;
+    let currentRotationDeg = 0;
+    const currentTransform = swapBtn.style.transform;
+    if (currentTransform && currentTransform.includes('rotate')) {
+        currentRotationDeg = parseInt(currentTransform.match(/rotate\(([^deg]+)deg\)/)[1]);
+    }
+    
+    let targetRotation = isMobile ? (currentRotationDeg === 90 ? 270 : 90) : (currentRotationDeg === 0 ? 180 : 0);
+    
+    swapBtn.style.transition = 'transform var(--transition-bounce)'; // Ensure transition is set
+    swapBtn.style.transform = `rotate(${targetRotation + (isMobile ? 20 : 25)}deg) scale(1.15)`;
+    setTimeout(() => {
+        swapBtn.style.transform = `rotate(${targetRotation}deg) scale(1)`;
+    }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-bounce').replace('s',''))*1000 * 0.5);
+
+    if(sourceTextEl.value.trim() || targetTextEl.value.trim()){
+        translateText(); // Auto-translate after swap if there's text
+    }
+}
+
+async function translateText() {
+    const sourceTextValue = sourceTextEl.value.trim();
+    if (!sourceTextValue) {
+        showNotification('لطفاً متنی برای ترجمه وارد کنید.', 'error', 'fas fa-keyboard');
+        return;
+    }
+    if (sourceLangEl.value === targetLangEl.value && sourceLangEl.value !== 'auto') {
+        showNotification('زبان مبدأ و مقصد یکسان است. نیازی به ترجمه نیست!', 'info', 'fas fa-exchange-alt');
+        targetTextEl.value = sourceTextValue;
+        return;
+    }
+
+    mainTranslateBtn.classList.add('loading');
+    loadingIndicatorEl.style.display = 'flex'; // Changed to flex for centering
+    targetTextEl.value = '';
+    
+    try {
+        const translation = await callCometAPI(sourceTextValue, sourceLangEl.value, targetLangEl.value);
+        targetTextEl.value = translation;
+        showNotification('ترجمه با موفقیت انجام شد.', 'success', 'fas fa-check-double');
+        addToHistory(sourceTextValue, translation, sourceLangEl.value, targetLangEl.value);
+    } catch (error) {
+        console.error('خطا در ترجمه:', error);
+        targetTextEl.value = 'خطا در ترجمه رخ داد.';
+        showNotification(`خطا در سرویس ترجمه: ${error.message}.`, 'error', 'fas fa-server');
+    } finally {
+        mainTranslateBtn.classList.remove('loading');
+        loadingIndicatorEl.style.display = 'none';
+    }
+}
+
+async function callCometAPI(text, sourceLanguage, targetLanguage) {
+    const COMETAPI_KEY = 'sk-HCgj1yTXmxrX8Fff2sIQakqT7lqV7PycMWL5jT7sQ1XRJDGB'; //  <--- IMPORTANT: REPLACE THIS
+    const API_URL = 'https://api.cometapi.com/v1/chat/completions';
+
+    if (COMETAPI_KEY === 'YOUR_COMETAPI_KEY' || !COMETAPI_KEY) {
+        console.error('کلید API برای CometAPI تنظیم نشده است. لطفاً کد را ویرایش کنید.');
+        throw new Error('سرویس ترجمه به درستی پیکربندی نشده است. کلید API یافت نشد.');
+    }
+
+    const sourceLangName = sourceLanguage === 'auto' ? 'the detected language' : getLanguageName(sourceLanguage);
+    const targetLangName = getLanguageName(targetLanguage);
+
+    const messages = [
+        {
+            "role": "system",
+            "content": `You are an exceptionally skilled and nuanced translator. Your task is to translate the user's text from ${sourceLangName} to ${targetLangName} with utmost precision and naturalness.
+Key Instructions:
+1.  **Tone Preservation:** Meticulously analyze and replicate the original text's tone (e.g., formal, informal, academic, colloquial, humorous, technical).
+2.  **Idioms & Cultural Nuances:** If the text contains idioms, cultural references, or complex phrases, translate them effectively. If a direct translation is awkward or loses meaning, provide the closest natural equivalent in ${targetLangName}. If absolutely necessary for clarity *within the translation context*, you may add a *very brief, concise* explanation in ${targetLangName}, enclosed in parentheses (). Do NOT add explanations in any other language.
+3.  **Output Format:** Return *only* the translated text. Do not include any extraneous metadata, self-correction notes, apologies, or comments about the translation process, unless it's part of the parenthetical explanation mentioned in point 2.
+4.  **Fluency:** The translation must read as if it were originally written in ${targetLangName}. Avoid literal, stilted, or machine-like translations.
+5.  **Accuracy:** Ensure the core meaning of the original text is perfectly conveyed.`
+        },
+        {
+            "role": "user",
+            "content": text
+        }
+    ];
+
+    const payload = {
+        model: "gpt-4.1-nano", // Or "gpt-4-turbo" or other preferred model available via CometAPI
+        messages: messages,
+        temperature: 0.45, // Slightly higher for more natural flow, but still focused on accuracy
+        max_tokens: 2048,  // Increased for potentially longer or more complex texts
+        top_p: 0.95,
+        // frequency_penalty: 0.1, // Optional: slightly discourage repetitive phrases
+        // presence_penalty: 0.1,  // Optional: slightly encourage new concepts
+    };
+
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${COMETAPI_KEY}`
+        },
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        let errorData;
+        try { errorData = await response.json(); }
+        catch (e) { errorData = { error: { message: response.statusText } }; }
+        console.error('CometAPI Error Response:', errorData);
+        throw new Error(errorData.error?.message || `خطای HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
+        return data.choices[0].message.content.trim();
+    } else {
+        console.error('Invalid response structure from CometAPI:', data);
+        throw new Error('پاسخ دریافت شده از سرویس ترجمه قابل پردازش نیست.');
+    }
+}
+
+function getLanguageName(langCode) {
+    const languages = { 'auto': 'auto-detect', 'fa': 'Persian (Farsi)', 'en': 'English', 'ar': 'Arabic', 'fr': 'French', 'de': 'German', 'es': 'Spanish', 'ru': 'Russian', 'zh': 'Chinese (Simplified)', 'ja': 'Japanese', 'ko': 'Korean', 'tr': 'Turkish', 'it': 'Italian', 'pt': 'Portuguese', 'hi': 'Hindi' };
+    return languages[langCode] || langCode;
+}
+
+function showNotification(message, type = 'info', iconClass = 'fas fa-info-circle') {
+    const iconEl = notificationEl.querySelector('i');
+    
+    notificationEl.classList.remove('success', 'error', 'info'); // Clear previous types
+    notificationEl.classList.add(type); // Add current type
+    
+    if (type === 'success') iconClass = iconClass === 'fas fa-info-circle' ? 'fas fa-check-circle' : iconClass;
+    else if (type === 'error') iconClass = iconClass === 'fas fa-info-circle' ? 'fas fa-exclamation-triangle' : iconClass;
+    
+    iconEl.className = iconClass;
+    notificationTextEl.textContent = message;
+    notificationEl.classList.add('show');
+    
+    setTimeout(() => notificationEl.classList.remove('show'), 4000);
+}
+
+function toggleTheme() {
+    const body = document.body;
+    const themeIcon = themeToggleBtn.querySelector('i');
+    body.classList.toggle('dark-mode');
+    if (body.classList.contains('dark-mode')) {
+        themeIcon.className = 'fas fa-sun fa-beat';
+        localStorage.setItem('theme', 'dark');
+         setTimeout(() => themeIcon.classList.remove('fa-beat'), 1000);
+    } else {
+        themeIcon.className = 'fas fa-moon fa-beat';
+        localStorage.setItem('theme', 'light');
+        setTimeout(() => themeIcon.classList.remove('fa-beat'), 1000);
+    }
+}
+
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const themeIcon = themeToggleBtn.querySelector('i');
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.body.classList.add('dark-mode');
+        themeIcon.className = 'fas fa-sun';
+    } else {
+        document.body.classList.remove('dark-mode');
+        themeIcon.className = 'fas fa-moon';
+    }
+}
+
+function addToHistory(sourceText, translatedText, sourceLang, targetLang) {
+    const historyItem = { id: Date.now(), sourceText, translatedText, sourceLang, targetLang, timestamp: new Date().toISOString() };
+    let history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
+    history.unshift(historyItem);
+    if (history.length > 30) history = history.slice(0, 30); // Increased history limit
+    localStorage.setItem('translationHistory', JSON.stringify(history));
+    updateHistoryDisplay();
+}
+
+function updateHistoryDisplay() {
+    historyListEl.innerHTML = '';
+    const history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
+    if (history.length === 0) {
+        historyListEl.innerHTML = `<div style="padding: var(--spacing-unit) * 2.5; text-align: center; color: var(--text-color-muted); font-weight: 500;">تاریخچه ترجمه‌های شما هنوز خالی است.</div>`;
+        return;
+    }
+    history.forEach(item => {
+        const shortenedText = item.sourceText.length > 70 ? item.sourceText.substring(0, 70) + '...' : item.sourceText;
+        const sourceLangName = item.sourceLang === 'auto' ? 'خودکار' : getLanguageNameFa(item.sourceLang);
+        const targetLangName = getLanguageNameFa(item.targetLang);
+        const dateTime = new Date(item.timestamp);
+        const time = dateTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false });
+        const date = dateTime.toLocaleDateString('fa-IR', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        const historyItemElement = document.createElement('div');
+        historyItemElement.className = 'history-item';
+        historyItemElement.tabIndex = 0;
+        historyItemElement.innerHTML = `
+            <div class="history-text" title="${item.sourceText.replace(/"/g, '"')}">${shortenedText}</div>
+            <div class="history-langs">${sourceLangName} <i class="fas fa-long-arrow-alt-left"></i> ${targetLangName}</div>
+            <div class="date-time">${date} - ${time}</div>
+        `;
+        historyItemElement.addEventListener('click', () => restoreTranslation(item));
+        historyItemElement.addEventListener('keydown', e => (e.key === 'Enter' || e.key === ' ') && restoreTranslation(item));
+        historyListEl.appendChild(historyItemElement);
+    });
+}
+
+function restoreTranslation(item) {
+    sourceLangEl.value = item.sourceLang;
+    targetLangEl.value = item.targetLang;
+    sourceTextEl.value = item.sourceText;
+    targetTextEl.value = item.translatedText;
+    handleSourceTextInput();
+    showNotification('ترجمه از تاریخچه با موفقیت بازیابی شد.', 'success', 'fas fa-undo-alt');
+    sourceTextEl.focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+}
+
+function loadHistory() { updateHistoryDisplay(); }
+
+function getLanguageNameFa(langCode) {
+    const languages = { 'auto': 'خودکار', 'fa': 'فارسی', 'en': 'انگلیسی', 'ar': 'عربی', 'fr': 'فرانسوی', 'de': 'آلمانی', 'es': 'اسپانیایی', 'ru': 'روسی', 'zh': 'چینی', 'ja': 'ژاپنی', 'ko': 'کره‌ای', 'tr': 'ترکی', 'it': 'ایتالیایی', 'pt': 'پرتغالی', 'hi': 'هندی' };
+    return languages[langCode] || langCode;
+}
+
+// --- Voice Input & Output ---
+let recognition;
+let isRecognizing = false;
+let currentUtterance = null;
+const synth = window.speechSynthesis;
+
+function startVoiceInput() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        showNotification('مرورگر شما از تشخیص گفتار پشتیبانی نمی‌کند.', 'error', 'fas fa-microphone-slash');
+        return;
+    }
+    if (isRecognizing) {
+        recognition.stop();
+        return;
+    }
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    const sourceLang = sourceLangEl.value;
+    const langTagMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-PT', 'hi': 'hi-IN' };
+    recognition.lang = sourceLang === 'auto' ? 'fa-IR' : (langTagMap[sourceLang] || 'fa-IR');
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    let finalTranscript = sourceTextEl.value;
+
+    recognition.onstart = () => {
+        isRecognizing = true;
+        sourceVoiceBtn.classList.add('recording');
+        sourceVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
+        sourceTextEl.placeholder = "در حال شنیدن فرمان شما...";
+        showNotification(`در حال شنیدن به زبان ${getLanguageNameFa(sourceLang === 'auto' ? 'fa' : sourceLang)}...`, 'info', 'fas fa-microphone-alt');
+    };
+    recognition.onresult = event => {
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            event.results[i].isFinal ? (finalTranscript += (finalTranscript ? ' ' : '') + event.results[i][0].transcript) : (interimTranscript += event.results[i][0].transcript);
+        }
+        sourceTextEl.value = finalTranscript + interimTranscript;
+        handleSourceTextInput();
+    };
+    recognition.onerror = event => {
+        let msg = 'خطا در تشخیص گفتار';
+        if (event.error === 'no-speech') msg = 'هیچ گفتاری تشخیص داده نشد.';
+        else if (event.error === 'audio-capture') msg = 'مشکل در دریافت صدا از میکروفون.';
+        else if (event.error === 'not-allowed') msg = 'دسترسی به میکروفون مجاز نیست.';
+        showNotification(msg, 'error', 'fas fa-exclamation-triangle');
+    };
+    recognition.onend = () => {
+        isRecognizing = false;
+        sourceVoiceBtn.classList.remove('recording');
+        sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
+        sourceTextEl.placeholder = "متن خود را اینجا وارد کنید...";
+        if (sourceTextEl.value.trim() && sourceTextEl.value.trim() === finalTranscript.trim()) {
+             setTimeout(() => { if(document.getElementById('source-text').value.trim()) translateText(); }, 250);
+        }
+        finalTranscript = ''; // Reset for next input
+    };
+    recognition.start();
+}
+
+function speakTranslation() {
+    const text = targetTextEl.value.trim();
+    if (!text) {
+        showNotification('ترجمه‌ای برای خواندن وجود ندارد.', 'error', 'fas fa-volume-mute');
+        return;
+    }
+    if (!synth) {
+        showNotification('مرورگر شما از تبدیل متن به گفتار پشتیبانی نمی‌کند.', 'error', 'fas fa-headset');
+        return;
+    }
+
+    if (synth.speaking) {
+        synth.cancel();
+        targetVoiceBtn.classList.remove('recording');
+        targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
+        if (currentUtterance && currentUtterance.text === text) {
+             currentUtterance = null; return;
+        }
+    }
+
+    currentUtterance = new SpeechSynthesisUtterance(text);
+    const targetLang = targetLangEl.value;
+    const langVoiceMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-PT', 'hi': 'hi-IN' };
+    const targetSpeechLang = langVoiceMap[targetLang] || 'en-US';
+    
+    const voices = synth.getVoices();
+    let selectedVoice = voices.find(voice => voice.lang === targetSpeechLang && voice.localService) || voices.find(voice => voice.lang === targetSpeechLang) || voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]) && voice.localService) || voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]));
+    
+    if (selectedVoice) currentUtterance.voice = selectedVoice;
+    else currentUtterance.lang = targetSpeechLang;
+    
+    currentUtterance.rate = 1.0; currentUtterance.pitch = 1.0;
+
+    currentUtterance.onstart = () => {
+        targetVoiceBtn.classList.add('recording');
+        targetVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
+    };
+    currentUtterance.onend = () => {
+        targetVoiceBtn.classList.remove('recording');
+        targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
+        currentUtterance = null;
+    };
+    currentUtterance.onerror = event => {
+        showNotification("خطا در پخش صدا: " + event.error, 'error', 'fas fa-exclamation-circle');
+        targetVoiceBtn.classList.remove('recording');
+        targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
+        currentUtterance = null;
+    };
+
+    if (voices.length === 0 && synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = () => speakTranslation(); // Retry once voices are loaded
+    } else {
+        synth.speak(currentUtterance);
+    }
+}
+
+// Ensure voices are loaded for speech synthesis
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = () => {
+        console.log("لیست صداهای SpeechSynthesis به‌روز شد و آماده است.");
+    };
+}
+
+    </script>
+</body>
+</html>
