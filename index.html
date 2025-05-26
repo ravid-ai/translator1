@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" href="favicon.png" type="image/png"> 
-<link rel="apple-touch-icon" href="apple-touch-icon.png"> 
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ravid Translator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- نسخه جدیدتر Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @font-face {
-            font-family: 'Vazirmatn'; /* استفاده از وزیرمتن برای قابلیت‌های بیشتر */
+            font-family: 'Vazirmatn';
             src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-Regular.woff2') format('woff2');
             font-weight: normal;
             font-style: normal;
@@ -19,21 +19,21 @@
         @font-face {
             font-family: 'Vazirmatn';
             src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-Medium.woff2') format('woff2');
-            font-weight: 500; /* Medium */
+            font-weight: 500;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Vazirmatn';
             src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-Bold.woff2') format('woff2');
-            font-weight: bold; /* 700 */
+            font-weight: bold;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Vazirmatn';
             src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Round-Dots/fonts/webfonts/Vazirmatn-RD-SemiBold.woff2') format('woff2');
-            font-weight: 600; /* SemiBold */
+            font-weight: 600;
             font-style: normal;
             font-display: swap;
         }
@@ -41,58 +41,42 @@
 
         :root {
             --font-primary: 'Vazirmatn', Arial, sans-serif;
-
-            /* --- Palette Refined --- */
-            --primary-hue: 210; /* آبی */
-            --secondary-hue: 35; /* نارنجی/طلایی */
-            --accent-hue: 280; /* بنفش ظریف برای تاکید */
-
-            --primary-color-light: hsl(var(--primary-hue), 79%, 60%); /* #4dabf7 */
-            --primary-color-dark: hsl(var(--primary-hue), 79%, 40%);  /* #1971c2 */
+            --primary-hue: 210;
+            --secondary-hue: 35;
+            --accent-hue: 280;
+            --primary-color-light: hsl(var(--primary-hue), 79%, 60%);
+            --primary-color-dark: hsl(var(--primary-hue), 79%, 40%);
             --primary-gradient: linear-gradient(140deg, var(--primary-color-light) 0%, var(--primary-color-dark) 100%);
-
-            --secondary-color-light: hsl(var(--secondary-hue), 95%, 65%); /* #fcc419 */
-            --secondary-color-dark: hsl(var(--secondary-hue), 90%, 50%);  /* #f59f00 */
+            --secondary-color-light: hsl(var(--secondary-hue), 95%, 65%);
+            --secondary-color-dark: hsl(var(--secondary-hue), 90%, 50%);
             --secondary-gradient: linear-gradient(140deg, var(--secondary-color-light) 0%, var(--secondary-color-dark) 100%);
-
             --accent-color: hsl(var(--accent-hue), 60%, 65%);
-
             --text-color-light: #212529;
             --text-color-muted-light: #5f6368;
-            --bg-color-light: #fcfdff; /* تقریبا سفید با ته رنگ آبی */
+            --bg-color-light: #fcfdff;
             --surface-color-light: #ffffff;
-            --border-color-light: hsl(var(--primary-hue), 30%, 88%); /* #dee2e6 */
-
+            --border-color-light: hsl(var(--primary-hue), 30%, 88%);
             --text-color-dark: #e9ecef;
             --text-color-muted-dark: #adb5bd;
-            --bg-color-dark: #1a1d24; /* آبی بسیار تیره */
-            --surface-color-dark: #232731; /* کمی روشن‌تر از پس زمینه */
-            --border-color-dark: hsl(var(--primary-hue), 15%, 30%); /* #373A40 */
-
+            --bg-color-dark: #1a1d24;
+            --surface-color-dark: #232731;
+            --border-color-dark: hsl(var(--primary-hue), 15%, 30%);
             --success-color: #28a745;
             --error-color: #dc3545;
             --warning-color: var(--secondary-color-light);
-
-            /* --- Sizing & Spacing --- */
             --border-radius-sm: 8px;
             --border-radius-md: 16px;
             --border-radius-lg: 24px;
             --spacing-unit: 8px;
-
-            /* --- Shadows (Softer & Layered) --- */
             --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
             --shadow-sm: 0 2px 5px rgba(0,0,0,0.05), 0 1px 1px rgba(0,0,0,0.03);
             --shadow-md: 0 5px 15px rgba(0,0,0,0.07), 0 2px 5px rgba(0,0,0,0.04);
             --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.06);
             --shadow-xl: 0 20px 50px rgba(0,0,0,0.15), 0 8px 15px rgba(0,0,0,0.08);
-
-            /* --- Transitions --- */
             --transition-fast: 0.15s ease-out;
             --transition-medium: 0.3s ease-out;
             --transition-slow: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.26, 1.55);
-
-            /* Default to light mode */
             --text-color: var(--text-color-light);
             --text-color-muted: var(--text-color-muted-light);
             --bg-color: var(--bg-color-light);
@@ -101,6 +85,8 @@
             --primary-color: var(--primary-color-light);
             --primary-color-hover: var(--primary-color-dark);
             --secondary-color: var(--secondary-color-light);
+            --surface-color-rgb: 255,255,255;
+            --success-hue: 134; --error-hue: 354;
         }
 
         body.dark-mode {
@@ -109,20 +95,21 @@
             --bg-color: var(--bg-color-dark);
             --surface-color: var(--surface-color-dark);
             --border-color: var(--border-color-dark);
-            --primary-color: var(--primary-color-light); /* آبی روشن همچنان برای تاکید خوب است */
+            --primary-color: var(--primary-color-light);
             --primary-color-hover: hsl(var(--primary-hue), 79%, 70%);
             --secondary-color: var(--secondary-color-light);
+            --surface-color-rgb: 35,39,49;
         }
-        
+       
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+       
         html {
             scroll-behavior: smooth;
-            font-size: 16px; /* Base font size */
+            font-size: 16px;
         }
 
         body {
@@ -137,10 +124,9 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
 
-        /* Custom Scrollbar */
         body::-webkit-scrollbar {
             width: 10px;
         }
@@ -157,7 +143,6 @@
              border: 2px solid var(--bg-color-dark);
         }
 
-        /* Enhanced Header */
         .header {
             padding: calc(var(--spacing-unit) * 6) calc(var(--spacing-unit) * 2.5);
             text-align: center;
@@ -165,10 +150,10 @@
             position: relative;
             overflow: hidden;
             background: var(--primary-gradient);
-            border-bottom: 3px solid var(--primary-color-dark); /* Subtle border */
+            border-bottom: 3px solid var(--primary-color-dark);
         }
 
-        .header::before { /* More subtle animated pattern */
+        .header::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -191,30 +176,29 @@
         }
 
         .header h1 {
-            font-size: clamp(2.2rem, 5vw, 3.2rem); /* Fluid typography */
-            font-weight: 700; /* Bold */
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-weight: 700;
             margin-bottom: var(--spacing-unit);
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
             letter-spacing: -0.5px;
         }
-        
+       
         .header p {
             font-size: clamp(1rem, 2.5vw, 1.3rem);
             opacity: 0.9;
-            font-weight: 500; /* Medium */
+            font-weight: 500;
             max-width: 600px;
             margin: 0 auto;
         }
-        
+       
         .container {
             flex: 1;
             padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
-            max-width: 1280px; /* Slightly wider max-width */
+            max-width: 1280px;
             margin: 0 auto;
             width: 100%;
         }
-        
-        /* Ultra Translator Box */
+       
         .translator-box {
             display: flex;
             flex-direction: column;
@@ -222,17 +206,16 @@
             background: var(--surface-color);
             border-radius: var(--border-radius-lg);
             padding: calc(var(--spacing-unit) * 3.5);
-            box-shadow: var(--shadow-xl); /* Enhanced shadow */
+            box-shadow: var(--shadow-xl);
             transition: transform var(--transition-medium), box-shadow var(--transition-medium);
             border: 1px solid var(--border-color);
-            position: relative; /* For potential pseudo-elements */
+            position: relative;
         }
-        /* Subtle glow effect for the box */
         .translator-box::after {
             content: '';
             position: absolute;
             top: -2px; left: -2px; right: -2px; bottom: -2px;
-            border-radius: inherit; /* inherit from parent */
+            border-radius: inherit;
             background: linear-gradient(45deg, var(--primary-color-light), var(--accent-color), var(--secondary-color-light));
             z-index: -1;
             opacity: 0;
@@ -245,14 +228,14 @@
         body.dark-mode .translator-box:hover::after {
             opacity: 0.25;
         }
-        
-        @media (min-width: 1024px) { /* Changed breakpoint for row layout */
+       
+        @media (min-width: 1024px) {
             .translator-box {
                 flex-direction: row;
                 gap: calc(var(--spacing-unit) * 4);
             }
         }
-        
+       
         .language-panel {
             display: flex;
             justify-content: space-between;
@@ -260,9 +243,18 @@
             margin-bottom: var(--spacing-unit);
             position: relative;
         }
-        
+        /* For language detection indicator */
+        #lang-detect-indicator {
+            color: var(--primary-color);
+            vertical-align: middle;
+        }
+        body.dark-mode #lang-detect-indicator {
+            color: var(--primary-color-light);
+        }
+
+       
         .language-label {
-            font-weight: 600; /* SemiBold */
+            font-weight: 600;
             color: var(--primary-color);
             font-size: 0.9rem;
             position: absolute;
@@ -273,14 +265,14 @@
             border-radius: var(--border-radius-sm);
             transition: color var(--transition-medium), background-color var(--transition-medium);
         }
-        
+       
         .language-selector {
             display: flex;
-            gap: var(--spacing-unit); /* Reduced gap for tighter packing */
+            gap: var(--spacing-unit);
             align-items: center;
-            margin: 0 auto; /* Center in column layout */
+            margin: 0 auto;
         }
-        
+       
         .swap-btn {
             background: var(--secondary-gradient);
             border: none;
@@ -294,9 +286,9 @@
             transition: transform var(--transition-bounce), box-shadow var(--transition-medium);
             box-shadow: 0 3px 8px hsla(var(--secondary-hue), 90%, 50%, 0.4);
             z-index: 10;
-            flex-shrink: 0; /* Prevent shrinking */
+            flex-shrink: 0;
         }
-        
+       
         .swap-btn:hover {
             transform: scale(1.1) rotate(25deg);
             box-shadow: 0 6px 15px hsla(var(--secondary-hue), 90%, 50%, 0.5);
@@ -304,7 +296,7 @@
         .swap-btn:active {
             transform: scale(0.95) rotate(10deg);
         }
-        
+       
         .swap-btn svg {
             width: 28px; height: 28px;
         }
@@ -313,17 +305,17 @@
             stroke-width: 2.5;
         }
         body.dark-mode .swap-btn svg path {
-             stroke: var(--text-color-dark); /* Better contrast in dark mode if needed */
+             stroke: var(--text-color-dark);
         }
-        
+       
         .text-area-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
-            min-width: 0; /* Fix for flexbox overflow */
+            min-width: 0;
         }
-        
+       
         .text-area {
             width: 100%;
             height: 300px;
@@ -342,24 +334,22 @@
             color: var(--text-color-muted);
             opacity: 0.8;
         }
-        
+       
         .text-area:focus {
             outline: none;
             border-color: var(--primary-color);
-            /* Enhanced focus glow */
             box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 60%, 0.2), var(--shadow-sm);
-            background-color: var(--surface-color); /* Keep surface color */
+            background-color: var(--surface-color);
         }
         body.dark-mode .text-area:focus {
             box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 70%, 0.25), var(--shadow-sm);
         }
 
-        /* Custom scrollbar for textareas */
         .text-area::-webkit-scrollbar {
             width: 8px;
         }
         .text-area::-webkit-scrollbar-track {
-            background: transparent; /* Make track invisible within textarea */
+            background: transparent;
             border-radius: var(--border-radius-md);
         }
         .text-area::-webkit-scrollbar-thumb {
@@ -383,22 +373,22 @@
             align-items: center;
             gap: var(--spacing-unit);
         }
-        
+       
         .btn {
             border: none;
             border-radius: var(--border-radius-md);
             cursor: pointer;
             font-family: var(--font-primary);
-            font-weight: 600; /* SemiBold */
+            font-weight: 600;
             padding: calc(var(--spacing-unit) * 1.2) calc(var(--spacing-unit) * 2.2);
             display: inline-flex;
             align-items: center;
-            justify-content: center; /* Center content in button */
+            justify-content: center;
             gap: var(--spacing-unit);
             transition: all var(--transition-fast);
             text-decoration: none;
-            position: relative; /* For potential pseudo-elements or spinners */
-            overflow: hidden; /* For ripple or shine effects */
+            position: relative;
+            overflow: hidden;
         }
         .btn i {
             transition: transform var(--transition-fast);
@@ -407,30 +397,28 @@
             transform: scale(1.1);
         }
 
-        /* Main Translate Button - Supercharged */
         .translate-btn {
             background: var(--primary-gradient);
             color: var(--white);
             padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
             font-size: 1.1rem;
-            font-weight: 700; /* Bold */
+            font-weight: 700;
             box-shadow: 0 4px 12px hsla(var(--primary-hue), 79%, 50%, 0.35);
         }
-        
+       
         .translate-btn:hover {
             transform: translateY(-3px) scale(1.03);
             box-shadow: 0 7px 20px hsla(var(--primary-hue), 79%, 50%, 0.45);
         }
-        
+       
         .translate-btn:active {
             transform: translateY(0px) scale(0.98);
             box-shadow: 0 2px 8px hsla(var(--primary-hue), 79%, 50%, 0.3);
         }
 
-        /* Loading state for translate button */
         .translate-btn.loading {
-            pointer-events: none; /* Disable clicks */
-            color: transparent !important; /* Hide text */
+            pointer-events: none;
+            color: transparent !important;
         }
         .translate-btn.loading .btn-text {
             visibility: hidden;
@@ -454,13 +442,13 @@
         .translate-btn.loading .spinner {
             display: block;
         }
-        
+       
         .clear-btn {
             background-color: transparent;
             color: var(--text-color-muted);
             border: 1.5px solid var(--border-color);
         }
-        
+       
         .clear-btn:hover {
             background-color: hsla(var(--primary-hue), 20%, 95%, 1);
             border-color: hsla(var(--primary-hue), 20%, 80%, 1);
@@ -476,7 +464,7 @@
             color: var(--text-color-dark);
         }
 
-        .copy-btn { /* For the button below target textarea */
+        .copy-btn {
             background-color: hsl(var(--primary-hue), 60%, 96%);
             color: var(--primary-color);
             border: 1px solid hsl(var(--primary-hue), 60%, 90%);
@@ -494,21 +482,20 @@
         body.dark-mode .copy-btn:hover {
             background-color: hsla(var(--primary-hue), 20%, 32%, 1);
         }
-        
-        /* Select Element - More Custom */
+       
         select {
             padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 2);
-            padding-left: calc(var(--spacing-unit) * 5);
+            padding-left: calc(var(--spacing-unit) * 5); /* Space for dropdown arrow */
             border: 2px solid var(--border-color);
             border-radius: var(--border-radius-md);
             font-family: var(--font-primary);
             font-weight: 500;
             background-color: var(--surface-color);
             color: var(--text-color);
-            min-width: 180px; /* Wider */
+            min-width: 180px; /* Ensure enough width for language names */
             cursor: pointer;
             transition: all var(--transition-medium);
-            appearance: none;
+            appearance: none; /* Remove default system appearance */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: left calc(var(--spacing-unit) * 1.5) center;
@@ -516,7 +503,7 @@
         body.dark-mode select {
              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23e9ecef' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
         }
-        
+       
         select:focus {
             outline: none;
             border-color: var(--primary-color);
@@ -525,16 +512,16 @@
         select:hover {
             border-color: hsla(var(--primary-hue), 79%, 70%, 0.7);
         }
-        
-        .loading { /* Main loading indicator */
+       
+        .loading {
             display: none;
             text-align: center;
             padding: calc(var(--spacing-unit) * 4) 0;
             font-size: 1.1rem;
             color: var(--text-color-muted);
         }
-        
-        .loader { /* For main loading indicator */
+       
+        .loader {
             border: 6px solid hsla(var(--primary-hue), 79%, 60%, 0.2);
             border-radius: 50%;
             border-top: 6px solid var(--primary-color);
@@ -543,23 +530,22 @@
             animation: spin 0.7s linear infinite;
             margin: 0 auto calc(var(--spacing-unit) * 2);
         }
-        
+       
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+       
         .char-count {
             font-size: 0.9rem;
             color: var(--text-color-muted);
             transition: color var(--transition-medium), transform var(--transition-fast);
             font-weight: 500;
         }
-        
+       
         .char-count.warning { color: var(--warning-color); transform: scale(1.05); }
         .char-count.danger { color: var(--error-color); font-weight: 600; transform: scale(1.1); }
-        
-        /* Footer - Cleaner */
+       
         .footer {
             background-color: var(--surface-color);
             padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
@@ -569,7 +555,7 @@
             border-top: 1px solid var(--border-color);
             transition: background-color var(--transition-medium), border-color var(--transition-medium);
         }
-        
+       
         .footer p {
             margin: var(--spacing-unit) 0;
             font-size: 0.95rem;
@@ -579,31 +565,30 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.15); }
         }
-        
+       
         .footer .social-links {
             margin-top: calc(var(--spacing-unit) * 2);
             display: flex;
             justify-content: center;
             gap: calc(var(--spacing-unit) * 2.5);
         }
-        
+       
         .footer .social-links a {
             color: var(--text-color-muted);
             font-size: 1.6rem;
             transition: color var(--transition-medium), transform var(--transition-medium);
         }
-        
+       
         .footer .social-links a:hover {
             color: var(--primary-color);
             transform: translateY(-4px) scale(1.15);
         }
-        
-        /* Notification - Glassmorphism Touch */
+       
         .notification {
             position: fixed;
             top: calc(var(--spacing-unit) * 3);
             left: 50%;
-            transform: translateX(-50%) translateY(-150px) scale(0.9); /* Initial state for animation */
+            transform: translateX(-50%) translateY(-150px) scale(0.9);
             color: var(--white);
             padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 3.5);
             border-radius: var(--border-radius-md);
@@ -611,25 +596,24 @@
             display: flex;
             align-items: center;
             gap: var(--spacing-unit) * 1.5;
-            font-weight: 600; /* SemiBold */
+            font-weight: 600;
             font-size: 1.05rem;
             z-index: 1000;
             opacity: 0;
             transition: transform var(--transition-bounce), opacity var(--transition-medium);
-            /* Glassmorphism */
-            background: rgba(0, 0, 0, 0.5); /* Fallback */
+            background: rgba(0, 0, 0, 0.5);
             -webkit-backdrop-filter: blur(12px) saturate(180%);
             backdrop-filter: blur(12px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .notification.success {
-             background: hsla(var(--success-hue, 134), 61%, 41%, 0.7); /* Define --success-hue if not already */
+             background: hsla(var(--success-hue, 134), 61%, 41%, 0.7);
         }
         .notification.error {
-             background: hsla(var(--error-hue, 354), 70%, 54%, 0.7); /* Define --error-hue if not already */
+             background: hsla(var(--error-hue, 354), 70%, 54%, 0.7);
         }
-        body.dark-mode .notification { /* Dark mode glassmorphism */
-            background: rgba(40, 43, 51, 0.6); /* Darker glass */
+        body.dark-mode .notification {
+            background: rgba(40, 43, 51, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
         body.dark-mode .notification.success {
@@ -638,9 +622,6 @@
         body.dark-mode .notification.error {
              background: hsla(var(--error-hue, 354), 70%, 48%, 0.7);
         }
-        :root { /* Add hues for success/error if not defined */
-            --success-hue: 134; --error-hue: 354;
-        }
 
         .notification.show {
             transform: translateX(-50%) translateY(0) scale(1);
@@ -648,14 +629,13 @@
         }
         .notification i { font-size: 1.3em; }
 
-        /* Feature Section - Dynamic Cards */
         .language-feature {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: calc(var(--spacing-unit) * 3.5);
             margin-top: calc(var(--spacing-unit) * 7);
         }
-        
+       
         .feature-item {
             background: var(--surface-color);
             border-radius: var(--border-radius-lg);
@@ -665,19 +645,18 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow var(--transition-medium);
             border: 1px solid var(--border-color);
             position: relative;
-            overflow: hidden; /* For pseudo-elements */
+            overflow: hidden;
         }
-        
+       
         .feature-item:hover {
             transform: translateY(-10px) scale(1.03);
             box-shadow: var(--shadow-xl);
         }
-        /* Shine effect on hover */
         .feature-item::before {
             content: "";
             position: absolute;
             top: 0;
-            left: -100%; /* Start off-screen */
+            left: -100%;
             width: 50%;
             height: 100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
@@ -685,12 +664,12 @@
             transition: left 0.7s ease-in-out;
         }
         .feature-item:hover::before {
-            left: 150%; /* Move across the card */
+            left: 150%;
         }
         body.dark-mode .feature-item::before {
              background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
         }
-        
+       
         .feature-icon {
             background: linear-gradient(135deg, hsla(var(--primary-hue), 79%, 60%, 0.15) 0%, hsla(var(--primary-hue), 79%, 40%, 0.1) 100%);
             width: 75px;
@@ -710,31 +689,30 @@
             transform: rotateY(360deg) scale(1.1);
             box-shadow: 0 5px 15px hsla(var(--primary-hue), 79%, 50%, 0.3);
         }
-        
+       
         .feature-title {
-            font-weight: 700; /* Bold */
+            font-weight: 700;
             font-size: 1.3rem;
             margin-bottom: var(--spacing-unit);
-            color: var(--text-color); /* Match body text color */
+            color: var(--text-color);
         }
         body.dark-mode .feature-title { color: var(--primary-color-light); }
-        
+       
         .feature-desc {
             color: var(--text-color-muted);
             font-size: 0.95rem;
             line-height: 1.7;
         }
-        
+       
         .target-container { position: relative; }
-        
-        /* Action Buttons on Textarea - Grouped & Styled */
+       
         .action-buttons {
             position: absolute;
             top: calc(var(--spacing-unit) * 1.5);
             left: calc(var(--spacing-unit) * 1.5);
             display: flex;
             gap: var(--spacing-unit) * 0.75;
-            background: hsla(var(--surface-color-rgb, 255,255,255), 0.8); /* Use RGB for opacity */
+            background: hsla(var(--surface-color-rgb, 255,255,255), 0.8);
             padding: calc(var(--spacing-unit) * 0.5);
             border-radius: var(--border-radius-sm);
             backdrop-filter: blur(5px);
@@ -745,9 +723,7 @@
         .text-area-container:hover .action-buttons {
             opacity: 1;
         }
-        :root { --surface-color-rgb: 255,255,255; } /* For light mode */
-        body.dark-mode { --surface-color-rgb: 35,39,49; } /* For dark mode */
-        
+       
         .action-btn {
             background: transparent;
             border: none;
@@ -761,7 +737,7 @@
             color: var(--text-color-muted);
             transition: all var(--transition-fast);
         }
-        
+       
         .action-btn:hover {
             background-color: var(--primary-color);
             color: var(--white);
@@ -771,8 +747,7 @@
             background-color: var(--primary-color-light);
             color: var(--bg-color-dark);
         }
-        
-        /* History Panel - Card-like Items */
+       
         .history-panel {
             background-color: var(--surface-color);
             border-radius: var(--border-radius-lg);
@@ -781,10 +756,10 @@
             box-shadow: var(--shadow-lg);
             border: 1px solid var(--border-color);
         }
-        
+       
         .history-title {
             font-size: 1.4rem;
-            font-weight: 700; /* Bold */
+            font-weight: 700;
             margin-bottom: calc(var(--spacing-unit) * 2.5);
             color: var(--text-color);
             display: flex;
@@ -795,12 +770,11 @@
             color: var(--primary-color);
             font-size: 1.2em;
         }
-        
+       
         .history-list {
             max-height: 300px;
             overflow-y: auto;
             border-radius: var(--border-radius-md);
-            /* Custom scrollbar for history list */
         }
         .history-list::-webkit-scrollbar { width: 6px; }
         .history-list::-webkit-scrollbar-track { background: transparent; }
@@ -808,7 +782,7 @@
         .history-list:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 60%, 0.6); }
         body.dark-mode .history-list::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.25); }
         body.dark-mode .history-list:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.5); }
-        
+       
         .history-item {
             padding: calc(var(--spacing-unit) * 1.8) calc(var(--spacing-unit) * 2);
             border-bottom: 1px solid var(--border-color);
@@ -817,11 +791,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: var(--border-radius-sm); /* Rounded corners for items */
-            margin-bottom: var(--spacing-unit); /* Space between items */
+            border-radius: var(--border-radius-sm);
+            margin-bottom: var(--spacing-unit);
         }
         .history-item:last-child { border-bottom: none; margin-bottom: 0; }
-        
+       
         .history-item:hover {
             background-color: hsla(var(--primary-hue), 60%, 95%, 0.7);
             transform: translateX(-5px);
@@ -830,17 +804,17 @@
         body.dark-mode .history-item:hover {
             background-color: hsla(var(--primary-hue), 15%, 22%, 0.7);
         }
-        
+       
         .history-text {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            flex-grow: 1; /* Allow text to take available space */
+            flex-grow: 1;
             font-size: 0.95rem;
             font-weight: 500;
             margin-right: var(--spacing-unit);
         }
-        
+       
         .history-langs {
             color: var(--primary-color);
             font-size: 0.9rem;
@@ -851,20 +825,19 @@
         }
         .history-langs .fa-long-arrow-alt-left { opacity: 0.6; }
         body.dark-mode .history-langs { color: var(--secondary-color); }
-        
-        .history-item .date-time { /* New class for date-time */
+       
+        .history-item .date-time {
             color: var(--text-color-muted);
             font-size: 0.8rem;
             white-space: nowrap;
             text-align: left;
-            min-width: 110px; /* Ensure enough space */
+            min-width: 110px;
         }
-        
-        /* Theme Toggle - Playful */
+       
         .theme-toggle {
             position: fixed;
-            bottom: calc(var(--spacing-unit) * 3); /* Changed to bottom */
-            right: calc(var(--spacing-unit) * 3);  /* Changed to right */
+            bottom: calc(var(--spacing-unit) * 3);
+            right: calc(var(--spacing-unit) * 3);
             background: var(--surface-color);
             border: 1px solid var(--border-color);
             border-radius: 50%;
@@ -880,7 +853,7 @@
             box-shadow: var(--shadow-lg);
             z-index: 1001;
         }
-        
+       
         .theme-toggle:hover {
             background: var(--primary-color);
             color: var(--white);
@@ -895,8 +868,7 @@
             color: var(--bg-color-dark);
             box-shadow: 0 0 20px hsla(var(--secondary-hue), 90%, 50%, 0.5);
         }
-        
-        /* Voice Buttons - Refined */
+       
         .voice-btn {
             background-color: hsla(var(--primary-hue), 20%, 95%, 1);
             border: 1px solid hsla(var(--primary-hue), 20%, 85%, 1);
@@ -911,21 +883,21 @@
             transition: all var(--transition-medium);
             box-shadow: var(--shadow-sm);
         }
-        
+       
         .voice-btn:hover {
             background-color: var(--primary-color);
             color: var(--white);
             transform: scale(1.12);
             box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 60%, 0.3);
         }
-        
+       
         .voice-btn.recording {
             background-color: var(--error-color);
             color: var(--white);
             animation: pulseError 1.5s infinite;
             box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
         }
-        @keyframes pulseError { /* Renamed from pulse to avoid conflict */
+        @keyframes pulseError {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
@@ -945,13 +917,97 @@
             color: var(--white);
             box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
          }
-        
-        /* Responsive Adjustments */
+
+        .tone-selector-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: calc(var(--spacing-unit) * 3);
+            margin-bottom: calc(var(--spacing-unit) * 2);
+            padding: calc(var(--spacing-unit) * 1.5);
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .tone-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+        }
+
+        .tone-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: calc(var(--spacing-unit) * 1.5);
+            justify-content: center;
+        }
+
+        .tone-btn {
+            background-color: var(--surface-color);
+            color: var(--text-color-muted);
+            border: 1.5px solid var(--border-color);
+            padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+            font-weight: 500;
+            border-radius: var(--border-radius-sm);
+            transition: all var(--transition-medium);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .tone-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 3px 8px hsla(var(--primary-hue), 79%, 60%, 0.1);
+        }
+
+        .tone-btn.active {
+            background: var(--primary-gradient);
+            color: var(--white);
+            border-color: transparent;
+            box-shadow: 0 4px 10px hsla(var(--primary-hue), 79%, 50%, 0.3);
+            transform: translateY(-1px) scale(1.05);
+        }
+        .tone-btn.active:hover {
+             box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 50%, 0.4);
+        }
+
+        body.dark-mode .tone-selector-container {
+            background-color: var(--surface-color-dark);
+            border-color: var(--border-color-dark);
+        }
+
+        body.dark-mode .tone-label {
+            color: var(--text-color-dark);
+        }
+
+        body.dark-mode .tone-btn {
+            background-color: var(--surface-color-dark);
+            color: var(--text-color-muted-dark);
+            border-color: var(--border-color-dark);
+        }
+
+        body.dark-mode .tone-btn:hover {
+            border-color: var(--primary-color-light);
+            color: var(--primary-color-light);
+            box-shadow: 0 3px 8px hsla(var(--primary-hue), 79%, 70%, 0.15);
+        }
+
+        body.dark-mode .tone-btn.active {
+            border-color: transparent;
+            box-shadow: 0 4px 10px hsla(var(--primary-hue), 79%, 60%, 0.35);
+        }
+         body.dark-mode .tone-btn.active:hover {
+             box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 60%, 0.45);
+        }
+       
         @media (max-width: 768px) {
-            html { font-size: 15px; } /* Slightly smaller base for mobile */
+            html { font-size: 15px; }
             .header { padding: calc(var(--spacing-unit) * 4) var(--spacing-unit); }
             .container { padding: calc(var(--spacing-unit) * 2.5) var(--spacing-unit); }
-            
+           
             .translator-box {
                 padding: calc(var(--spacing-unit) * 2.5);
                 flex-direction: column;
@@ -964,17 +1020,17 @@
                 transform: rotate(90deg);
             }
             .swap-btn:hover {
-                transform: rotate(115deg) scale(1.1); /* 90 + 25 */
+                transform: rotate(115deg) scale(1.1);
             }
             .text-area { height: 250px; }
-            
+           
             .language-feature {
-                grid-template-columns: 1fr; /* Single column */
+                grid-template-columns: 1fr;
                 gap: calc(var(--spacing-unit) * 2.5);
                 margin-top: calc(var(--spacing-unit) * 5);
             }
              .feature-item:hover {
-                transform: translateY(-6px) scale(1.01); /* Less pronounced on mobile */
+                transform: translateY(-6px) scale(1.01);
             }
             .translate-btn {
                 padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 3);
@@ -988,6 +1044,18 @@
              .history-text { width: 100%; order: 1; }
              .history-langs { order: 2; margin-right: 0; }
              .history-item .date-time { width: 100%; order: 3; text-align: right; font-size: 0.75rem; }
+
+            .tone-selector-container {
+                margin-top: calc(var(--spacing-unit) * 2);
+                padding: var(--spacing-unit);
+            }
+            .tone-buttons {
+                gap: var(--spacing-unit);
+            }
+            .tone-btn {
+                padding: calc(var(--spacing-unit) * 0.8) calc(var(--spacing-unit) * 1.5);
+                font-size: 0.9rem;
+            }
         }
          @media (max-width: 480px) {
             html { font-size: 14px; }
@@ -1002,22 +1070,39 @@
                 padding: calc(var(--spacing-unit) * 0.3);
             }
             .action-btn { width: 34px; height: 34px; }
-            .select { min-width: 150px; }
+            select { min-width: 150px; }
             .voice-btn { width: 44px; height: 44px; }
+
+            .tone-label {
+                font-size: 0.95rem;
+                margin-bottom: var(--spacing-unit);
+            }
+            /* Adjust language panel items for smaller screens to prevent overflow */
+            .language-panel {
+                flex-wrap: wrap; /* Allow items to wrap */
+                gap: calc(var(--spacing-unit) * 0.5); /* Add small gap if they wrap */
+            }
+            .language-panel select {
+                flex-grow: 1; /* Allow select to take more space if needed */
+                min-width: 120px; /* Reduce min-width slightly */
+            }
+            .language-panel #lang-detect-indicator {
+                 margin-right: calc(var(--spacing-unit) * 0.5);
+            }
          }
 
-        /* Entrance Animations for elements */
         @keyframes fadeInScaleUp {
             from { opacity: 0; transform: scale(0.95) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
-        .translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container {
+        .translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container, .tone-selector-container {
             animation: fadeInScaleUp 0.6s var(--transition-slow) backwards;
         }
         .language-feature > .feature-item:nth-child(1) { animation-delay: 0.1s; }
         .language-feature > .feature-item:nth-child(2) { animation-delay: 0.2s; }
         .language-feature > .feature-item:nth-child(3) { animation-delay: 0.3s; }
         .history-panel { animation-delay: 0.4s; }
+        .tone-selector-container { animation-delay: 0.05s; }
 
 
     </style>
@@ -1026,12 +1111,12 @@
     <button class="theme-toggle" id="theme-toggle" title="تغییر تم">
         <i class="fas fa-moon"></i>
     </button>
-    
+   
     <div class="header">
         <h1>Ravid Translator Pro</h1>
-        <p>ترجمه هوشمند، روان و چندزبانه با قدرت هوش مصنوعی پیشرفته</p>
+        <p>ترجمه هوشمند، روان و چندزبانه با قدرت هوش مصنوعی gpt 4.1</p>
     </div>
-    
+   
     <div class="container">
         <div class="translator-box">
             <div class="text-area-container">
@@ -1054,22 +1139,23 @@
                         <option value="pt">پرتغالی</option>
                         <option value="hi">هندی</option>
                     </select>
+                    <span id="lang-detect-indicator" style="display: none; margin-right: 8px; font-size: 0.8em;"><i class="fas fa-spinner fa-spin"></i></span>
                     <button class="voice-btn" id="source-voice-btn" title="ورودی صوتی">
                         <i class="fas fa-microphone-alt"></i>
                     </button>
                 </div>
                 <textarea id="source-text" class="text-area" placeholder="متن خود را اینجا وارد کنید یا از میکروفون استفاده نمایید..."></textarea>
                 <div class="controls">
-                    <button class="btn clear-btn" onclick="clearSourceText()">
+                    <button class="btn clear-btn">
                         <i class="fas fa-eraser"></i>
                         <span class="btn-text">پاک کردن</span>
                     </button>
                     <span id="source-char-count" class="char-count">0 / 5000</span>
                 </div>
             </div>
-            
+           
             <div class="language-selector">
-                <button class="swap-btn" onclick="swapLanguages()" title="جابجایی زبان‌ها">
+                <button class="swap-btn" title="جابجایی زبان‌ها">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16 3L19 6L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M5 11V6H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1078,7 +1164,7 @@
                     </svg>
                 </button>
             </div>
-            
+           
             <div class="text-area-container target-container">
                 <div class="language-panel">
                     <div class="language-label">زبان مقصد</div>
@@ -1115,36 +1201,47 @@
                     </button>
                 </div>
                 <div class="controls">
-                    <button class="btn copy-btn" onclick="copyTranslation()">
+                    <button class="btn copy-btn">
                         <i class="fas fa-clipboard-check"></i>
                        <span class="btn-text">کپی ترجمه</span>
                     </button>
                 </div>
             </div>
         </div>
-        
+       
         <div class="loading" id="loading-indicator">
             <div class="loader"></div>
             <p>در حال پردازش و ترجمه دقیق متن شما...</p>
         </div>
-        
-        <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 4);" class="translate-btn-container">
-            <button class="btn translate-btn" id="main-translate-btn" onclick="translateText()">
-                <i class="fas fa-magic-wand-sparkles btn-icon"></i> <!-- آیکون جذاب‌تر -->
+
+        <div class="tone-selector-container">
+            <div class="tone-label">انتخاب لحن ترجمه:</div>
+            <div class="tone-buttons">
+                <button class="btn tone-btn active" data-tone="auto">خودکار</button>
+                <button class="btn tone-btn" data-tone="formal">رسمی</button>
+                <button class="btn tone-btn" data-tone="informal"> خودمونی</button>
+                <button class="btn tone-btn" data-tone="emotional">احساسی</button>
+                <button class="btn tone-btn" data-tone="street">خیابونی</button>
+            </div>
+        </div>
+       
+        <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 2);" class="translate-btn-container">
+            <button class="btn translate-btn" id="main-translate-btn">
+                <i class="fas fa-magic-wand-sparkles btn-icon"></i>
                 <span class="btn-text">ترجمه کن</span>
                 <span class="spinner"></span>
             </button>
         </div>
-        
+       
         <div class="language-feature">
             <div class="feature-item">
                 <div class="feature-icon">
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="feature-title">ترجمه با هوش مصنوعی</div>
-                <div class="feature-desc">بهره‌گیری از آخرین نسل مدل‌های زبانی برای ترجمه‌هایی دقیق، طبیعی و با درک عمیق از مفهوم و لحن متن اصلی.</div>
+                <div class="feature-desc">بهره‌گیری از آخرین نسل مدل‌های زبانی (چی پی تی 4.1)برای ترجمه‌هایی دقیق، طبیعی و با درک عمیق از مفهوم و لحن متن اصلی.</div>
             </div>
-            
+           
             <div class="feature-item">
                 <div class="feature-icon">
                     <i class="fas fa-globe-asia"></i>
@@ -1152,7 +1249,7 @@
                 <div class="feature-title">پشتیبانی گسترده از زبان‌ها</div>
                 <div class="feature-desc">ترجمه روان بین بیش از ۱۵ زبان پرکاربرد دنیا، از جمله زبان‌های پیچیده با ساختارهای گرامری متفاوت.</div>
             </div>
-            
+           
             <div class="feature-item">
                 <div class="feature-icon">
                     <i class="fas fa-headset"></i>
@@ -1161,30 +1258,29 @@
                 <div class="feature-desc">تجربه‌ای بی‌نظیر با ورودی صوتی دقیق و خروجی گفتاری طبیعی و واضح، ترجمه را آسان‌تر از همیشه می‌کند.</div>
             </div>
         </div>
-        
+       
         <div class="history-panel">
             <div class="history-title">
                 <i class="fas fa-history"></i>
                 تاریخچه ترجمه‌های اخیر شما
             </div>
             <div class="history-list" id="history-list">
-                <!-- تاریخچه ترجمه‌ها اینجا نمایش داده می‌شود -->
-            </div>
+                </div>
         </div>
     </div>
-    
+   
     <div class="notification" id="notification">
         <i class="fas fa-info-circle"></i>
         <span id="notification-text"></span>
     </div>
-    
+   
     <div class="footer">
         <p>با <i class="fas fa-heart"></i> طراحی و توسعه یافته توسط Ravid</p>
         <p>مترجم Ravid نسخه Pro | © 2025 - تمامی حقوق محفوظ است.</p>
         <div class="social-links">
             <a href="https://t.me/raviiiid" title="تلگرام Ravid" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
-            <a href="#" title="پروژه در گیت‌هاب" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-            <a href="#" title="ارتباط با ما در توییتر" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+            <a href="https://github.com/" title="پروژه در گیت‌هاب" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+            <a href="https://x.com/ravid_games" title="ارتباط با ما در توییتر" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
         </div>
     </div>
 
@@ -1203,6 +1299,9 @@ const historyListEl = document.getElementById('history-list');
 const mainTranslateBtn = document.getElementById('main-translate-btn');
 const sourceVoiceBtn = document.getElementById('source-voice-btn');
 const targetVoiceBtn = document.getElementById('target-voice-btn');
+const toneButtonsEl = document.querySelectorAll('.tone-btn');
+const langDetectIndicatorEl = document.getElementById('lang-detect-indicator'); // Added
+let debouncedDetectLanguage; // Will be initialized
 
 
 // Debounce function for input handling
@@ -1217,9 +1316,9 @@ function debounce(func, delay) {
 document.addEventListener('DOMContentLoaded', function() {
     loadTheme();
     loadHistory();
-    
-    sourceTextEl.addEventListener('input', debounce(handleSourceTextInput, 300));
-    
+   
+    sourceTextEl.addEventListener('input', debounce(handleSourceTextInput, 300)); // Debounce the main input handler
+   
     document.getElementById('copy-btn-target').addEventListener('click', copyTranslation);
     document.querySelector('.controls .copy-btn').addEventListener('click', copyTranslation);
 
@@ -1229,7 +1328,16 @@ document.addEventListener('DOMContentLoaded', function() {
     sourceVoiceBtn.addEventListener('click', startVoiceInput);
     targetVoiceBtn.addEventListener('click', speakTranslation);
     mainTranslateBtn.addEventListener('click', translateText);
-    
+    document.querySelector('.clear-btn').addEventListener('click', clearSourceText);
+    document.querySelector('.swap-btn').addEventListener('click', swapLanguages);
+
+    toneButtonsEl.forEach(button => {
+        button.addEventListener('click', function() {
+            toneButtonsEl.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+   
     sourceTextEl.addEventListener('keydown', function(e) {
         if (e.ctrlKey && e.key === 'Enter') {
             e.preventDefault();
@@ -1237,11 +1345,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Apply entrance animations after a short delay
-    // This can be done with Intersection Observer for better performance on longer pages
-    const animatedElements = document.querySelectorAll('.translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container');
+    const animatedElements = document.querySelectorAll('.translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container, .tone-selector-container');
     animatedElements.forEach((el, index) => {
-        el.style.animationDelay = `${index * 100}ms`;
+        if (el && el.style) {
+             el.style.animationDelay = `${index * 100}ms`;
+        }
+    });
+
+    // Initialize debounced language detection function
+    debouncedDetectLanguage = debounce(async (text) => {
+        if (sourceLangEl.value === 'auto' && text.length > 15) { // Character threshold for detection
+            langDetectIndicatorEl.style.display = 'inline-block'; // Show indicator
+            try {
+                const detectedLangCode = await getDetectedLanguage(text);
+                if (detectedLangCode && Array.from(sourceLangEl.options).some(opt => opt.value === detectedLangCode)) {
+                    sourceLangEl.value = detectedLangCode;
+                    // Optional: Notify user of detection, e.g.,
+                    // showNotification(`زبان ${getLanguageNameFa(detectedLangCode)} تشخیص داده شد.`, 'info', 'fas fa-language');
+                }
+            } catch (error) {
+                console.error("Debounced language detection error:", error);
+                // Optionally show a subtle error to the user or just log it
+            } finally {
+                langDetectIndicatorEl.style.display = 'none'; // Hide indicator
+            }
+        } else {
+             langDetectIndicatorEl.style.display = 'none'; // Hide if not 'auto' or text too short
+        }
+    }, 1000); // 1-second delay after user stops typing
+
+    // Hide indicator if user manually changes language from 'auto'
+    sourceLangEl.addEventListener('change', () => {
+        if (sourceLangEl.value !== 'auto') {
+            langDetectIndicatorEl.style.display = 'none';
+        }
     });
 });
 
@@ -1249,25 +1386,108 @@ function handleSourceTextInput() {
     const text = sourceTextEl.value;
     const charCount = text.length;
     sourceCharCountEl.textContent = `${charCount} / 5000`;
-    
+   
     sourceCharCountEl.classList.remove('warning', 'danger');
     if (charCount > 4800) {
         sourceCharCountEl.classList.add('danger');
     } else if (charCount > 4000) {
         sourceCharCountEl.classList.add('warning');
     }
-    
+   
     if (charCount > 5000) {
         sourceTextEl.value = text.substring(0, 5000);
         sourceCharCountEl.textContent = `5000 / 5000`;
         showNotification('حداکثر تعداد کاراکتر (5000) وارد شده است.', 'error');
     }
+
+    // Trigger language detection if source language is 'auto'
+    if (sourceLangEl.value === 'auto') {
+        if (text.trim().length === 0) {
+            langDetectIndicatorEl.style.display = 'none'; // Hide if text is cleared
+        } else {
+            debouncedDetectLanguage(text.trim());
+        }
+    } else {
+        langDetectIndicatorEl.style.display = 'none'; // Hide if language is not auto
+    }
 }
+
+async function getDetectedLanguage(textToDetect) {
+    const COMETAPI_KEY = 'sk-HCgj1yTXmxrX8Fff2sIQakqT7lqV7PycMWL5jT7sQ1XRJDGB'; // Keep your API key
+    const API_URL = 'https://api.cometapi.com/v1/chat/completions';
+
+    const supportedLangCodes = Array.from(sourceLangEl.options)
+                                   .map(opt => opt.value)
+                                   .filter(val => val !== 'auto' && val !== ''); // Ensure 'auto' is not in the list
+
+    const messages = [
+        {
+            "role": "system",
+            "content": `You are a language detection assistant. Your sole task is to detect the language of the provided text.
+Respond with ONLY the two-letter ISO 639-1 code for the detected language (e.g., "en" for English, "fa" for Persian, "es" for Spanish).
+If the language is not clearly identifiable or not among common languages, respond with "auto".
+Prioritize from these supported codes if possible: ${supportedLangCodes.join(", ")}.`
+        },
+        {
+            "role": "user",
+            "content": textToDetect.substring(0, 250) // Limit text for detection efficiency
+        }
+    ];
+    const payload = {
+        model: "gpt-4.1-nano", // Or a model known for quick responses
+        messages: messages,
+        temperature: 0.05, // Low temperature for deterministic output
+        max_tokens: 10 // Max tokens for just a language code
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${COMETAPI_KEY}`
+            },
+            body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+            console.error("Language detection API error status:", response.status, await response.text());
+            return null;
+        }
+        const data = await response.json();
+        if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
+            let detectedCode = data.choices[0].message.content.trim().toLowerCase().replace(/["'.]/g, ''); // Clean up potential extra chars
+
+            // More robust check for 2-letter code
+            if (/^[a-z]{2}$/.test(detectedCode)) {
+                if (supportedLangCodes.includes(detectedCode)) {
+                    return detectedCode;
+                } else {
+                    console.warn(`Detected language code "${detectedCode}" is valid but not in the dropdown's supported list. Ignoring.`);
+                    return null; // Or 'auto' if you want to indicate it was detected but not settable
+                }
+            } else if (detectedCode === 'auto') {
+                return null; // Explicitly 'auto' means no specific language to set
+            } else {
+                 console.warn(`Received non-standard code from detection: "${detectedCode}"`);
+            }
+        }
+        return null; // Fallback if no valid code is extracted
+    } catch (error) {
+        console.error('Error in getDetectedLanguage fetch:', error);
+        return null;
+    }
+}
+
 
 function clearSourceText() {
     sourceTextEl.value = '';
     targetTextEl.value = '';
-    handleSourceTextInput();
+    handleSourceTextInput(); // This will also handle hiding the indicator if 'auto'
+    if (sourceLangEl.value !== 'auto' && !Array.from(sourceLangEl.options).find(o => o.value === 'auto').selected) {
+      // If user had selected a language, and then clears, maybe reset to 'auto' or keep as is.
+      // Current behavior: keeps selected language. If you want to reset to 'auto':
+      // sourceLangEl.value = 'auto';
+    }
     sourceTextEl.focus();
 }
 
@@ -1306,7 +1526,7 @@ function shareTranslation() {
                 }
             });
     } else {
-        copyTranslation(); // Fallback to copy
+        copyTranslation();
         showNotification('قابلیت اشتراک‌گذاری مستقیم در این مرورگر نیست. متن کپی شد.', 'info', 'fas fa-paste');
     }
 }
@@ -1336,28 +1556,68 @@ function swapLanguages() {
         showNotification('ابتدا متنی وارد یا ترجمه‌ای انجام دهید، یا زبان مبدأ را مشخص کنید.', 'info', 'fas fa-info-circle');
         return;
     }
-    [sourceLangEl.value, targetLangEl.value] = [targetLangEl.value, sourceLangEl.value];
-    [sourceTextEl.value, targetTextEl.value] = [targetTextEl.value, sourceTextEl.value];
-    handleSourceTextInput();
+    // If source is 'auto' and has detected something, effectively it's not 'auto' anymore for swapping purposes
+    // However, the `select` element itself might still have 'auto' if detection hasn't run or failed.
+    // For simplicity, if sourceLangEl.value is literally 'auto', we might want to prevent swapping to 'auto' as target.
+    // Or, if text exists, we could trigger detection before swap.
+    // Current behavior: Swaps values directly. If source is 'auto', target becomes 'auto' which is not ideal.
+    // Let's refine: if source is 'auto', don't allow it to be the new targetLangEl value if target-text is empty.
     
+    const currentSourceValue = sourceLangEl.value;
+    const currentTargetValue = targetLangEl.value;
+
+    if (currentSourceValue === 'auto' && targetTextEl.value.trim() === '') {
+        // If source is 'auto' and target text is empty, swapping 'auto' to target language doesn't make sense
+        // unless we also perform a new detection on source text.
+        // For now, if source is 'auto', ensure it cannot become the target language directly
+        // unless we have a mechanism to pick a default for it.
+        // Simplest: if currentSourceValue is 'auto', don't swap it into targetLangEl.value
+        // Let's ensure 'auto' is never set for target language.
+        if (currentTargetValue === 'auto') { // This shouldn't happen with current target options.
+            showNotification('زبان مقصد نمی‌تواند روی حالت خودکار باشد.', 'error');
+            return;
+        }
+    }
+
+    [sourceLangEl.value, targetLangEl.value] = [targetLangEl.value, sourceLangEl.value];
+    
+    // After swapping values, if the new sourceLangEl.value became 'auto' (it was previous target),
+    // and the previous source had text, this new 'auto' will trigger detection via handleSourceTextInput.
+    // If the new targetLangEl.value became 'auto' (it was previous source), this is bad.
+    // We need to ensure targetLangEl.value is never 'auto'.
+    if (targetLangEl.value === 'auto') {
+        // Find a non-'auto' default, e.g., the first non-'auto' option or a common language like 'en'
+        const firstValidTargetOption = Array.from(targetLangEl.options).find(opt => opt.value !== 'auto' && opt.value !== '');
+        targetLangEl.value = firstValidTargetOption ? firstValidTargetOption.value : 'en'; // Default to 'en' if no other valid found
+    }
+
+
+    [sourceTextEl.value, targetTextEl.value] = [targetTextEl.value, sourceTextEl.value];
+    handleSourceTextInput(); // This will trigger char count update and potentially new language detection for the new source text
+   
     const swapBtn = document.querySelector('.swap-btn');
     const isMobile = window.innerWidth <= 768;
     let currentRotationDeg = 0;
     const currentTransform = swapBtn.style.transform;
+
     if (currentTransform && currentTransform.includes('rotate')) {
-        currentRotationDeg = parseInt(currentTransform.match(/rotate\(([^deg]+)deg\)/)[1]);
+        const match = currentTransform.match(/rotate\(([^deg]+)deg\)/);
+        if (match && match[1]) {
+            currentRotationDeg = parseInt(match[1], 10);
+        }
     }
+   
+    let targetRotation = isMobile ? (currentRotationDeg % 180 === 90 ? 270 : 90) : (currentRotationDeg % 360 === 0 ? 180 : 0);
     
-    let targetRotation = isMobile ? (currentRotationDeg === 90 ? 270 : 90) : (currentRotationDeg === 0 ? 180 : 0);
-    
-    swapBtn.style.transition = 'transform var(--transition-bounce)'; // Ensure transition is set
+    swapBtn.style.transition = 'transform var(--transition-bounce)';
     swapBtn.style.transform = `rotate(${targetRotation + (isMobile ? 20 : 25)}deg) scale(1.15)`;
+    
     setTimeout(() => {
         swapBtn.style.transform = `rotate(${targetRotation}deg) scale(1)`;
     }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-bounce').replace('s',''))*1000 * 0.5);
 
-    if(sourceTextEl.value.trim() || targetTextEl.value.trim()){
-        translateText(); // Auto-translate after swap if there's text
+    if(sourceTextEl.value.trim()){ // If there's text in the new source, translate it
+        translateText();
     }
 }
 
@@ -1367,24 +1627,31 @@ async function translateText() {
         showNotification('لطفاً متنی برای ترجمه وارد کنید.', 'error', 'fas fa-keyboard');
         return;
     }
-    if (sourceLangEl.value === targetLangEl.value && sourceLangEl.value !== 'auto') {
+    // If source is 'auto' but has been detected and set, use that.
+    // Otherwise, 'auto' is passed to API.
+    const actualSourceLangForAPI = sourceLangEl.value;
+
+    if (actualSourceLangForAPI !== 'auto' && actualSourceLangForAPI === targetLangEl.value) {
         showNotification('زبان مبدأ و مقصد یکسان است. نیازی به ترجمه نیست!', 'info', 'fas fa-exchange-alt');
         targetTextEl.value = sourceTextValue;
         return;
     }
 
     mainTranslateBtn.classList.add('loading');
-    loadingIndicatorEl.style.display = 'flex'; // Changed to flex for centering
+    loadingIndicatorEl.style.display = 'flex';
     targetTextEl.value = '';
-    
+   
     try {
+        // Pass the current value of sourceLangEl, which might be 'auto' or a detected lang
         const translation = await callCometAPI(sourceTextValue, sourceLangEl.value, targetLangEl.value);
         targetTextEl.value = translation;
         showNotification('ترجمه با موفقیت انجام شد.', 'success', 'fas fa-check-double');
+        // For history, if sourceLangEl.value is 'auto' at this point, it means detection didn't pre-set it.
+        // We still save 'auto' as we don't get the *actually used* language back from CometAPI translation.
         addToHistory(sourceTextValue, translation, sourceLangEl.value, targetLangEl.value);
     } catch (error) {
         console.error('خطا در ترجمه:', error);
-        targetTextEl.value = 'خطا در ترجمه رخ داد.';
+        targetTextEl.value = 'خطا در ترجمه رخ داد. لطفاً دوباره امتحان کنید.';
         showNotification(`خطا در سرویس ترجمه: ${error.message}.`, 'error', 'fas fa-server');
     } finally {
         mainTranslateBtn.classList.remove('loading');
@@ -1393,27 +1660,45 @@ async function translateText() {
 }
 
 async function callCometAPI(text, sourceLanguage, targetLanguage) {
-    const COMETAPI_KEY = 'sk-HCgj1yTXmxrX8Fff2sIQakqT7lqV7PycMWL5jT7sQ1XRJDGB'; //  <--- IMPORTANT: REPLACE THIS
+    const COMETAPI_KEY = 'sk-HCgj1yTXmxrX8Fff2sIQakqT7lqV7PycMWL5jT7sQ1XRJDGB';
     const API_URL = 'https://api.cometapi.com/v1/chat/completions';
 
     if (COMETAPI_KEY === 'YOUR_COMETAPI_KEY' || !COMETAPI_KEY) {
-        console.error('کلید API برای CometAPI تنظیم نشده است. لطفاً کد را ویرایش کنید.');
+        console.error('کلید API برای CometAPI تنظیم نشده است. لطفاً کد را ویرایش کرده و کلید معتبر خود را وارد کنید.');
         throw new Error('سرویس ترجمه به درستی پیکربندی نشده است. کلید API یافت نشد.');
     }
 
     const sourceLangName = sourceLanguage === 'auto' ? 'the detected language' : getLanguageName(sourceLanguage);
     const targetLangName = getLanguageName(targetLanguage);
 
+    const activeToneBtn = document.querySelector('.tone-btn.active');
+    const selectedTone = activeToneBtn ? activeToneBtn.dataset.tone : 'auto';
+
+    let toneInstruction = "";
+    if (selectedTone === 'formal') {
+        toneInstruction = `The translation must be in a formal and official tone. Maintain a professional and respectful style. Avoid colloquialisms and slang.`;
+    } else if (selectedTone === 'informal') {
+        toneInstruction = `The translation must be in an informal, colloquial, and friendly tone. Use everyday language, contractions, and a conversational style, as if speaking to a friend.`;
+    } else if (selectedTone === 'emotional') {
+        toneInstruction = `The translation must be in an emotional tone. Convey the feelings and emotions expressed in the original text, such as joy, sadness, anger, or passion. Use vocabulary and sentence structures that evoke these emotions effectively.`;
+    } else if (selectedTone === 'street') {
+        toneInstruction = `The translation must be in a "street" or highly colloquial and slangy tone. Use very informal language, contemporary slang, and expressions common in everyday, casual, and potentially urban conversations. This tone might include regionalisms or a more raw, unfiltered style.`;
+    } else { // 'auto'
+        toneInstruction = `Your primary goal is to preserve the original text's tone. Analyze and replicate it meticulously, whether it's formal, informal, academic, colloquial, humorous, sarcastic, technical, emotional, etc. If the original tone is neutral, the translation should also be neutral.`;
+    }
+
+
     const messages = [
         {
             "role": "system",
-            "content": `You are an exceptionally skilled and nuanced translator. Your task is to translate the user's text from ${sourceLangName} to ${targetLangName} with utmost precision and naturalness.
+            "content": `You are an exceptionally skilled and nuanced translator. Your task is to translate the user's text from ${sourceLangName} to ${targetLangName} with utmost precision, naturalness, and adherence to the specified tone.
 Key Instructions:
-1.  **Tone Preservation:** Meticulously analyze and replicate the original text's tone (e.g., formal, informal, academic, colloquial, humorous, technical).
-2.  **Idioms & Cultural Nuances:** If the text contains idioms, cultural references, or complex phrases, translate them effectively. If a direct translation is awkward or loses meaning, provide the closest natural equivalent in ${targetLangName}. If absolutely necessary for clarity *within the translation context*, you may add a *very brief, concise* explanation in ${targetLangName}, enclosed in parentheses (). Do NOT add explanations in any other language.
-3.  **Output Format:** Return *only* the translated text. Do not include any extraneous metadata, self-correction notes, apologies, or comments about the translation process, unless it's part of the parenthetical explanation mentioned in point 2.
-4.  **Fluency:** The translation must read as if it were originally written in ${targetLangName}. Avoid literal, stilted, or machine-like translations.
-5.  **Accuracy:** Ensure the core meaning of the original text is perfectly conveyed.`
+1.  **Tone Application:** ${toneInstruction} This is a critical instruction.
+2.  **Idioms & Cultural Nuances:** Meticulously translate idioms, metaphors, and cultural references. If a direct translation is awkward or loses meaning, provide the closest natural equivalent in ${targetLangName}. If absolutely necessary for clarity *within the translation context*, you may add a *very brief, concise* explanation in ${targetLangName}, enclosed in parentheses (). Do NOT add explanations or notes in any other language.
+3.  **Output Format:** Return *only* the translated text. Do not include any extraneous metadata, self-correction notes, apologies, or comments about the translation process or your capabilities, unless it's part of the parenthetical explanation mentioned in point 2.
+4.  **Fluency & Naturalness:** The translation must read as if it were originally written in ${targetLangName} by a native speaker of that language and tone. Avoid literal, stilted, or machine-like translations.
+5.  **Accuracy & Meaning Preservation:** Ensure the core meaning, intent, and all subtleties of the original text are perfectly conveyed in the translation.
+6.  **Handling "Auto" Source Language:** If the source language is "the detected language," first accurately detect the language of the user's text before proceeding with the translation based on the other instructions.`
         },
         {
             "role": "user",
@@ -1422,13 +1707,11 @@ Key Instructions:
     ];
 
     const payload = {
-        model: "gpt-4.1-nano", // Or "gpt-4-turbo" or other preferred model available via CometAPI
+        model: "gpt-4.1-nano",
         messages: messages,
-        temperature: 0.45, // Slightly higher for more natural flow, but still focused on accuracy
-        max_tokens: 2048,  // Increased for potentially longer or more complex texts
+        temperature: 0.45,
+        max_tokens: 2048,
         top_p: 0.95,
-        // frequency_penalty: 0.1, // Optional: slightly discourage repetitive phrases
-        // presence_penalty: 0.1,  // Optional: slightly encourage new concepts
     };
 
     const response = await fetch(API_URL, {
@@ -1442,8 +1725,11 @@ Key Instructions:
 
     if (!response.ok) {
         let errorData;
-        try { errorData = await response.json(); }
-        catch (e) { errorData = { error: { message: response.statusText } }; }
+        try {
+            errorData = await response.json();
+        } catch (e) {
+            errorData = { error: { message: response.statusText } };
+        }
         console.error('CometAPI Error Response:', errorData);
         throw new Error(errorData.error?.message || `خطای HTTP: ${response.status}`);
     }
@@ -1457,6 +1743,7 @@ Key Instructions:
     }
 }
 
+
 function getLanguageName(langCode) {
     const languages = { 'auto': 'auto-detect', 'fa': 'Persian (Farsi)', 'en': 'English', 'ar': 'Arabic', 'fr': 'French', 'de': 'German', 'es': 'Spanish', 'ru': 'Russian', 'zh': 'Chinese (Simplified)', 'ja': 'Japanese', 'ko': 'Korean', 'tr': 'Turkish', 'it': 'Italian', 'pt': 'Portuguese', 'hi': 'Hindi' };
     return languages[langCode] || langCode;
@@ -1464,17 +1751,17 @@ function getLanguageName(langCode) {
 
 function showNotification(message, type = 'info', iconClass = 'fas fa-info-circle') {
     const iconEl = notificationEl.querySelector('i');
-    
-    notificationEl.classList.remove('success', 'error', 'info'); // Clear previous types
-    notificationEl.classList.add(type); // Add current type
-    
-    if (type === 'success') iconClass = iconClass === 'fas fa-info-circle' ? 'fas fa-check-circle' : iconClass;
-    else if (type === 'error') iconClass = iconClass === 'fas fa-info-circle' ? 'fas fa-exclamation-triangle' : iconClass;
-    
+   
+    notificationEl.classList.remove('success', 'error', 'info');
+    notificationEl.classList.add(type);
+   
+    if (type === 'success' && iconClass === 'fas fa-info-circle') iconClass = 'fas fa-check-circle';
+    else if (type === 'error' && iconClass === 'fas fa-info-circle') iconClass = 'fas fa-exclamation-triangle';
+   
     iconEl.className = iconClass;
     notificationTextEl.textContent = message;
     notificationEl.classList.add('show');
-    
+   
     setTimeout(() => notificationEl.classList.remove('show'), 4000);
 }
 
@@ -1497,6 +1784,7 @@ function loadTheme() {
     const savedTheme = localStorage.getItem('theme');
     const themeIcon = themeToggleBtn.querySelector('i');
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         document.body.classList.add('dark-mode');
         themeIcon.className = 'fas fa-sun';
@@ -1510,7 +1798,7 @@ function addToHistory(sourceText, translatedText, sourceLang, targetLang) {
     const historyItem = { id: Date.now(), sourceText, translatedText, sourceLang, targetLang, timestamp: new Date().toISOString() };
     let history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
     history.unshift(historyItem);
-    if (history.length > 30) history = history.slice(0, 30); // Increased history limit
+    if (history.length > 30) history = history.slice(0, 30);
     localStorage.setItem('translationHistory', JSON.stringify(history));
     updateHistoryDisplay();
 }
@@ -1519,40 +1807,47 @@ function updateHistoryDisplay() {
     historyListEl.innerHTML = '';
     const history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
     if (history.length === 0) {
-        historyListEl.innerHTML = `<div style="padding: var(--spacing-unit) * 2.5; text-align: center; color: var(--text-color-muted); font-weight: 500;">تاریخچه ترجمه‌های شما هنوز خالی است.</div>`;
+        historyListEl.innerHTML = `<div style="padding: calc(var(--spacing-unit) * 2.5); text-align: center; color: var(--text-color-muted); font-weight: 500;">تاریخچه ترجمه‌های شما هنوز خالی است.</div>`;
         return;
     }
     history.forEach(item => {
         const shortenedText = item.sourceText.length > 70 ? item.sourceText.substring(0, 70) + '...' : item.sourceText;
+        // For display, if sourceLang in history is 'auto', we show "خودکار".
+        // If it was detected and set before translation, it would be the detected lang code.
         const sourceLangName = item.sourceLang === 'auto' ? 'خودکار' : getLanguageNameFa(item.sourceLang);
         const targetLangName = getLanguageNameFa(item.targetLang);
         const dateTime = new Date(item.timestamp);
         const time = dateTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false });
-        const date = dateTime.toLocaleDateString('fa-IR', { year: 'numeric', month: 'long', day: 'numeric' });
-        
+        const date = dateTime.toLocaleDateString('fa-IR-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' });
+
         const historyItemElement = document.createElement('div');
         historyItemElement.className = 'history-item';
         historyItemElement.tabIndex = 0;
         historyItemElement.innerHTML = `
-            <div class="history-text" title="${item.sourceText.replace(/"/g, '"')}">${shortenedText}</div>
+            <div class="history-text" title="${item.sourceText.replace(/"/g, '&quot;')}">${shortenedText}</div>
             <div class="history-langs">${sourceLangName} <i class="fas fa-long-arrow-alt-left"></i> ${targetLangName}</div>
             <div class="date-time">${date} - ${time}</div>
         `;
         historyItemElement.addEventListener('click', () => restoreTranslation(item));
-        historyItemElement.addEventListener('keydown', e => (e.key === 'Enter' || e.key === ' ') && restoreTranslation(item));
+        historyItemElement.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                restoreTranslation(item);
+            }
+        });
         historyListEl.appendChild(historyItemElement);
     });
 }
 
 function restoreTranslation(item) {
-    sourceLangEl.value = item.sourceLang;
+    sourceLangEl.value = item.sourceLang; // This could be 'auto' or a specific lang
     targetLangEl.value = item.targetLang;
     sourceTextEl.value = item.sourceText;
     targetTextEl.value = item.translatedText;
-    handleSourceTextInput();
+    handleSourceTextInput(); // Update char count and trigger auto-detection if new sourceLang is 'auto'
     showNotification('ترجمه از تاریخچه با موفقیت بازیابی شد.', 'success', 'fas fa-undo-alt');
     sourceTextEl.focus();
-    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function loadHistory() { updateHistoryDisplay(); }
@@ -1562,7 +1857,6 @@ function getLanguageNameFa(langCode) {
     return languages[langCode] || langCode;
 }
 
-// --- Voice Input & Output ---
 let recognition;
 let isRecognizing = false;
 let currentUtterance = null;
@@ -1577,47 +1871,79 @@ function startVoiceInput() {
         recognition.stop();
         return;
     }
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SpeechRecognition();
-    const sourceLang = sourceLangEl.value;
-    const langTagMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-PT', 'hi': 'hi-IN' };
-    recognition.lang = sourceLang === 'auto' ? 'fa-IR' : (langTagMap[sourceLang] || 'fa-IR');
+    const sourceLang = sourceLangEl.value; // Use the current value, which might have been auto-detected
+    const langTagMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
+    recognition.lang = sourceLang === 'auto' ? 'fa-IR' : (langTagMap[sourceLang] || 'fa-IR'); // Default to Persian if 'auto' or unmapped
     recognition.continuous = false;
     recognition.interimResults = true;
-    let finalTranscript = sourceTextEl.value;
+    let finalTranscriptPart = ''; // Store only the transcript from the current recognition session
 
     recognition.onstart = () => {
         isRecognizing = true;
+        finalTranscriptPart = ''; // Reset for this session
         sourceVoiceBtn.classList.add('recording');
         sourceVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
         sourceTextEl.placeholder = "در حال شنیدن فرمان شما...";
-        showNotification(`در حال شنیدن به زبان ${getLanguageNameFa(sourceLang === 'auto' ? 'fa' : sourceLang)}...`, 'info', 'fas fa-microphone-alt');
+        // Show notification with the language being listened for (could be auto-detected one)
+        const listeningLangForNotification = sourceLangEl.value === 'auto' ? 'fa' : sourceLangEl.value;
+        showNotification(`در حال شنیدن به زبان ${getLanguageNameFa(listeningLangForNotification)}...`, 'info', 'fas fa-microphone-alt');
     };
+
     recognition.onresult = event => {
         let interimTranscript = '';
+        finalTranscriptPart = ''; // Rebuild finalTranscriptPart based on this event's final results
         for (let i = event.resultIndex; i < event.results.length; ++i) {
-            event.results[i].isFinal ? (finalTranscript += (finalTranscript ? ' ' : '') + event.results[i][0].transcript) : (interimTranscript += event.results[i][0].transcript);
+            if (event.results[i].isFinal) {
+                finalTranscriptPart += event.results[i][0].transcript.trim() + ' ';
+            } else {
+                interimTranscript += event.results[i][0].transcript;
+            }
         }
-        sourceTextEl.value = finalTranscript + interimTranscript;
-        handleSourceTextInput();
+        // Append interim to current text + final part of *this* session
+        sourceTextEl.value = sourceTextEl.value.substring(0, sourceTextEl.value.length - interimTranscript.length).trim() + (finalTranscriptPart.trim() ? ' ' + finalTranscriptPart.trim() : '') + (interimTranscript ? ' ' + interimTranscript.trim() : '');
+        sourceTextEl.value = sourceTextEl.value.trim(); // Clean up spaces
+        handleSourceTextInput(); // Update char count and potentially trigger language auto-detection
     };
+
     recognition.onerror = event => {
         let msg = 'خطا در تشخیص گفتار';
-        if (event.error === 'no-speech') msg = 'هیچ گفتاری تشخیص داده نشد.';
-        else if (event.error === 'audio-capture') msg = 'مشکل در دریافت صدا از میکروفون.';
-        else if (event.error === 'not-allowed') msg = 'دسترسی به میکروفون مجاز نیست.';
+        if (event.error === 'no-speech') msg = 'هیچ گفتاری تشخیص داده نشد. لطفاً واضح‌تر صحبت کنید.';
+        else if (event.error === 'audio-capture') msg = 'مشکل در دریافت صدا از میکروفون. میکروفون خود را بررسی کنید.';
+        else if (event.error === 'not-allowed') msg = 'دسترسی به میکروفون مجاز نیست. لطفاً دسترسی را فعال کنید.';
+        else if (event.error === 'network') msg = 'خطای شبکه در سرویس تشخیص گفتار.';
+        else msg = `خطای تشخیص گفتار: ${event.error}`;
         showNotification(msg, 'error', 'fas fa-exclamation-triangle');
-    };
-    recognition.onend = () => {
         isRecognizing = false;
         sourceVoiceBtn.classList.remove('recording');
         sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
         sourceTextEl.placeholder = "متن خود را اینجا وارد کنید...";
-        if (sourceTextEl.value.trim() && sourceTextEl.value.trim() === finalTranscript.trim()) {
-             setTimeout(() => { if(document.getElementById('source-text').value.trim()) translateText(); }, 250);
-        }
-        finalTranscript = ''; // Reset for next input
     };
+
+    recognition.onend = () => {
+        isRecognizing = false;
+        sourceVoiceBtn.classList.remove('recording');
+        sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
+        sourceTextEl.placeholder = "متن خود را اینجا وارد کنید یا از میکروفون استفاده نمایید...";
+        
+        // Append the final transcript from this session to the existing text
+        let existingText = sourceTextEl.value.replace(finalTranscriptPart.trim(), '').trim(); // Remove any part that was just finalized to avoid duplication
+        sourceTextEl.value = (existingText ? existingText + ' ' : '') + finalTranscriptPart.trim();
+        sourceTextEl.value = sourceTextEl.value.trim(); // Clean up spaces
+
+        handleSourceTextInput(); // Final update to char count and auto-detection
+
+        if (sourceTextEl.value.trim()) {
+             setTimeout(() => {
+                if(document.getElementById('source-text').value.trim()) translateText();
+             }, 250);
+        }
+    };
+    // Before starting, ensure the base text doesn't include lingering interim results from a previous, unfinalized attempt.
+    // This is tricky; usually, onresult handles appending. If sourceTextEl is directly manipulated, it's complex.
+    // For simplicity, we'll assume onresult correctly builds up the text.
     recognition.start();
 }
 
@@ -1637,22 +1963,31 @@ function speakTranslation() {
         targetVoiceBtn.classList.remove('recording');
         targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
         if (currentUtterance && currentUtterance.text === text) {
-             currentUtterance = null; return;
+             currentUtterance = null;
+             return;
         }
     }
 
     currentUtterance = new SpeechSynthesisUtterance(text);
     const targetLang = targetLangEl.value;
-    const langVoiceMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-PT', 'hi': 'hi-IN' };
+    const langVoiceMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
     const targetSpeechLang = langVoiceMap[targetLang] || 'en-US';
-    
+   
     const voices = synth.getVoices();
-    let selectedVoice = voices.find(voice => voice.lang === targetSpeechLang && voice.localService) || voices.find(voice => voice.lang === targetSpeechLang) || voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]) && voice.localService) || voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]));
-    
-    if (selectedVoice) currentUtterance.voice = selectedVoice;
-    else currentUtterance.lang = targetSpeechLang;
-    
-    currentUtterance.rate = 1.0; currentUtterance.pitch = 1.0;
+    let selectedVoice = voices.find(voice => voice.lang === targetSpeechLang && voice.localService);
+    if (!selectedVoice) selectedVoice = voices.find(voice => voice.lang === targetSpeechLang);
+    if (!selectedVoice) selectedVoice = voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]) && voice.localService);
+    if (!selectedVoice) selectedVoice = voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]));
+
+    if (selectedVoice) {
+        currentUtterance.voice = selectedVoice;
+    } else {
+        currentUtterance.lang = targetSpeechLang;
+        console.warn(`No specific voice found for ${targetSpeechLang}. Using browser default for language.`);
+    }
+   
+    currentUtterance.rate = 1.0;
+    currentUtterance.pitch = 1.0;
 
     currentUtterance.onstart = () => {
         targetVoiceBtn.classList.add('recording');
@@ -1671,17 +2006,47 @@ function speakTranslation() {
     };
 
     if (voices.length === 0 && synth.onvoiceschanged !== undefined) {
-        synth.onvoiceschanged = () => speakTranslation(); // Retry once voices are loaded
+        // Some browsers load voices asynchronously.
+        // This is a common pattern to handle that.
+        let voiceLoadRetries = 0;
+        const trySpeak = () => {
+            const currentVoices = synth.getVoices();
+            if (currentVoices.length > 0 || voiceLoadRetries >= 10) { // Max 10 retries (e.g., 1 sec)
+                if(currentVoices.length > 0 && !selectedVoice){ // Re-select voice if not found initially
+                     selectedVoice = currentVoices.find(voice => voice.lang === targetSpeechLang && voice.localService);
+                    if (!selectedVoice) selectedVoice = currentVoices.find(voice => voice.lang === targetSpeechLang);
+                    if (selectedVoice) currentUtterance.voice = selectedVoice;
+                }
+                synth.speak(currentUtterance);
+                if (synth.onvoiceschanged === trySpeak) { // Clean up self-listener
+                    synth.onvoiceschanged = null;
+                }
+            } else {
+                voiceLoadRetries++;
+                setTimeout(trySpeak, 100); // Retry after 100ms
+            }
+        };
+        if(synth.onvoiceschanged !== trySpeak) { // Avoid multiple listeners
+             synth.onvoiceschanged = trySpeak;
+        }
+        trySpeak(); // Initial attempt in case voices are already loaded
     } else {
         synth.speak(currentUtterance);
     }
 }
 
-// Ensure voices are loaded for speech synthesis
-if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = () => {
-        console.log("لیست صداهای SpeechSynthesis به‌روز شد و آماده است.");
-    };
+// Ensure voices list is populated (especially for browsers like Chrome on some OS)
+if (typeof speechSynthesis !== 'undefined') {
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = () => {
+            console.log("لیست صداهای SpeechSynthesis به‌روز شد.");
+            // Can re-initialize voice selection logic here if needed globally
+        };
+    }
+    // Trigger loading voices if list is initially empty
+    if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.getVoices();
+    }
 }
 
     </script>
