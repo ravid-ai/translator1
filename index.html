@@ -1434,7 +1434,7 @@ Prioritize from these supported codes if possible: ${supportedLangCodes.join(", 
         }
     ];
     const payload = {
-        model: "gpt-4.1-nano", // Or a model known for quick responses
+        model: "gpt-4.1-mini", // Or a model known for quick responses
         messages: messages,
         temperature: 0.05, // Low temperature for deterministic output
         max_tokens: 10 // Max tokens for just a language code
@@ -1707,7 +1707,7 @@ Key Instructions:
     ];
 
     const payload = {
-        model: "gpt-4.1-nano",
+        model: "gpt-4.1-mini",
         messages: messages,
         temperature: 0.45,
         max_tokens: 2048,
