@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-<link rel="icon" href="favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ravid Translator</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @font-face {
@@ -37,7 +37,6 @@
             font-style: normal;
             font-display: swap;
         }
-
 
         :root {
             --font-primary: 'Vazirmatn', Arial, sans-serif;
@@ -142,15 +141,18 @@
             background-color: var(--primary-color-light);
              border: 2px solid var(--bg-color-dark);
         }
-
+        
+        /* --- START: HEADER AND SETTINGS STYLES --- */
         .header {
-            padding: calc(var(--spacing-unit) * 6) calc(var(--spacing-unit) * 2.5);
-            text-align: center;
+            padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5);
             color: var(--white);
             position: relative;
-            overflow: hidden;
             background: var(--primary-gradient);
             border-bottom: 3px solid var(--primary-color-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible; 
         }
 
         .header::before {
@@ -164,33 +166,168 @@
             background-position: 0 0, 15px 15px;
             animation: bgPatternAnim 30s linear infinite;
             opacity: 0.5;
-        }
-        @keyframes bgPatternAnim {
-            0% { background-position: 0 0, 15px 15px; }
-            100% { background-position: 30px 30px, 45px 45px; }
-        }
-        body.dark-mode .header::before {
-             background-image:
-                radial-gradient(hsl(var(--primary-hue), 79%, 20%, 0.2) 1px, transparent 1px),
-                radial-gradient(hsl(var(--primary-hue), 79%, 20%, 0.2) 1px, transparent 1px);
+            z-index: 1;
         }
 
         .header h1 {
-            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             font-weight: 700;
-            margin-bottom: var(--spacing-unit);
+            margin: 0;
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
             letter-spacing: -0.5px;
+            z-index: 2;
         }
        
-        .header p {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            opacity: 0.9;
+        .header-actions {
+            position: relative;
+            z-index: 1005;
+        }
+
+        .header-icon-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            transition: all var(--transition-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: scale(1.1) rotate(25deg);
+        }
+
+        .settings-popup {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0; /* Changed from left to right */
+            width: 320px;
+            background-color: hsla(var(--surface-color-rgb, 255, 255, 255), 0.75);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            backdrop-filter: blur(12px) saturate(180%);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid hsla(var(--border-color-light), 0.5);
+            z-index: 1002;
+            padding: calc(var(--spacing-unit) * 2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px) scale(0.95);
+            transform-origin: top right; /* Added for correct animation */
+            transition: opacity var(--transition-medium) ease-out, transform var(--transition-medium) ease-out, visibility 0s var(--transition-medium);
+            color: var(--text-color);
+        }
+
+        body.dark-mode .settings-popup {
+            background-color: hsla(var(--surface-color-rgb, 35, 39, 49), 0.75);
+            border: 1px solid hsla(var(--border-color-dark), 0.6);
+        }
+
+        .settings-popup.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            transition: opacity var(--transition-bounce) 0.1s, transform var(--transition-bounce) 0.1s, visibility 0s;
+        }
+
+        .settings-section {
+            padding: var(--spacing-unit);
+            margin-bottom: var(--spacing-unit);
+        }
+        .settings-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .settings-section h4 {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            padding-bottom: calc(var(--spacing-unit) * 1.5);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: calc(var(--spacing-unit) * 1.2);
+        }
+        body.dark-mode .settings-section h4 {
+            color: var(--primary-color-light);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
+            gap: calc(var(--spacing-unit) * 2);
+            border-radius: var(--border-radius-sm);
+            transition: background-color var(--transition-fast);
+        }
+        .setting-item:hover {
+            background-color: hsla(var(--primary-hue), 20%, 50%, 0.08);
+        }
+        body.dark-mode .setting-item:hover {
+            background-color: hsla(var(--primary-hue), 15%, 50%, 0.15);
+        }
+
+        .setting-item label {
             font-weight: 500;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 0.95rem;
+            white-space: nowrap;
         }
-       
+
+        .toggle-switch {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 48px;
+            height: 26px;
+            background-color: hsla(var(--primary-hue), 15%, 50%, 0.5);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color var(--transition-medium);
+        }
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            top: 3px;
+            right: 25px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            transition: right var(--transition-medium);
+        }
+        .toggle-switch:checked {
+            background-color: var(--primary-color);
+        }
+        body.dark-mode .toggle-switch:checked {
+             background-color: var(--secondary-color);
+        }
+        .toggle-switch:checked::before {
+            right: 3px;
+        }
+
+        .settings-popup select,
+        .settings-popup input[type="range"] {
+            flex-grow: 1;
+        }
+        .settings-popup select {
+            min-width: 0;
+            width: auto;
+        }
+         .settings-popup input[type="range"] {
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        /* --- END: HEADER AND SETTINGS STYLES --- */
+
         .container {
             flex: 1;
             padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
@@ -243,7 +380,6 @@
             margin-bottom: var(--spacing-unit);
             position: relative;
         }
-        /* For language detection indicator */
         #lang-detect-indicator {
             color: var(--primary-color);
             vertical-align: middle;
@@ -252,7 +388,6 @@
             color: var(--primary-color-light);
         }
 
-       
         .language-label {
             font-weight: 600;
             color: var(--primary-color);
@@ -301,7 +436,7 @@
             width: 28px; height: 28px;
         }
         .swap-btn svg path {
-            stroke: var(--white);
+            stroke: #ffffff;
             stroke-width: 2.5;
         }
         body.dark-mode .swap-btn svg path {
@@ -399,7 +534,7 @@
 
         .translate-btn {
             background: var(--primary-gradient);
-            color: var(--white);
+            color: #ffffff;
             padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
             font-size: 1.1rem;
             font-weight: 700;
@@ -420,10 +555,7 @@
             pointer-events: none;
             color: transparent !important;
         }
-        .translate-btn.loading .btn-text {
-            visibility: hidden;
-        }
-        .translate-btn.loading .btn-icon {
+        .translate-btn.loading .btn-text, .translate-btn.loading .btn-icon {
             visibility: hidden;
         }
         .translate-btn .spinner {
@@ -435,7 +567,7 @@
             width: 24px;
             height: 24px;
             border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: var(--white);
+            border-top-color: #ffffff;
             border-radius: 50%;
             animation: spin 0.6s linear infinite;
         }
@@ -443,6 +575,11 @@
             display: block;
         }
        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .clear-btn {
             background-color: transparent;
             color: var(--text-color-muted);
@@ -485,17 +622,17 @@
        
         select {
             padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 2);
-            padding-left: calc(var(--spacing-unit) * 5); /* Space for dropdown arrow */
+            padding-left: calc(var(--spacing-unit) * 5);
             border: 2px solid var(--border-color);
             border-radius: var(--border-radius-md);
             font-family: var(--font-primary);
             font-weight: 500;
             background-color: var(--surface-color);
             color: var(--text-color);
-            min-width: 180px; /* Ensure enough width for language names */
+            min-width: 180px;
             cursor: pointer;
             transition: all var(--transition-medium);
-            appearance: none; /* Remove default system appearance */
+            appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: left calc(var(--spacing-unit) * 1.5) center;
@@ -529,11 +666,6 @@
             height: 60px;
             animation: spin 0.7s linear infinite;
             margin: 0 auto calc(var(--spacing-unit) * 2);
-        }
-       
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
        
         .char-count {
@@ -589,13 +721,13 @@
             top: calc(var(--spacing-unit) * 3);
             left: 50%;
             transform: translateX(-50%) translateY(-150px) scale(0.9);
-            color: var(--white);
+            color: #ffffff;
             padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 3.5);
             border-radius: var(--border-radius-md);
             box-shadow: var(--shadow-xl);
             display: flex;
             align-items: center;
-            gap: var(--spacing-unit) * 1.5;
+            gap: calc(var(--spacing-unit) * 1.5);
             font-weight: 600;
             font-size: 1.05rem;
             z-index: 1000;
@@ -606,22 +738,14 @@
             backdrop-filter: blur(12px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .notification.success {
-             background: hsla(var(--success-hue, 134), 61%, 41%, 0.7);
-        }
-        .notification.error {
-             background: hsla(var(--error-hue, 354), 70%, 54%, 0.7);
-        }
+        .notification.success { background: hsla(var(--success-hue, 134), 61%, 41%, 0.7); }
+        .notification.error { background: hsla(var(--error-hue, 354), 70%, 54%, 0.7); }
         body.dark-mode .notification {
             background: rgba(40, 43, 51, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        body.dark-mode .notification.success {
-             background: hsla(var(--success-hue, 134), 61%, 35%, 0.7);
-        }
-        body.dark-mode .notification.error {
-             background: hsla(var(--error-hue, 354), 70%, 48%, 0.7);
-        }
+        body.dark-mode .notification.success { background: hsla(var(--success-hue, 134), 61%, 35%, 0.7); }
+        body.dark-mode .notification.error { background: hsla(var(--error-hue, 354), 70%, 48%, 0.7); }
 
         .notification.show {
             transform: translateX(-50%) translateY(0) scale(1);
@@ -685,7 +809,7 @@
         }
         .feature-item:hover .feature-icon {
             background: var(--primary-gradient);
-            color: var(--white);
+            color: #ffffff;
             transform: rotateY(360deg) scale(1.1);
             box-shadow: 0 5px 15px hsla(var(--primary-hue), 79%, 50%, 0.3);
         }
@@ -711,7 +835,7 @@
             top: calc(var(--spacing-unit) * 1.5);
             left: calc(var(--spacing-unit) * 1.5);
             display: flex;
-            gap: var(--spacing-unit) * 0.75;
+            gap: calc(var(--spacing-unit) * 0.75);
             background: hsla(var(--surface-color-rgb, 255,255,255), 0.8);
             padding: calc(var(--spacing-unit) * 0.5);
             border-radius: var(--border-radius-sm);
@@ -740,7 +864,7 @@
        
         .action-btn:hover {
             background-color: var(--primary-color);
-            color: var(--white);
+            color: #ffffff;
             transform: scale(1.1);
         }
          body.dark-mode .action-btn:hover {
@@ -764,7 +888,7 @@
             color: var(--text-color);
             display: flex;
             align-items: center;
-            gap: var(--spacing-unit) * 1.5;
+            gap: calc(var(--spacing-unit) * 1.5);
         }
         .history-title i {
             color: var(--primary-color);
@@ -834,41 +958,6 @@
             min-width: 110px;
         }
        
-        .theme-toggle {
-            position: fixed;
-            bottom: calc(var(--spacing-unit) * 3);
-            right: calc(var(--spacing-unit) * 3);
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--primary-color);
-            font-size: 1.6rem;
-            transition: all var(--transition-bounce);
-            box-shadow: var(--shadow-lg);
-            z-index: 1001;
-        }
-       
-        .theme-toggle:hover {
-            background: var(--primary-color);
-            color: var(--white);
-            transform: rotate(360deg) scale(1.15);
-            box-shadow: 0 0 20px hsla(var(--primary-hue), 79%, 60%, 0.5);
-        }
-        body.dark-mode .theme-toggle {
-            color: var(--secondary-color);
-        }
-        body.dark-mode .theme-toggle:hover {
-            background: var(--secondary-color);
-            color: var(--bg-color-dark);
-            box-shadow: 0 0 20px hsla(var(--secondary-hue), 90%, 50%, 0.5);
-        }
-       
         .voice-btn {
             background-color: hsla(var(--primary-hue), 20%, 95%, 1);
             border: 1px solid hsla(var(--primary-hue), 20%, 85%, 1);
@@ -886,14 +975,14 @@
        
         .voice-btn:hover {
             background-color: var(--primary-color);
-            color: var(--white);
+            color: #ffffff;
             transform: scale(1.12);
             box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 60%, 0.3);
         }
        
         .voice-btn.recording {
             background-color: var(--error-color);
-            color: var(--white);
+            color: #ffffff;
             animation: pulseError 1.5s infinite;
             box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
         }
@@ -914,34 +1003,42 @@
          }
          body.dark-mode .voice-btn.recording {
             background-color: var(--error-color);
-            color: var(--white);
+            color: #ffffff;
             box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
          }
 
         .tone-selector-container {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             align-items: center;
-            margin-top: calc(var(--spacing-unit) * 3);
-            margin-bottom: calc(var(--spacing-unit) * 2);
-            padding: calc(var(--spacing-unit) * 1.5);
-            background-color: var(--surface-color);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-sm);
+            justify-content: center;
+            gap: calc(var(--spacing-unit) * 2);
+            margin-top: calc(var(--spacing-unit) * 4);
+            margin-bottom: calc(var(--spacing-unit) * 1);
+            padding: calc(var(--spacing-unit) * 2);
+            background-color: hsla(var(--primary-hue), 30%, 97%, 1);
+            border-radius: var(--border-radius-lg);
             border: 1px solid var(--border-color);
+            transition: background-color var(--transition-medium), border-color var(--transition-medium);
+        }
+
+        body.dark-mode .tone-selector-container {
+            background-color: hsla(var(--primary-hue), 15%, 21%, 1);
+            border-color: hsla(var(--primary-hue), 15%, 28%, 1);
         }
 
         .tone-label {
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-color);
-            margin-bottom: calc(var(--spacing-unit) * 1.5);
+            margin-bottom: 0;
+            flex-shrink: 0;
         }
 
         .tone-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: calc(var(--spacing-unit) * 1.5);
+            gap: calc(var(--spacing-unit) * 1.25);
             justify-content: center;
         }
 
@@ -949,9 +1046,9 @@
             background-color: var(--surface-color);
             color: var(--text-color-muted);
             border: 1.5px solid var(--border-color);
-            padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
+            padding: calc(var(--spacing-unit) * 0.8) calc(var(--spacing-unit) * 2);
             font-weight: 500;
-            border-radius: var(--border-radius-sm);
+            border-radius: var(--border-radius-md);
             transition: all var(--transition-medium);
             box-shadow: var(--shadow-xs);
         }
@@ -959,28 +1056,20 @@
         .tone-btn:hover {
             border-color: var(--primary-color);
             color: var(--primary-color);
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 3px 8px hsla(var(--primary-hue), 79%, 60%, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
         }
 
         .tone-btn.active {
             background: var(--primary-gradient);
-            color: var(--white);
+            color: #ffffff;
             border-color: transparent;
             box-shadow: 0 4px 10px hsla(var(--primary-hue), 79%, 50%, 0.3);
-            transform: translateY(-1px) scale(1.05);
+            transform: translateY(-2px);
         }
         .tone-btn.active:hover {
-             box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 50%, 0.4);
-        }
-
-        body.dark-mode .tone-selector-container {
-            background-color: var(--surface-color-dark);
-            border-color: var(--border-color-dark);
-        }
-
-        body.dark-mode .tone-label {
-            color: var(--text-color-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 50%, 0.4);
         }
 
         body.dark-mode .tone-btn {
@@ -992,7 +1081,7 @@
         body.dark-mode .tone-btn:hover {
             border-color: var(--primary-color-light);
             color: var(--primary-color-light);
-            box-shadow: 0 3px 8px hsla(var(--primary-hue), 79%, 70%, 0.15);
+            box-shadow: var(--shadow-sm);
         }
 
         body.dark-mode .tone-btn.active {
@@ -1005,7 +1094,14 @@
        
         @media (max-width: 768px) {
             html { font-size: 15px; }
-            .header { padding: calc(var(--spacing-unit) * 4) var(--spacing-unit); }
+            .header {
+                padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
+                flex-direction: column;
+                gap: var(--spacing-unit);
+            }
+             .header-actions {
+                align-self: flex-end;
+             }
             .container { padding: calc(var(--spacing-unit) * 2.5) var(--spacing-unit); }
            
             .translator-box {
@@ -1036,18 +1132,17 @@
                 padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 3);
                 font-size: 1rem;
             }
-            .theme-toggle {
-                width: 50px; height: 50px; font-size: 1.4rem;
-                bottom: var(--spacing-unit) * 2; right: var(--spacing-unit) * 2;
-            }
+            
              .history-item { flex-wrap: wrap; gap: var(--spacing-unit) * 0.5; }
              .history-text { width: 100%; order: 1; }
              .history-langs { order: 2; margin-right: 0; }
              .history-item .date-time { width: 100%; order: 3; text-align: right; font-size: 0.75rem; }
 
             .tone-selector-container {
-                margin-top: calc(var(--spacing-unit) * 2);
-                padding: var(--spacing-unit);
+                flex-direction: column;
+                gap: calc(var(--spacing-unit) * 1.5);
+                padding: calc(var(--spacing-unit) * 1.5);
+                margin-top: calc(var(--spacing-unit) * 3);
             }
             .tone-buttons {
                 gap: var(--spacing-unit);
@@ -1066,28 +1161,18 @@
                 align-items: stretch;
             }
             .controls .btn { width: 100%; }
-            .action-buttons {
-                padding: calc(var(--spacing-unit) * 0.3);
-            }
+            .action-buttons { padding: calc(var(--spacing-unit) * 0.3); }
             .action-btn { width: 34px; height: 34px; }
             select { min-width: 150px; }
             .voice-btn { width: 44px; height: 44px; }
-
-            .tone-label {
-                font-size: 0.95rem;
-                margin-bottom: var(--spacing-unit);
-            }
-            /* Adjust language panel items for smaller screens to prevent overflow */
-            .language-panel {
-                flex-wrap: wrap; /* Allow items to wrap */
-                gap: calc(var(--spacing-unit) * 0.5); /* Add small gap if they wrap */
-            }
-            .language-panel select {
-                flex-grow: 1; /* Allow select to take more space if needed */
-                min-width: 120px; /* Reduce min-width slightly */
-            }
-            .language-panel #lang-detect-indicator {
-                 margin-right: calc(var(--spacing-unit) * 0.5);
+            
+            .language-panel { flex-wrap: wrap; gap: calc(var(--spacing-unit) * 0.5); }
+            .language-panel select { flex-grow: 1; min-width: 120px; }
+            .language-panel #lang-detect-indicator { margin-right: calc(var(--spacing-unit) * 0.5); }
+            
+            .settings-popup {
+                width: 280px;
+                right: calc(var(--spacing-unit) * -1); /* Changed from left */
             }
          }
 
@@ -1103,20 +1188,47 @@
         .language-feature > .feature-item:nth-child(3) { animation-delay: 0.3s; }
         .history-panel { animation-delay: 0.4s; }
         .tone-selector-container { animation-delay: 0.05s; }
-
-
     </style>
 </head>
 <body>
-    <button class="theme-toggle" id="theme-toggle" title="تغییر تم">
-        <i class="fas fa-moon"></i>
-    </button>
    
     <div class="header">
+        <div class="header-actions">
+            <button id="settings-btn" class="header-icon-btn" title="تنظیمات">
+                <i class="fas fa-cog"></i>
+            </button>
+            <div id="settings-popup" class="settings-popup">
+                <div class="settings-section">
+                    <h4><i class="fas fa-palette"></i>تنظیمات ظاهری</h4>
+                     <div class="setting-item">
+                        <label for="theme-switcher">حالت تاریک</label>
+                        <input type="checkbox" id="theme-switcher" class="toggle-switch">
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <h4><i class="fas fa-brain"></i>انتخاب موتور ترجمه</h4>
+                     <div class="setting-item">
+                       <label for="engine-selector">موتور فعلی</label>
+                       <select id="engine-selector" style="min-width: 150px;">
+                           <option value="gemini-2.5-flash" data-provider="gemini" selected>Gemini 2.5 Flash</option>
+                           <option value="gemini-2.5-pro" data-provider="gemini">Gemini 2.5 Pro</option>
+                           <option value="moonshotai/kimi-k2-instruct" data-provider="groq">kimi-k2 (Groq)</option>
+                           <option value="other" disabled>موتور دیگر (بزودی)</option>
+                       </select>
+                    </div>
+                </div>
+                 <div class="settings-section">
+                    <h4><i class="fas fa-sliders-h"></i>تنظیمات موتور ترجمه</h4>
+                    <div class="setting-item">
+                        <label for="temp-slider">میزان خلاقیت</label>
+                        <input type="range" id="temp-slider" min="0" max="1" step="0.1" value="0.4" title="0.4">
+                    </div>
+                </div>
+            </div>
+        </div>
         <h1>Ravid Translator Pro</h1>
-        <p>ترجمه هوشمند، روان و چندزبانه با قدرت هوش مصنوعی gpt 4.1</p>
     </div>
-   
+
     <div class="container">
         <div class="translator-box">
             <div class="text-area-container">
@@ -1239,7 +1351,7 @@
                     <i class="fas fa-robot"></i>
                 </div>
                 <div class="feature-title">ترجمه با هوش مصنوعی</div>
-                <div class="feature-desc">بهره‌گیری از آخرین نسل مدل‌های زبانی (چی پی تی 4.1)برای ترجمه‌هایی دقیق، طبیعی و با درک عمیق از مفهوم و لحن متن اصلی.</div>
+                <div class="feature-desc">بهره‌گیری از آخرین نسل مدل‌های زبانی (<span id="model-name-display">Gemini 1.5 Flash</span>) برای ترجمه‌هایی دقیق، طبیعی و با درک عمیق از مفهوم و لحن متن اصلی.</div>
             </div>
            
             <div class="feature-item">
@@ -1285,770 +1397,526 @@
     </div>
 
     <script>
-// DOM Elements Cache
-const sourceTextEl = document.getElementById('source-text');
-const targetTextEl = document.getElementById('target-text');
-const sourceLangEl = document.getElementById('source-language');
-const targetLangEl = document.getElementById('target-language');
-const sourceCharCountEl = document.getElementById('source-char-count');
-const loadingIndicatorEl = document.getElementById('loading-indicator');
-const notificationEl = document.getElementById('notification');
-const notificationTextEl = document.getElementById('notification-text');
-const themeToggleBtn = document.getElementById('theme-toggle');
-const historyListEl = document.getElementById('history-list');
-const mainTranslateBtn = document.getElementById('main-translate-btn');
-const sourceVoiceBtn = document.getElementById('source-voice-btn');
-const targetVoiceBtn = document.getElementById('target-voice-btn');
-const toneButtonsEl = document.querySelectorAll('.tone-btn');
-const langDetectIndicatorEl = document.getElementById('lang-detect-indicator'); // Added
-let debouncedDetectLanguage; // Will be initialized
+        // DOM Elements Cache
+        const sourceTextEl = document.getElementById('source-text');
+        const targetTextEl = document.getElementById('target-text');
+        const sourceLangEl = document.getElementById('source-language');
+        const targetLangEl = document.getElementById('target-language');
+        const sourceCharCountEl = document.getElementById('source-char-count');
+        const loadingIndicatorEl = document.getElementById('loading-indicator');
+        const notificationEl = document.getElementById('notification');
+        const notificationTextEl = document.getElementById('notification-text');
+        const historyListEl = document.getElementById('history-list');
+        const mainTranslateBtn = document.getElementById('main-translate-btn');
+        const sourceVoiceBtn = document.getElementById('source-voice-btn');
+        const targetVoiceBtn = document.getElementById('target-voice-btn');
+        const toneButtonsEl = document.querySelectorAll('.tone-btn');
+        const langDetectIndicatorEl = document.getElementById('lang-detect-indicator');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsPopup = document.getElementById('settings-popup');
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const tempSlider = document.getElementById('temp-slider');
+        const engineSelectorEl = document.getElementById('engine-selector');
+        const modelNameDisplayEl = document.getElementById('model-name-display');
+        let debouncedDetectLanguage;
 
-
-// Debounce function for input handling
-function debounce(func, delay) {
-    let timeout;
-    return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-    };
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    loadTheme();
-    loadHistory();
-   
-    sourceTextEl.addEventListener('input', debounce(handleSourceTextInput, 300)); // Debounce the main input handler
-   
-    document.getElementById('copy-btn-target').addEventListener('click', copyTranslation);
-    document.querySelector('.controls .copy-btn').addEventListener('click', copyTranslation);
-
-    document.getElementById('share-btn').addEventListener('click', shareTranslation);
-    document.getElementById('download-btn').addEventListener('click', downloadTranslation);
-    themeToggleBtn.addEventListener('click', toggleTheme);
-    sourceVoiceBtn.addEventListener('click', startVoiceInput);
-    targetVoiceBtn.addEventListener('click', speakTranslation);
-    mainTranslateBtn.addEventListener('click', translateText);
-    document.querySelector('.clear-btn').addEventListener('click', clearSourceText);
-    document.querySelector('.swap-btn').addEventListener('click', swapLanguages);
-
-    toneButtonsEl.forEach(button => {
-        button.addEventListener('click', function() {
-            toneButtonsEl.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-   
-    sourceTextEl.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'Enter') {
-            e.preventDefault();
-            translateText();
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
         }
-    });
 
-    const animatedElements = document.querySelectorAll('.translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container, .tone-selector-container');
-    animatedElements.forEach((el, index) => {
-        if (el && el.style) {
-             el.style.animationDelay = `${index * 100}ms`;
-        }
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            loadHistory();
 
-    // Initialize debounced language detection function
-    debouncedDetectLanguage = debounce(async (text) => {
-        if (sourceLangEl.value === 'auto' && text.length > 15) { // Character threshold for detection
-            langDetectIndicatorEl.style.display = 'inline-block'; // Show indicator
-            try {
-                const detectedLangCode = await getDetectedLanguage(text);
-                if (detectedLangCode && Array.from(sourceLangEl.options).some(opt => opt.value === detectedLangCode)) {
-                    sourceLangEl.value = detectedLangCode;
-                    // Optional: Notify user of detection, e.g.,
-                    // showNotification(`زبان ${getLanguageNameFa(detectedLangCode)} تشخیص داده شد.`, 'info', 'fas fa-language');
-                }
-            } catch (error) {
-                console.error("Debounced language detection error:", error);
-                // Optionally show a subtle error to the user or just log it
-            } finally {
-                langDetectIndicatorEl.style.display = 'none'; // Hide indicator
-            }
-        } else {
-             langDetectIndicatorEl.style.display = 'none'; // Hide if not 'auto' or text too short
-        }
-    }, 1000); // 1-second delay after user stops typing
+            sourceTextEl.addEventListener('input', debounce(handleSourceTextInput, 300));
 
-    // Hide indicator if user manually changes language from 'auto'
-    sourceLangEl.addEventListener('change', () => {
-        if (sourceLangEl.value !== 'auto') {
-            langDetectIndicatorEl.style.display = 'none';
-        }
-    });
-});
+            document.getElementById('copy-btn-target').addEventListener('click', copyTranslation);
+            document.querySelector('.controls .copy-btn').addEventListener('click', copyTranslation);
 
-function handleSourceTextInput() {
-    const text = sourceTextEl.value;
-    const charCount = text.length;
-    sourceCharCountEl.textContent = `${charCount} / 5000`;
-   
-    sourceCharCountEl.classList.remove('warning', 'danger');
-    if (charCount > 4800) {
-        sourceCharCountEl.classList.add('danger');
-    } else if (charCount > 4000) {
-        sourceCharCountEl.classList.add('warning');
-    }
-   
-    if (charCount > 5000) {
-        sourceTextEl.value = text.substring(0, 5000);
-        sourceCharCountEl.textContent = `5000 / 5000`;
-        showNotification('حداکثر تعداد کاراکتر (5000) وارد شده است.', 'error');
-    }
+            document.getElementById('share-btn').addEventListener('click', shareTranslation);
+            document.getElementById('download-btn').addEventListener('click', downloadTranslation);
+            
+            sourceVoiceBtn.addEventListener('click', startVoiceInput);
+            targetVoiceBtn.addEventListener('click', speakTranslation);
+            mainTranslateBtn.addEventListener('click', translateText);
+            document.querySelector('.clear-btn').addEventListener('click', clearSourceText);
+            document.querySelector('.swap-btn').addEventListener('click', swapLanguages);
 
-    // Trigger language detection if source language is 'auto'
-    if (sourceLangEl.value === 'auto') {
-        if (text.trim().length === 0) {
-            langDetectIndicatorEl.style.display = 'none'; // Hide if text is cleared
-        } else {
-            debouncedDetectLanguage(text.trim());
-        }
-    } else {
-        langDetectIndicatorEl.style.display = 'none'; // Hide if language is not auto
-    }
-}
+            settingsBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                settingsPopup.classList.toggle('show');
+            });
 
-async function getDetectedLanguage(textToDetect) {
-    const COMETAPI_KEY = 'sk-HCgj1yTXmxrX8Fff2sIQakqT7lqV7PycMWL5jT7sQ1XRJDGB'; // Keep your API key
-    const API_URL = 'https://api.cometapi.com/v1/chat/completions';
-
-    const supportedLangCodes = Array.from(sourceLangEl.options)
-                                   .map(opt => opt.value)
-                                   .filter(val => val !== 'auto' && val !== ''); // Ensure 'auto' is not in the list
-
-    const messages = [
-        {
-            "role": "system",
-            "content": `You are a language detection assistant. Your sole task is to detect the language of the provided text.
-Respond with ONLY the two-letter ISO 639-1 code for the detected language (e.g., "en" for English, "fa" for Persian, "es" for Spanish).
-If the language is not clearly identifiable or not among common languages, respond with "auto".
-Prioritize from these supported codes if possible: ${supportedLangCodes.join(", ")}.`
-        },
-        {
-            "role": "user",
-            "content": textToDetect.substring(0, 250) // Limit text for detection efficiency
-        }
-    ];
-    const payload = {
-        model: "gpt-4.1-mini", // Or a model known for quick responses
-        messages: messages,
-        temperature: 0.05, // Low temperature for deterministic output
-        max_tokens: 10 // Max tokens for just a language code
-    };
-
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${COMETAPI_KEY}`
-            },
-            body: JSON.stringify(payload)
-        });
-        if (!response.ok) {
-            console.error("Language detection API error status:", response.status, await response.text());
-            return null;
-        }
-        const data = await response.json();
-        if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
-            let detectedCode = data.choices[0].message.content.trim().toLowerCase().replace(/["'.]/g, ''); // Clean up potential extra chars
-
-            // More robust check for 2-letter code
-            if (/^[a-z]{2}$/.test(detectedCode)) {
-                if (supportedLangCodes.includes(detectedCode)) {
-                    return detectedCode;
-                } else {
-                    console.warn(`Detected language code "${detectedCode}" is valid but not in the dropdown's supported list. Ignoring.`);
-                    return null; // Or 'auto' if you want to indicate it was detected but not settable
-                }
-            } else if (detectedCode === 'auto') {
-                return null; // Explicitly 'auto' means no specific language to set
-            } else {
-                 console.warn(`Received non-standard code from detection: "${detectedCode}"`);
-            }
-        }
-        return null; // Fallback if no valid code is extracted
-    } catch (error) {
-        console.error('Error in getDetectedLanguage fetch:', error);
-        return null;
-    }
-}
-
-
-function clearSourceText() {
-    sourceTextEl.value = '';
-    targetTextEl.value = '';
-    handleSourceTextInput(); // This will also handle hiding the indicator if 'auto'
-    if (sourceLangEl.value !== 'auto' && !Array.from(sourceLangEl.options).find(o => o.value === 'auto').selected) {
-      // If user had selected a language, and then clears, maybe reset to 'auto' or keep as is.
-      // Current behavior: keeps selected language. If you want to reset to 'auto':
-      // sourceLangEl.value = 'auto';
-    }
-    sourceTextEl.focus();
-}
-
-function copyTranslation() {
-    const text = targetTextEl.value.trim();
-    if (!text) {
-        showNotification('ترجمه‌ای برای کپی کردن وجود ندارد.', 'error', 'fas fa-exclamation-triangle');
-        return;
-    }
-    navigator.clipboard.writeText(text)
-        .then(() => showNotification('متن ترجمه با موفقیت در کلیپ‌بورد کپی شد!', 'success', 'fas fa-clipboard-check'))
-        .catch(() => {
-            targetTextEl.select();
-            targetTextEl.setSelectionRange(0, 99999);
-            try {
-                document.execCommand('copy');
-                showNotification('متن ترجمه کپی شد (روش جایگزین).', 'success', 'fas fa-clipboard-check');
-            } catch (err) {
-                showNotification('کپی خودکار ناموفق بود. لطفاً دستی اقدام کنید.', 'error', 'fas fa-times-circle');
-            }
-        });
-}
-
-function shareTranslation() {
-    const text = targetTextEl.value.trim();
-    if (!text) {
-        showNotification('ترجمه‌ای برای اشتراک‌گذاری موجود نیست.', 'error', 'fas fa-exclamation-triangle');
-        return;
-    }
-    if (navigator.share) {
-        navigator.share({ title: 'ترجمه از Ravid Translator Pro', text: text })
-            .then(() => showNotification('محتوا برای اشتراک‌گذاری آماده شد.', 'success', 'fas fa-share-square'))
-            .catch(error => {
-                if (error.name !== 'AbortError') {
-                    showNotification('اشتراک‌گذاری ناموفق بود.', 'error', 'fas fa-times-circle');
+            document.addEventListener('click', (event) => {
+                if (!settingsPopup.contains(event.target) && !settingsBtn.contains(event.target)) {
+                    settingsPopup.classList.remove('show');
                 }
             });
-    } else {
-        copyTranslation();
-        showNotification('قابلیت اشتراک‌گذاری مستقیم در این مرورگر نیست. متن کپی شد.', 'info', 'fas fa-paste');
-    }
-}
 
-function downloadTranslation() {
-    const text = targetTextEl.value.trim();
-    if (!text) {
-        showNotification('ترجمه‌ای برای دانلود وجود ندارد.', 'error', 'fas fa-exclamation-triangle');
-        return;
-    }
-    const sourceLanguage = sourceLangEl.options[sourceLangEl.selectedIndex].text;
-    const targetLanguage = targetLangEl.options[targetLangEl.selectedIndex].text;
-    const filename = `RavidTranslate-${sourceLanguage}-به-${targetLanguage}.txt`;
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
-    showNotification('فایل ترجمه با موفقیت دانلود شد.', 'success', 'fas fa-file-download');
-}
+            themeSwitcher.addEventListener('change', toggleTheme);
+            
+            tempSlider.addEventListener('input', function() {
+                this.title = this.value;
+            });
+            
+            engineSelectorEl.addEventListener('change', () => {
+                const selectedOption = engineSelectorEl.options[engineSelectorEl.selectedIndex];
+                if (modelNameDisplayEl) {
+                    modelNameDisplayEl.textContent = selectedOption.text;
+                }
+            });
 
-function swapLanguages() {
-    if (sourceLangEl.value === 'auto' && !targetTextEl.value.trim() && !sourceTextEl.value.trim()) {
-        showNotification('ابتدا متنی وارد یا ترجمه‌ای انجام دهید، یا زبان مبدأ را مشخص کنید.', 'info', 'fas fa-info-circle');
-        return;
-    }
-    // If source is 'auto' and has detected something, effectively it's not 'auto' anymore for swapping purposes
-    // However, the `select` element itself might still have 'auto' if detection hasn't run or failed.
-    // For simplicity, if sourceLangEl.value is literally 'auto', we might want to prevent swapping to 'auto' as target.
-    // Or, if text exists, we could trigger detection before swap.
-    // Current behavior: Swaps values directly. If source is 'auto', target becomes 'auto' which is not ideal.
-    // Let's refine: if source is 'auto', don't allow it to be the new targetLangEl value if target-text is empty.
-    
-    const currentSourceValue = sourceLangEl.value;
-    const currentTargetValue = targetLangEl.value;
+            toneButtonsEl.forEach(button => {
+                button.addEventListener('click', function() {
+                    toneButtonsEl.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
 
-    if (currentSourceValue === 'auto' && targetTextEl.value.trim() === '') {
-        // If source is 'auto' and target text is empty, swapping 'auto' to target language doesn't make sense
-        // unless we also perform a new detection on source text.
-        // For now, if source is 'auto', ensure it cannot become the target language directly
-        // unless we have a mechanism to pick a default for it.
-        // Simplest: if currentSourceValue is 'auto', don't swap it into targetLangEl.value
-        // Let's ensure 'auto' is never set for target language.
-        if (currentTargetValue === 'auto') { // This shouldn't happen with current target options.
-            showNotification('زبان مقصد نمی‌تواند روی حالت خودکار باشد.', 'error');
-            return;
-        }
-    }
+            sourceTextEl.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    translateText();
+                }
+            });
 
-    [sourceLangEl.value, targetLangEl.value] = [targetLangEl.value, sourceLangEl.value];
-    
-    // After swapping values, if the new sourceLangEl.value became 'auto' (it was previous target),
-    // and the previous source had text, this new 'auto' will trigger detection via handleSourceTextInput.
-    // If the new targetLangEl.value became 'auto' (it was previous source), this is bad.
-    // We need to ensure targetLangEl.value is never 'auto'.
-    if (targetLangEl.value === 'auto') {
-        // Find a non-'auto' default, e.g., the first non-'auto' option or a common language like 'en'
-        const firstValidTargetOption = Array.from(targetLangEl.options).find(opt => opt.value !== 'auto' && opt.value !== '');
-        targetLangEl.value = firstValidTargetOption ? firstValidTargetOption.value : 'en'; // Default to 'en' if no other valid found
-    }
+            debouncedDetectLanguage = debounce(async (text) => {
+                if (sourceLangEl.value === 'auto' && text.length > 15) {
+                    langDetectIndicatorEl.style.display = 'inline-block';
+                    try {
+                        const detectedLangCode = await getDetectedLanguageWithGemini(text);
+                        if (detectedLangCode && Array.from(sourceLangEl.options).some(opt => opt.value === detectedLangCode)) {
+                            sourceLangEl.value = detectedLangCode;
+                        }
+                    } catch (error) {
+                        console.error("Debounced language detection error:", error);
+                    } finally {
+                        langDetectIndicatorEl.style.display = 'none';
+                    }
+                } else {
+                    langDetectIndicatorEl.style.display = 'none';
+                }
+            }, 1000);
 
-
-    [sourceTextEl.value, targetTextEl.value] = [targetTextEl.value, sourceTextEl.value];
-    handleSourceTextInput(); // This will trigger char count update and potentially new language detection for the new source text
-   
-    const swapBtn = document.querySelector('.swap-btn');
-    const isMobile = window.innerWidth <= 768;
-    let currentRotationDeg = 0;
-    const currentTransform = swapBtn.style.transform;
-
-    if (currentTransform && currentTransform.includes('rotate')) {
-        const match = currentTransform.match(/rotate\(([^deg]+)deg\)/);
-        if (match && match[1]) {
-            currentRotationDeg = parseInt(match[1], 10);
-        }
-    }
-   
-    let targetRotation = isMobile ? (currentRotationDeg % 180 === 90 ? 270 : 90) : (currentRotationDeg % 360 === 0 ? 180 : 0);
-    
-    swapBtn.style.transition = 'transform var(--transition-bounce)';
-    swapBtn.style.transform = `rotate(${targetRotation + (isMobile ? 20 : 25)}deg) scale(1.15)`;
-    
-    setTimeout(() => {
-        swapBtn.style.transform = `rotate(${targetRotation}deg) scale(1)`;
-    }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--transition-bounce').replace('s',''))*1000 * 0.5);
-
-    if(sourceTextEl.value.trim()){ // If there's text in the new source, translate it
-        translateText();
-    }
-}
-
-async function translateText() {
-    const sourceTextValue = sourceTextEl.value.trim();
-    if (!sourceTextValue) {
-        showNotification('لطفاً متنی برای ترجمه وارد کنید.', 'error', 'fas fa-keyboard');
-        return;
-    }
-    // If source is 'auto' but has been detected and set, use that.
-    // Otherwise, 'auto' is passed to API.
-    const actualSourceLangForAPI = sourceLangEl.value;
-
-    if (actualSourceLangForAPI !== 'auto' && actualSourceLangForAPI === targetLangEl.value) {
-        showNotification('زبان مبدأ و مقصد یکسان است. نیازی به ترجمه نیست!', 'info', 'fas fa-exchange-alt');
-        targetTextEl.value = sourceTextValue;
-        return;
-    }
-
-    mainTranslateBtn.classList.add('loading');
-    loadingIndicatorEl.style.display = 'flex';
-    targetTextEl.value = '';
-   
-    try {
-        // Pass the current value of sourceLangEl, which might be 'auto' or a detected lang
-        const translation = await callCometAPI(sourceTextValue, sourceLangEl.value, targetLangEl.value);
-        targetTextEl.value = translation;
-        showNotification('ترجمه با موفقیت انجام شد.', 'success', 'fas fa-check-double');
-        // For history, if sourceLangEl.value is 'auto' at this point, it means detection didn't pre-set it.
-        // We still save 'auto' as we don't get the *actually used* language back from CometAPI translation.
-        addToHistory(sourceTextValue, translation, sourceLangEl.value, targetLangEl.value);
-    } catch (error) {
-        console.error('خطا در ترجمه:', error);
-        targetTextEl.value = 'خطا در ترجمه رخ داد. لطفاً دوباره امتحان کنید.';
-        showNotification(`خطا در سرویس ترجمه: ${error.message}.`, 'error', 'fas fa-server');
-    } finally {
-        mainTranslateBtn.classList.remove('loading');
-        loadingIndicatorEl.style.display = 'none';
-    }
-}
-
-async function callCometAPI(text, sourceLanguage, targetLanguage) {
-    const COMETAPI_KEY = 'sk-HCgj1yTXmxrX8Fff2sIQakqT7lqV7PycMWL5jT7sQ1XRJDGB';
-    const API_URL = 'https://api.cometapi.com/v1/chat/completions';
-
-    if (COMETAPI_KEY === 'YOUR_COMETAPI_KEY' || !COMETAPI_KEY) {
-        console.error('کلید API برای CometAPI تنظیم نشده است. لطفاً کد را ویرایش کرده و کلید معتبر خود را وارد کنید.');
-        throw new Error('سرویس ترجمه به درستی پیکربندی نشده است. کلید API یافت نشد.');
-    }
-
-    const sourceLangName = sourceLanguage === 'auto' ? 'the detected language' : getLanguageName(sourceLanguage);
-    const targetLangName = getLanguageName(targetLanguage);
-
-    const activeToneBtn = document.querySelector('.tone-btn.active');
-    const selectedTone = activeToneBtn ? activeToneBtn.dataset.tone : 'auto';
-
-    let toneInstruction = "";
-    if (selectedTone === 'formal') {
-        toneInstruction = `The translation must be in a formal and official tone. Maintain a professional and respectful style. Avoid colloquialisms and slang.`;
-    } else if (selectedTone === 'informal') {
-        toneInstruction = `The translation must be in an informal, colloquial, and friendly tone. Use everyday language, contractions, and a conversational style, as if speaking to a friend.`;
-    } else if (selectedTone === 'emotional') {
-        toneInstruction = `The translation must be in an emotional tone. Convey the feelings and emotions expressed in the original text, such as joy, sadness, anger, or passion. Use vocabulary and sentence structures that evoke these emotions effectively.`;
-    } else if (selectedTone === 'street') {
-        toneInstruction = `The translation must be in a "street" or highly colloquial and slangy tone. Use very informal language, contemporary slang, and expressions common in everyday, casual, and potentially urban conversations. This tone might include regionalisms or a more raw, unfiltered style.`;
-    } else { // 'auto'
-        toneInstruction = `Your primary goal is to preserve the original text's tone. Analyze and replicate it meticulously, whether it's formal, informal, academic, colloquial, humorous, sarcastic, technical, emotional, etc. If the original tone is neutral, the translation should also be neutral.`;
-    }
-
-
-    const messages = [
-        {
-            "role": "system",
-            "content": `You are an exceptionally skilled and nuanced translator. Your task is to translate the user's text from ${sourceLangName} to ${targetLangName} with utmost precision, naturalness, and adherence to the specified tone.
-Key Instructions:
-1.  **Tone Application:** ${toneInstruction} This is a critical instruction.
-2.  **Idioms & Cultural Nuances:** Meticulously translate idioms, metaphors, and cultural references. If a direct translation is awkward or loses meaning, provide the closest natural equivalent in ${targetLangName}. If absolutely necessary for clarity *within the translation context*, you may add a *very brief, concise* explanation in ${targetLangName}, enclosed in parentheses (). Do NOT add explanations or notes in any other language.
-3.  **Output Format:** Return *only* the translated text. Do not include any extraneous metadata, self-correction notes, apologies, or comments about the translation process or your capabilities, unless it's part of the parenthetical explanation mentioned in point 2.
-4.  **Fluency & Naturalness:** The translation must read as if it were originally written in ${targetLangName} by a native speaker of that language and tone. Avoid literal, stilted, or machine-like translations.
-5.  **Accuracy & Meaning Preservation:** Ensure the core meaning, intent, and all subtleties of the original text are perfectly conveyed in the translation.
-6.  **Handling "Auto" Source Language:** If the source language is "the detected language," first accurately detect the language of the user's text before proceeding with the translation based on the other instructions.`
-        },
-        {
-            "role": "user",
-            "content": text
-        }
-    ];
-
-    const payload = {
-        model: "gpt-4.1-mini",
-        messages: messages,
-        temperature: 0.45,
-        max_tokens: 2048,
-        top_p: 0.95,
-    };
-
-    const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${COMETAPI_KEY}`
-        },
-        body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-        let errorData;
-        try {
-            errorData = await response.json();
-        } catch (e) {
-            errorData = { error: { message: response.statusText } };
-        }
-        console.error('CometAPI Error Response:', errorData);
-        throw new Error(errorData.error?.message || `خطای HTTP: ${response.status}`);
-    }
-
-    const data = await response.json();
-    if (data.choices && data.choices.length > 0 && data.choices[0].message && data.choices[0].message.content) {
-        return data.choices[0].message.content.trim();
-    } else {
-        console.error('Invalid response structure from CometAPI:', data);
-        throw new Error('پاسخ دریافت شده از سرویس ترجمه قابل پردازش نیست.');
-    }
-}
-
-
-function getLanguageName(langCode) {
-    const languages = { 'auto': 'auto-detect', 'fa': 'Persian (Farsi)', 'en': 'English', 'ar': 'Arabic', 'fr': 'French', 'de': 'German', 'es': 'Spanish', 'ru': 'Russian', 'zh': 'Chinese (Simplified)', 'ja': 'Japanese', 'ko': 'Korean', 'tr': 'Turkish', 'it': 'Italian', 'pt': 'Portuguese', 'hi': 'Hindi' };
-    return languages[langCode] || langCode;
-}
-
-function showNotification(message, type = 'info', iconClass = 'fas fa-info-circle') {
-    const iconEl = notificationEl.querySelector('i');
-   
-    notificationEl.classList.remove('success', 'error', 'info');
-    notificationEl.classList.add(type);
-   
-    if (type === 'success' && iconClass === 'fas fa-info-circle') iconClass = 'fas fa-check-circle';
-    else if (type === 'error' && iconClass === 'fas fa-info-circle') iconClass = 'fas fa-exclamation-triangle';
-   
-    iconEl.className = iconClass;
-    notificationTextEl.textContent = message;
-    notificationEl.classList.add('show');
-   
-    setTimeout(() => notificationEl.classList.remove('show'), 4000);
-}
-
-function toggleTheme() {
-    const body = document.body;
-    const themeIcon = themeToggleBtn.querySelector('i');
-    body.classList.toggle('dark-mode');
-    if (body.classList.contains('dark-mode')) {
-        themeIcon.className = 'fas fa-sun fa-beat';
-        localStorage.setItem('theme', 'dark');
-         setTimeout(() => themeIcon.classList.remove('fa-beat'), 1000);
-    } else {
-        themeIcon.className = 'fas fa-moon fa-beat';
-        localStorage.setItem('theme', 'light');
-        setTimeout(() => themeIcon.classList.remove('fa-beat'), 1000);
-    }
-}
-
-function loadTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    const themeIcon = themeToggleBtn.querySelector('i');
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        document.body.classList.add('dark-mode');
-        themeIcon.className = 'fas fa-sun';
-    } else {
-        document.body.classList.remove('dark-mode');
-        themeIcon.className = 'fas fa-moon';
-    }
-}
-
-function addToHistory(sourceText, translatedText, sourceLang, targetLang) {
-    const historyItem = { id: Date.now(), sourceText, translatedText, sourceLang, targetLang, timestamp: new Date().toISOString() };
-    let history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
-    history.unshift(historyItem);
-    if (history.length > 30) history = history.slice(0, 30);
-    localStorage.setItem('translationHistory', JSON.stringify(history));
-    updateHistoryDisplay();
-}
-
-function updateHistoryDisplay() {
-    historyListEl.innerHTML = '';
-    const history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
-    if (history.length === 0) {
-        historyListEl.innerHTML = `<div style="padding: calc(var(--spacing-unit) * 2.5); text-align: center; color: var(--text-color-muted); font-weight: 500;">تاریخچه ترجمه‌های شما هنوز خالی است.</div>`;
-        return;
-    }
-    history.forEach(item => {
-        const shortenedText = item.sourceText.length > 70 ? item.sourceText.substring(0, 70) + '...' : item.sourceText;
-        // For display, if sourceLang in history is 'auto', we show "خودکار".
-        // If it was detected and set before translation, it would be the detected lang code.
-        const sourceLangName = item.sourceLang === 'auto' ? 'خودکار' : getLanguageNameFa(item.sourceLang);
-        const targetLangName = getLanguageNameFa(item.targetLang);
-        const dateTime = new Date(item.timestamp);
-        const time = dateTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false });
-        const date = dateTime.toLocaleDateString('fa-IR-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' });
-
-        const historyItemElement = document.createElement('div');
-        historyItemElement.className = 'history-item';
-        historyItemElement.tabIndex = 0;
-        historyItemElement.innerHTML = `
-            <div class="history-text" title="${item.sourceText.replace(/"/g, '&quot;')}">${shortenedText}</div>
-            <div class="history-langs">${sourceLangName} <i class="fas fa-long-arrow-alt-left"></i> ${targetLangName}</div>
-            <div class="date-time">${date} - ${time}</div>
-        `;
-        historyItemElement.addEventListener('click', () => restoreTranslation(item));
-        historyItemElement.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                restoreTranslation(item);
-            }
+            sourceLangEl.addEventListener('change', () => {
+                if (sourceLangEl.value !== 'auto') {
+                    langDetectIndicatorEl.style.display = 'none';
+                }
+            });
         });
-        historyListEl.appendChild(historyItemElement);
-    });
-}
 
-function restoreTranslation(item) {
-    sourceLangEl.value = item.sourceLang; // This could be 'auto' or a specific lang
-    targetLangEl.value = item.targetLang;
-    sourceTextEl.value = item.sourceText;
-    targetTextEl.value = item.translatedText;
-    handleSourceTextInput(); // Update char count and trigger auto-detection if new sourceLang is 'auto'
-    showNotification('ترجمه از تاریخچه با موفقیت بازیابی شد.', 'success', 'fas fa-undo-alt');
-    sourceTextEl.focus();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
-function loadHistory() { updateHistoryDisplay(); }
+        function handleSourceTextInput() {
+            const text = sourceTextEl.value;
+            const charCount = text.length;
+            sourceCharCountEl.textContent = `${charCount} / 5000`;
 
-function getLanguageNameFa(langCode) {
-    const languages = { 'auto': 'خودکار', 'fa': 'فارسی', 'en': 'انگلیسی', 'ar': 'عربی', 'fr': 'فرانسوی', 'de': 'آلمانی', 'es': 'اسپانیایی', 'ru': 'روسی', 'zh': 'چینی', 'ja': 'ژاپنی', 'ko': 'کره‌ای', 'tr': 'ترکی', 'it': 'ایتالیایی', 'pt': 'پرتغالی', 'hi': 'هندی' };
-    return languages[langCode] || langCode;
-}
+            sourceCharCountEl.classList.remove('warning', 'danger');
+            if (charCount > 4800) {
+                sourceCharCountEl.classList.add('danger');
+            } else if (charCount > 4000) {
+                sourceCharCountEl.classList.add('warning');
+            }
 
-let recognition;
-let isRecognizing = false;
-let currentUtterance = null;
-const synth = window.speechSynthesis;
+            if (charCount > 5000) {
+                sourceTextEl.value = text.substring(0, 5000);
+                sourceCharCountEl.textContent = `5000 / 5000`;
+                showNotification('حداکثر تعداد کاراکتر (5000) وارد شده است.', 'error');
+            }
 
-function startVoiceInput() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        showNotification('مرورگر شما از تشخیص گفتار پشتیبانی نمی‌کند.', 'error', 'fas fa-microphone-slash');
-        return;
-    }
-    if (isRecognizing) {
-        recognition.stop();
-        return;
-    }
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    const sourceLang = sourceLangEl.value; // Use the current value, which might have been auto-detected
-    const langTagMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
-    recognition.lang = sourceLang === 'auto' ? 'fa-IR' : (langTagMap[sourceLang] || 'fa-IR'); // Default to Persian if 'auto' or unmapped
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    let finalTranscriptPart = ''; // Store only the transcript from the current recognition session
-
-    recognition.onstart = () => {
-        isRecognizing = true;
-        finalTranscriptPart = ''; // Reset for this session
-        sourceVoiceBtn.classList.add('recording');
-        sourceVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
-        sourceTextEl.placeholder = "در حال شنیدن فرمان شما...";
-        // Show notification with the language being listened for (could be auto-detected one)
-        const listeningLangForNotification = sourceLangEl.value === 'auto' ? 'fa' : sourceLangEl.value;
-        showNotification(`در حال شنیدن به زبان ${getLanguageNameFa(listeningLangForNotification)}...`, 'info', 'fas fa-microphone-alt');
-    };
-
-    recognition.onresult = event => {
-        let interimTranscript = '';
-        finalTranscriptPart = ''; // Rebuild finalTranscriptPart based on this event's final results
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-                finalTranscriptPart += event.results[i][0].transcript.trim() + ' ';
+            if (sourceLangEl.value === 'auto') {
+                if (text.trim().length === 0) {
+                    langDetectIndicatorEl.style.display = 'none';
+                } else {
+                    debouncedDetectLanguage(text.trim());
+                }
             } else {
-                interimTranscript += event.results[i][0].transcript;
+                langDetectIndicatorEl.style.display = 'none';
             }
         }
-        // Append interim to current text + final part of *this* session
-        sourceTextEl.value = sourceTextEl.value.substring(0, sourceTextEl.value.length - interimTranscript.length).trim() + (finalTranscriptPart.trim() ? ' ' + finalTranscriptPart.trim() : '') + (interimTranscript ? ' ' + interimTranscript.trim() : '');
-        sourceTextEl.value = sourceTextEl.value.trim(); // Clean up spaces
-        handleSourceTextInput(); // Update char count and potentially trigger language auto-detection
-    };
 
-    recognition.onerror = event => {
-        let msg = 'خطا در تشخیص گفتار';
-        if (event.error === 'no-speech') msg = 'هیچ گفتاری تشخیص داده نشد. لطفاً واضح‌تر صحبت کنید.';
-        else if (event.error === 'audio-capture') msg = 'مشکل در دریافت صدا از میکروفون. میکروفون خود را بررسی کنید.';
-        else if (event.error === 'not-allowed') msg = 'دسترسی به میکروفون مجاز نیست. لطفاً دسترسی را فعال کنید.';
-        else if (event.error === 'network') msg = 'خطای شبکه در سرویس تشخیص گفتار.';
-        else msg = `خطای تشخیص گفتار: ${event.error}`;
-        showNotification(msg, 'error', 'fas fa-exclamation-triangle');
-        isRecognizing = false;
-        sourceVoiceBtn.classList.remove('recording');
-        sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
-        sourceTextEl.placeholder = "متن خود را اینجا وارد کنید...";
-    };
+        // Shared function to create the core translation prompt
+        function createTranslationPrompt(sourceLangName, targetLangName, text) {
+             const activeToneBtn = document.querySelector('.tone-btn.active');
+            const selectedTone = activeToneBtn ? activeToneBtn.dataset.tone : 'auto';
 
-    recognition.onend = () => {
-        isRecognizing = false;
-        sourceVoiceBtn.classList.remove('recording');
-        sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
-        sourceTextEl.placeholder = "متن خود را اینجا وارد کنید یا از میکروفون استفاده نمایید...";
+            let toneInstruction = "";
+            if (selectedTone === 'formal') toneInstruction = `The translation must be in a formal and official tone.`;
+            else if (selectedTone === 'informal') toneInstruction = `The translation must be in an informal, colloquial, and friendly tone.`;
+            else if (selectedTone === 'emotional') toneInstruction = `The translation must be in an emotional tone, conveying the original feelings.`;
+            else if (selectedTone === 'street') toneInstruction = `The translation must be in a "street" or highly colloquial slangy tone.`;
+            else toneInstruction = `Your primary goal is to preserve the original text's tone. Analyze and replicate it meticulously.`;
+
+            return `You are an expert translator. Your task is to translate the user's text from ${sourceLangName} to ${targetLangName}.
+        Key Instructions:
+        1.  **Tone Application:** ${toneInstruction} This is a critical instruction.
+        2.  **Idioms & Nuances:** Meticulously translate idioms, metaphors, and cultural references to their closest natural equivalent in ${targetLangName}.
+        3.  **Output Format:** Return *only* the translated text. Do not include any extra notes or comments.
+        4.  **Fluency:** The translation must read as if it were originally written in ${targetLangName} by a native speaker.
+        5.  **Accuracy:** Ensure the core meaning and intent of the original text are perfectly conveyed.
+
+        Translate the following text:
+        "${text}"`;
+        }
         
-        // Append the final transcript from this session to the existing text
-        let existingText = sourceTextEl.value.replace(finalTranscriptPart.trim(), '').trim(); // Remove any part that was just finalized to avoid duplication
-        sourceTextEl.value = (existingText ? existingText + ' ' : '') + finalTranscriptPart.trim();
-        sourceTextEl.value = sourceTextEl.value.trim(); // Clean up spaces
+        // --- API CALL FUNCTIONS ---
 
-        handleSourceTextInput(); // Final update to char count and auto-detection
+        async function callGroqAPI(text, sourceLanguage, targetLanguage, model) {
+            // WARNING: Storing API keys in frontend code is insecure. Use a backend proxy for production.
+            const GROQ_API_KEY = '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'; // <--  کلید API گروک خود را اینجا قرار بده
+            const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-        if (sourceTextEl.value.trim()) {
-             setTimeout(() => {
-                if(document.getElementById('source-text').value.trim()) translateText();
-             }, 250);
-        }
-    };
-    // Before starting, ensure the base text doesn't include lingering interim results from a previous, unfinalized attempt.
-    // This is tricky; usually, onresult handles appending. If sourceTextEl is directly manipulated, it's complex.
-    // For simplicity, we'll assume onresult correctly builds up the text.
-    recognition.start();
-}
-
-function speakTranslation() {
-    const text = targetTextEl.value.trim();
-    if (!text) {
-        showNotification('ترجمه‌ای برای خواندن وجود ندارد.', 'error', 'fas fa-volume-mute');
-        return;
-    }
-    if (!synth) {
-        showNotification('مرورگر شما از تبدیل متن به گفتار پشتیبانی نمی‌کند.', 'error', 'fas fa-headset');
-        return;
-    }
-
-    if (synth.speaking) {
-        synth.cancel();
-        targetVoiceBtn.classList.remove('recording');
-        targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
-        if (currentUtterance && currentUtterance.text === text) {
-             currentUtterance = null;
-             return;
-        }
-    }
-
-    currentUtterance = new SpeechSynthesisUtterance(text);
-    const targetLang = targetLangEl.value;
-    const langVoiceMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
-    const targetSpeechLang = langVoiceMap[targetLang] || 'en-US';
-   
-    const voices = synth.getVoices();
-    let selectedVoice = voices.find(voice => voice.lang === targetSpeechLang && voice.localService);
-    if (!selectedVoice) selectedVoice = voices.find(voice => voice.lang === targetSpeechLang);
-    if (!selectedVoice) selectedVoice = voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]) && voice.localService);
-    if (!selectedVoice) selectedVoice = voices.find(voice => voice.lang.startsWith(targetLang.split('-')[0]));
-
-    if (selectedVoice) {
-        currentUtterance.voice = selectedVoice;
-    } else {
-        currentUtterance.lang = targetSpeechLang;
-        console.warn(`No specific voice found for ${targetSpeechLang}. Using browser default for language.`);
-    }
-   
-    currentUtterance.rate = 1.0;
-    currentUtterance.pitch = 1.0;
-
-    currentUtterance.onstart = () => {
-        targetVoiceBtn.classList.add('recording');
-        targetVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
-    };
-    currentUtterance.onend = () => {
-        targetVoiceBtn.classList.remove('recording');
-        targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
-        currentUtterance = null;
-    };
-    currentUtterance.onerror = event => {
-        showNotification("خطا در پخش صدا: " + event.error, 'error', 'fas fa-exclamation-circle');
-        targetVoiceBtn.classList.remove('recording');
-        targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
-        currentUtterance = null;
-    };
-
-    if (voices.length === 0 && synth.onvoiceschanged !== undefined) {
-        // Some browsers load voices asynchronously.
-        // This is a common pattern to handle that.
-        let voiceLoadRetries = 0;
-        const trySpeak = () => {
-            const currentVoices = synth.getVoices();
-            if (currentVoices.length > 0 || voiceLoadRetries >= 10) { // Max 10 retries (e.g., 1 sec)
-                if(currentVoices.length > 0 && !selectedVoice){ // Re-select voice if not found initially
-                     selectedVoice = currentVoices.find(voice => voice.lang === targetSpeechLang && voice.localService);
-                    if (!selectedVoice) selectedVoice = currentVoices.find(voice => voice.lang === targetSpeechLang);
-                    if (selectedVoice) currentUtterance.voice = selectedVoice;
-                }
-                synth.speak(currentUtterance);
-                if (synth.onvoiceschanged === trySpeak) { // Clean up self-listener
-                    synth.onvoiceschanged = null;
-                }
-            } else {
-                voiceLoadRetries++;
-                setTimeout(trySpeak, 100); // Retry after 100ms
+            if (GROQ_API_KEY === 'YOUR_GROQ_API_KEY_HERE' || !GROQ_API_KEY) {
+                throw new Error('سرویس Groq به درستی پیکربندی نشده. کلید API یافت نشد.');
             }
-        };
-        if(synth.onvoiceschanged !== trySpeak) { // Avoid multiple listeners
-             synth.onvoiceschanged = trySpeak;
+
+            const sourceLangName = sourceLanguage === 'auto' ? 'the auto-detected language' : getLanguageName(sourceLanguage);
+            const targetLangName = getLanguageName(targetLanguage);
+            const prompt = createTranslationPrompt(sourceLangName, targetLangName, text);
+
+            const payload = {
+                messages: [{ role: 'user', content: prompt }],
+                model: model,
+                temperature: parseFloat(tempSlider.value) || 0.4,
+                max_tokens: 2048
+            };
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${GROQ_API_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Groq API Error:', errorData);
+                throw new Error(errorData.error?.message || `خطای HTTP: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
+                return data.choices[0].message.content.trim();
+            } else {
+                 throw new Error('پاسخ دریافت شده از سرویس Groq قابل پردازش نیست.');
+            }
         }
-        trySpeak(); // Initial attempt in case voices are already loaded
-    } else {
-        synth.speak(currentUtterance);
-    }
-}
 
-// Ensure voices list is populated (especially for browsers like Chrome on some OS)
-if (typeof speechSynthesis !== 'undefined') {
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => {
-            console.log("لیست صداهای SpeechSynthesis به‌روز شد.");
-            // Can re-initialize voice selection logic here if needed globally
-        };
-    }
-    // Trigger loading voices if list is initially empty
-    if (speechSynthesis.getVoices().length === 0) {
-        speechSynthesis.getVoices();
-    }
-}
+        async function callGeminiAPI(text, sourceLanguage, targetLanguage, model) {
+            // WARNING: Storing API keys in frontend code is insecure. Use a backend proxy for production.
+            const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s'; // <-- کلید API جیمنای خود را اینجا قرار بده
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
 
+            if (GEMINI_API_KEY === 'YOUR_API_KEY_HERE' || !GEMINI_API_KEY) {
+                throw new Error('سرویس Gemini به درستی پیکربندی نشده. کلید API یافت نشد.');
+            }
+            
+            const sourceLangName = sourceLanguage === 'auto' ? 'the auto-detected language' : getLanguageName(sourceLanguage);
+            const targetLangName = getLanguageName(targetLanguage);
+            const prompt = createTranslationPrompt(sourceLangName, targetLangName, text);
+
+            const payload = {
+              contents: [{ parts: [{ "text": prompt }] }],
+              generationConfig: {
+                temperature: parseFloat(tempSlider.value) || 0.4,
+                topP: 0.95,
+                maxOutputTokens: 2048
+              }
+            };
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Gemini API Error:', errorData);
+                throw new Error(errorData.error?.message || `خطای HTTP: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                return data.candidates[0].content.parts[0].text.trim();
+            } else if (data.candidates && data.candidates[0].finishReason === 'SAFETY') {
+                throw new Error('ترجمه به دلیل محدودیت‌های ایمنی Gemini متوقف شد.');
+            } else {
+                throw new Error('پاسخ دریافت شده از سرویس Gemini قابل پردازش نیست.');
+            }
+        }
+
+        // This function will remain unchanged for language detection
+        async function getDetectedLanguageWithGemini(textToDetect) {
+             const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s'; // Uses Gemini key for detection
+             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+             const prompt = `You are a language detection assistant. Detect the language of the following text and respond with ONLY the two-letter ISO 639-1 code (e.g., "en", "fa"). Text: "${textToDetect.substring(0, 100)}"`;
+             const payload = { contents: [{ parts: [{ "text": prompt }] }], generationConfig: { temperature: 0.0 }};
+             try {
+                const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) return null;
+                const data = await response.json();
+                return data.candidates[0]?.content?.parts[0]?.text.trim().toLowerCase().slice(0, 2);
+             } catch (error) {
+                 return null;
+             }
+        }
+
+        // Main translation router
+        async function translateText() {
+            const sourceTextValue = sourceTextEl.value.trim();
+            if (!sourceTextValue) {
+                showNotification('لطفاً متنی برای ترجمه وارد کنید.', 'error', 'fas fa-keyboard');
+                return;
+            }
+            if (sourceLangEl.value !== 'auto' && sourceLangEl.value === targetLangEl.value) {
+                showNotification('زبان مبدأ و مقصد یکسان است!', 'info', 'fas fa-exchange-alt');
+                targetTextEl.value = sourceTextValue;
+                return;
+            }
+
+            mainTranslateBtn.classList.add('loading');
+            loadingIndicatorEl.style.display = 'flex';
+            targetTextEl.value = '';
+
+            const selectedOption = engineSelectorEl.options[engineSelectorEl.selectedIndex];
+            const provider = selectedOption.dataset.provider;
+            const model = selectedOption.value;
+
+            try {
+                let translation;
+                if (provider === 'gemini') {
+                    translation = await callGeminiAPI(sourceTextValue, sourceLangEl.value, targetLangEl.value, model);
+                } else if (provider === 'groq') {
+                    translation = await callGroqAPI(sourceTextValue, sourceLangEl.value, targetLangEl.value, model);
+                } else {
+                    throw new Error("موتور ترجمه انتخاب شده معتبر نیست.");
+                }
+
+                targetTextEl.value = translation;
+                showNotification('ترجمه با موفقیت انجام شد.', 'success', 'fas fa-check-double');
+                addToHistory(sourceTextValue, translation, sourceLangEl.value, targetLangEl.value);
+            } catch (error) {
+                console.error('خطا در ترجمه:', error);
+                targetTextEl.value = 'خطا در ترجمه رخ داد. لطفاً دوباره امتحان کنید.';
+                showNotification(`خطا در سرویس ترجمه: ${error.message}`, 'error', 'fas fa-server');
+            } finally {
+                mainTranslateBtn.classList.remove('loading');
+                loadingIndicatorEl.style.display = 'none';
+            }
+        }
+
+        function clearSourceText() {
+            sourceTextEl.value = '';
+            targetTextEl.value = '';
+            handleSourceTextInput();
+            sourceTextEl.focus();
+        }
+
+        function copyTranslation() {
+            const text = targetTextEl.value.trim();
+            if (!text) {
+                showNotification('ترجمه‌ای برای کپی کردن وجود ندارد.', 'error');
+                return;
+            }
+            navigator.clipboard.writeText(text)
+                .then(() => showNotification('متن ترجمه کپی شد!', 'success', 'fas fa-clipboard-check'))
+                .catch(() => showNotification('کپی خودکار ناموفق بود.', 'error'));
+        }
+
+        function shareTranslation() {
+            const text = targetTextEl.value.trim();
+            if (!text) {
+                showNotification('ترجمه‌ای برای اشتراک‌گذاری نیست.', 'error');
+                return;
+            }
+            if (navigator.share) {
+                navigator.share({ title: 'ترجمه از Ravid Translator Pro', text: text })
+                    .catch(error => { if (error.name !== 'AbortError') console.error(error); });
+            } else {
+                copyTranslation();
+                showNotification('قابلیت اشتراک‌گذاری مستقیم در این مرورگر نیست. متن کپی شد.', 'info');
+            }
+        }
+
+        function downloadTranslation() {
+            const text = targetTextEl.value.trim();
+            if (!text) {
+                showNotification('ترجمه‌ای برای دانلود وجود ندارد.', 'error');
+                return;
+            }
+            const filename = `RavidTranslate.txt`;
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showNotification('فایل ترجمه دانلود شد.', 'success', 'fas fa-file-download');
+        }
+
+        function swapLanguages() {
+            if (sourceLangEl.value === 'auto') {
+                showNotification('برای جابجایی، ابتدا زبان مبدأ را مشخص کنید.', 'info');
+                return;
+            }
+            [sourceLangEl.value, targetLangEl.value] = [targetLangEl.value, sourceLangEl.value];
+            [sourceTextEl.value, targetTextEl.value] = [targetTextEl.value, sourceTextEl.value];
+            handleSourceTextInput();
+            if (sourceTextEl.value.trim()) {
+                translateText();
+            }
+        }
+
+        function getLanguageName(langCode) {
+            const el = sourceLangEl.querySelector(`option[value="${langCode}"]`);
+            return el ? el.textContent : langCode;
+        }
+
+        function showNotification(message, type = 'info', iconClass = 'fas fa-info-circle') {
+            const iconEl = notificationEl.querySelector('i');
+            notificationEl.className = 'notification'; // Reset classes
+            notificationEl.classList.add(type);
+            iconEl.className = 'fas ' + (type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle');
+            notificationTextEl.textContent = message;
+            notificationEl.classList.add('show');
+            setTimeout(() => notificationEl.classList.remove('show'), 4000);
+        }
+
+        function syncThemeControls() {
+            const isDark = document.body.classList.contains('dark-mode');
+            themeSwitcher.checked = isDark;
+        }
+        
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            syncThemeControls();
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark-mode');
+            }
+            syncThemeControls();
+        }
+
+        function addToHistory(sourceText, translatedText, sourceLang, targetLang) {
+            let history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
+            const historyItem = { id: Date.now(), sourceText, translatedText, sourceLang, targetLang, timestamp: new Date().toISOString() };
+            history.unshift(historyItem);
+            if (history.length > 30) history = history.slice(0, 30);
+            localStorage.setItem('translationHistory', JSON.stringify(history));
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            historyListEl.innerHTML = '';
+            const history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
+            if (history.length === 0) {
+                historyListEl.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: var(--text-color-muted);">تاریخچه خالی است.</div>`;
+                return;
+            }
+            history.forEach(item => {
+                const sourceLangName = getLanguageName(item.sourceLang);
+                const targetLangName = getLanguageName(item.targetLang);
+                const dateTime = new Date(item.timestamp);
+                const time = dateTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+                const date = dateTime.toLocaleDateString('fa-IR-u-nu-latn');
+
+                const historyItemElement = document.createElement('div');
+                historyItemElement.className = 'history-item';
+                historyItemElement.tabIndex = 0;
+                historyItemElement.innerHTML = `
+                    <div class="history-text" title="${item.sourceText.replace(/"/g, '"')}">${item.sourceText.substring(0, 70)}...</div>
+                    <div class="history-langs">${sourceLangName} <i class="fas fa-long-arrow-alt-left"></i> ${targetLangName}</div>
+                    <div class="date-time">${date} - ${time}</div>
+                `;
+                historyItemElement.addEventListener('click', () => restoreTranslation(item));
+                historyListEl.appendChild(historyItemElement);
+            });
+        }
+
+        function restoreTranslation(item) {
+            sourceLangEl.value = item.sourceLang;
+            targetLangEl.value = item.targetLang;
+            sourceTextEl.value = item.sourceText;
+            targetTextEl.value = item.translatedText;
+            handleSourceTextInput();
+            showNotification('ترجمه از تاریخچه بازیابی شد.', 'success', 'fas fa-undo-alt');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function loadHistory() { updateHistoryDisplay(); }
+
+        let recognition;
+        let isRecognizing = false;
+        let currentUtterance = null;
+        const synth = window.speechSynthesis;
+
+        function startVoiceInput() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                showNotification('مرورگر شما از تشخیص گفتار پشتیبانی نمی‌کند.', 'error'); return;
+            }
+            if (isRecognizing) { recognition.stop(); return; }
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            const langTagMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
+            recognition.lang = sourceLangEl.value === 'auto' ? 'fa-IR' : (langTagMap[sourceLangEl.value] || 'fa-IR');
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            
+            recognition.onstart = () => {
+                isRecognizing = true;
+                sourceVoiceBtn.classList.add('recording');
+                sourceVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
+                sourceTextEl.placeholder = "در حال شنیدن...";
+            };
+
+            recognition.onresult = event => {
+                let finalTranscript = '';
+                let interimTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) finalTranscript += event.results[i][0].transcript;
+                    else interimTranscript += event.results[i][0].transcript;
+                }
+                sourceTextEl.value = finalTranscript + interimTranscript;
+            };
+            
+            recognition.onend = () => {
+                isRecognizing = false;
+                sourceVoiceBtn.classList.remove('recording');
+                sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
+                sourceTextEl.placeholder = "متن خود را اینجا وارد کنید...";
+                handleSourceTextInput();
+                if (sourceTextEl.value.trim()) translateText();
+            };
+
+            recognition.onerror = event => { showNotification(`خطای تشخیص گفتار: ${event.error}`, 'error'); };
+            recognition.start();
+        }
+
+        function speakTranslation() {
+            const text = targetTextEl.value.trim();
+            if (!text) { showNotification('ترجمه‌ای برای خواندن وجود ندارد.', 'error'); return; }
+            if (synth.speaking) { synth.cancel(); if (currentUtterance && currentUtterance.text === text) return; }
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            const langVoiceMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
+            currentUtterance.lang = langVoiceMap[targetLangEl.value] || 'en-US';
+            currentUtterance.onend = () => { targetVoiceBtn.classList.remove('recording'); targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>'; };
+            targetVoiceBtn.classList.add('recording'); targetVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
+            synth.speak(currentUtterance);
+        }
     </script>
 </body>
 </html>
