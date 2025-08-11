@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ravid Translator</title>
+    <title>Ravid Translator Pro</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         @font-face {
             font-family: 'Vazirmatn';
@@ -76,6 +77,7 @@
             --transition-medium: 0.3s ease-out;
             --transition-slow: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.26, 1.55);
+
             --text-color: var(--text-color-light);
             --text-color-muted: var(--text-color-muted-light);
             --bg-color: var(--bg-color-light);
@@ -85,6 +87,7 @@
             --primary-color-hover: var(--primary-color-dark);
             --secondary-color: var(--secondary-color-light);
             --surface-color-rgb: 255,255,255;
+
             --success-hue: 134; --error-hue: 354;
         }
 
@@ -99,17 +102,9 @@
             --secondary-color: var(--secondary-color-light);
             --surface-color-rgb: 35,39,49;
         }
-       
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-       
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
 
         body {
             font-family: var(--font-primary);
@@ -117,1115 +112,630 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
             transition: background-color var(--transition-medium), color var(--transition-medium);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
+            display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
         }
 
-        body::-webkit-scrollbar {
-            width: 10px;
-        }
-        body::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
+        body::-webkit-scrollbar { width: 10px; }
+        body::-webkit-scrollbar-track { background: var(--bg-color); }
         body::-webkit-scrollbar-thumb {
             background-color: var(--primary-color);
-            border-radius: 20px;
-            border: 2px solid var(--bg-color);
+            border-radius: 20px; border: 2px solid var(--bg-color);
         }
         body.dark-mode::-webkit-scrollbar-thumb {
             background-color: var(--primary-color-light);
-             border: 2px solid var(--bg-color-dark);
+            border: 2px solid var(--bg-color-dark);
         }
-        
-        /* --- START: HEADER AND SETTINGS STYLES --- */
+
+        /* Header */
         .header {
             padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5);
             color: var(--white);
             position: relative;
             background: var(--primary-gradient);
             border-bottom: 3px solid var(--primary-color-dark);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            overflow: visible; 
+            display: flex; justify-content: space-between; align-items: center;
+            overflow: visible;
         }
-
         .header::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ""; position: absolute; inset: 0;
             background-image:
-                radial-gradient(hsl(var(--primary-hue), 79%, 90%, 0.1) 1px, transparent 1px),
-                radial-gradient(hsl(var(--primary-hue), 79%, 90%, 0.1) 1px, transparent 1px);
+              radial-gradient(hsl(var(--primary-hue),79%,90%,0.1) 1px, transparent 1px),
+              radial-gradient(hsl(var(--primary-hue),79%,90%,0.1) 1px, transparent 1px);
             background-size: 30px 30px, 30px 30px;
             background-position: 0 0, 15px 15px;
-            animation: bgPatternAnim 30s linear infinite;
-            opacity: 0.5;
-            z-index: 1;
+            animation: bgPatternAnim 30s linear infinite; opacity: 0.5; z-index: 1;
         }
-
+        @keyframes bgPatternAnim { from{background-position:0 0,15px 15px} to{background-position:60px 60px,75px 75px} }
         .header h1 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            font-weight: 700;
-            margin: 0;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            letter-spacing: -0.5px;
-            z-index: 2;
+            font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; margin: 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3); letter-spacing: -0.5px; z-index: 2;
         }
-       
-        .header-actions {
-            position: relative;
-            z-index: 1005;
-        }
+        .header-actions { position: relative; z-index: 1005; display: flex; gap: 8px; }
 
         .header-icon-btn {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
-            color: #ffffff;
-            font-size: 1.5rem;
-            cursor: pointer;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            transition: all var(--transition-medium);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #ffffff; font-size: 1.5rem; cursor: pointer;
+            width: 48px; height: 48px; border-radius: 50%;
+            transition: all var(--transition-medium); display: flex; align-items: center; justify-content: center;
         }
+        .header-icon-btn:hover { background-color: rgba(255,255,255,0.25); transform: scale(1.1) rotate(25deg); }
 
-        .header-icon-btn:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            transform: scale(1.1) rotate(25deg);
-        }
-
-        .settings-popup {
-            position: absolute;
-            top: calc(100% + 12px);
-            right: 0; /* Changed from left to right */
-            width: 320px;
-            background-color: hsla(var(--surface-color-rgb, 255, 255, 255), 0.75);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            backdrop-filter: blur(12px) saturate(180%);
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-xl);
-            border: 1px solid hsla(var(--border-color-light), 0.5);
-            z-index: 1002;
+        .quick-help-btn { font-size: 1.25rem; }
+        .quick-help-popup {
+            position: absolute; top: calc(100% + 12px); right: 54px;
+            width: 280px; background-color: hsla(var(--surface-color-rgb,255,255,255), 0.85);
+            -webkit-backdrop-filter: blur(12px) saturate(180%); backdrop-filter: blur(12px) saturate(180%);
+            border-radius: var(--border-radius-lg); box-shadow: var(--shadow-xl);
+            border: 1px solid hsla(var(--border-color-light), 0.5); z-index: 1002;
             padding: calc(var(--spacing-unit) * 2);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px) scale(0.95);
-            transform-origin: top right; /* Added for correct animation */
+            opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.95);
+            transform-origin: top right;
             transition: opacity var(--transition-medium) ease-out, transform var(--transition-medium) ease-out, visibility 0s var(--transition-medium);
             color: var(--text-color);
         }
+        .quick-help-popup.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); transition: opacity var(--transition-bounce) 0.1s, transform var(--transition-bounce) 0.1s; }
+        .quick-help-list { font-size: 0.92rem; color: var(--text-color-muted); line-height: 1.85; }
+        .quick-help-list b { color: var(--text-color); }
 
-        body.dark-mode .settings-popup {
-            background-color: hsla(var(--surface-color-rgb, 35, 39, 49), 0.75);
+        .settings-popup {
+            position: absolute; top: calc(100% + 12px); right: 0;
+            width: 380px; max-height: 75vh; overflow: auto;
+            background-color: hsla(var(--surface-color-rgb, 255,255,255), 0.85);
+            -webkit-backdrop-filter: blur(12px) saturate(180%); backdrop-filter: blur(12px) saturate(180%);
+            border-radius: var(--border-radius-lg); box-shadow: var(--shadow-xl);
+            border: 1px solid hsla(var(--border-color-light), 0.5); z-index: 1002;
+            padding: calc(var(--spacing-unit) * 2);
+            opacity: 0; visibility: hidden; transform: translateY(10px) scale(0.95); transform-origin: top right;
+            transition: opacity var(--transition-medium), transform var(--transition-medium), visibility 0s var(--transition-medium);
+            color: var(--text-color);
+        }
+        body.dark-mode .settings-popup,
+        body.dark-mode .quick-help-popup {
+            background-color: hsla(var(--surface-color-rgb, 35,39,49), 0.8);
             border: 1px solid hsla(var(--border-color-dark), 0.6);
         }
-
-        .settings-popup.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-            transition: opacity var(--transition-bounce) 0.1s, transform var(--transition-bounce) 0.1s, visibility 0s;
-        }
-
-        .settings-section {
-            padding: var(--spacing-unit);
-            margin-bottom: var(--spacing-unit);
-        }
-        .settings-section:last-child {
-            margin-bottom: 0;
-        }
-
+        .settings-popup.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); transition: opacity var(--transition-bounce) 0.1s, transform var(--transition-bounce) 0.1s, visibility 0s; }
+        .settings-section { padding: var(--spacing-unit); margin-bottom: var(--spacing-unit); }
         .settings-section h4 {
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--primary-color);
+            font-weight: 600; font-size: 1rem; color: var(--primary-color);
             margin-bottom: calc(var(--spacing-unit) * 1.5);
             padding-bottom: calc(var(--spacing-unit) * 1.5);
             border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: calc(var(--spacing-unit) * 1.2);
+            display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.2);
         }
-        body.dark-mode .settings-section h4 {
-            color: var(--primary-color-light);
-        }
-
+        body.dark-mode .settings-section h4 { color: var(--primary-color-light); }
         .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: calc(var(--spacing-unit) * 1.2) var(--spacing-unit);
             gap: calc(var(--spacing-unit) * 2);
             border-radius: var(--border-radius-sm);
             transition: background-color var(--transition-fast);
         }
-        .setting-item:hover {
-            background-color: hsla(var(--primary-hue), 20%, 50%, 0.08);
-        }
-        body.dark-mode .setting-item:hover {
-            background-color: hsla(var(--primary-hue), 15%, 50%, 0.15);
-        }
-
-        .setting-item label {
-            font-weight: 500;
-            font-size: 0.95rem;
-            white-space: nowrap;
-        }
-
+        .setting-item:hover { background-color: hsla(var(--primary-hue), 20%, 50%, 0.08); }
+        body.dark-mode .setting-item:hover { background-color: hsla(var(--primary-hue), 15%, 50%, 0.15); }
+        .setting-item label { font-weight: 500; font-size: 0.95rem; white-space: nowrap; }
         .toggle-switch {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 48px;
-            height: 26px;
-            background-color: hsla(var(--primary-hue), 15%, 50%, 0.5);
-            border-radius: 13px;
-            position: relative;
-            cursor: pointer;
-            transition: background-color var(--transition-medium);
+            -webkit-appearance: none; appearance: none;
+            width: 48px; height: 26px; background-color: hsla(var(--primary-hue), 15%, 50%, 0.5);
+            border-radius: 13px; position: relative; cursor: pointer; transition: background-color var(--transition-medium);
         }
         .toggle-switch::before {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            top: 3px;
-            right: 25px;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%;
+            top: 3px; right: 25px; background-color: white; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             transition: right var(--transition-medium);
         }
-        .toggle-switch:checked {
-            background-color: var(--primary-color);
+        .toggle-switch:checked { background-color: var(--primary-color); }
+        body.dark-mode .toggle-switch:checked { background-color: var(--secondary-color); }
+        .toggle-switch:checked::before { right: 3px; }
+        .settings-popup select, .settings-popup input[type="range"], .settings-popup input[type="number"], .settings-popup textarea {
+            flex-grow: 1; width: 100%;
         }
-        body.dark-mode .toggle-switch:checked {
-             background-color: var(--secondary-color);
+        .settings-popup .inline {
+            display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
         }
-        .toggle-switch:checked::before {
-            right: 3px;
+        .settings-popup textarea {
+            resize: vertical; min-height: 64px; padding: 8px 10px; border-radius: 10px; border: 1.5px solid var(--border-color);
+            background-color: var(--surface-color); color: var(--text-color); font-family: var(--font-primary);
         }
 
-        .settings-popup select,
-        .settings-popup input[type="range"] {
-            flex-grow: 1;
-        }
-        .settings-popup select {
-            min-width: 0;
-            width: auto;
-        }
-         .settings-popup input[type="range"] {
-            cursor: pointer;
-            accent-color: var(--primary-color);
-        }
-        /* --- END: HEADER AND SETTINGS STYLES --- */
-
-        .container {
-            flex: 1;
-            padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
-            max-width: 1280px;
-            margin: 0 auto;
-            width: 100%;
-        }
-       
+        /* Container & Panels */
+        .container { flex: 1; padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2); max-width: 1280px; margin: 0 auto; width: 100%; }
         .translator-box {
-            display: flex;
-            flex-direction: column;
-            gap: calc(var(--spacing-unit) * 3);
-            background: var(--surface-color);
-            border-radius: var(--border-radius-lg);
-            padding: calc(var(--spacing-unit) * 3.5);
-            box-shadow: var(--shadow-xl);
+            display: flex; flex-direction: column; gap: calc(var(--spacing-unit) * 3);
+            background: var(--surface-color); border-radius: var(--border-radius-lg);
+            padding: calc(var(--spacing-unit) * 3.5); box-shadow: var(--shadow-xl);
             transition: transform var(--transition-medium), box-shadow var(--transition-medium);
-            border: 1px solid var(--border-color);
-            position: relative;
+            border: 1px solid var(--border-color); position: relative;
         }
         .translator-box::after {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            border-radius: inherit;
-            background: linear-gradient(45deg, var(--primary-color-light), var(--accent-color), var(--secondary-color-light));
-            z-index: -1;
-            opacity: 0;
-            filter: blur(15px);
-            transition: opacity var(--transition-slow);
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border-radius: inherit; background: linear-gradient(45deg, var(--primary-color-light), var(--accent-color), var(--secondary-color-light));
+            z-index: -1; opacity: 0; filter: blur(15px); transition: opacity var(--transition-slow);
         }
-        .translator-box:hover::after {
-            opacity: 0.15;
-        }
-        body.dark-mode .translator-box:hover::after {
-            opacity: 0.25;
-        }
-       
-        @media (min-width: 1024px) {
-            .translator-box {
-                flex-direction: row;
-                gap: calc(var(--spacing-unit) * 4);
-            }
-        }
-       
-        .language-panel {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-unit);
-            position: relative;
-        }
-        #lang-detect-indicator {
-            color: var(--primary-color);
-            vertical-align: middle;
-        }
-        body.dark-mode #lang-detect-indicator {
-            color: var(--primary-color-light);
-        }
+        .translator-box:hover::after { opacity: 0.15; }
+        body.dark-mode .translator-box:hover::after { opacity: 0.25; }
+        @media (min-width: 1024px) { .translator-box { flex-direction: row; gap: calc(var(--spacing-unit) * 4); } }
 
+        .language-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-unit); position: relative; flex-wrap: wrap; gap: 8px; }
         .language-label {
-            font-weight: 600;
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            position: absolute;
-            top: calc(var(--spacing-unit) * -2.5);
-            right: var(--spacing-unit);
-            background-color: var(--surface-color);
-            padding: 0 calc(var(--spacing-unit) * 0.5);
-            border-radius: var(--border-radius-sm);
-            transition: color var(--transition-medium), background-color var(--transition-medium);
+            font-weight: 600; color: var(--primary-color); font-size: 0.9rem;
+            position: absolute; top: calc(var(--spacing-unit) * -2.5); right: var(--spacing-unit);
+            background-color: var(--surface-color); padding: 0 calc(var(--spacing-unit) * 0.5);
+            border-radius: var(--border-radius-sm); transition: color var(--transition-medium), background-color var(--transition-medium);
         }
-       
-        .language-selector {
-            display: flex;
-            gap: var(--spacing-unit);
-            align-items: center;
-            margin: 0 auto;
+        .detected-badge {
+            font-size: 0.8rem; color: var(--text-color-muted); margin-right: 8px; display: none;
         }
-       
+        #lang-detect-indicator { color: var(--primary-color); vertical-align: middle; }
+        body.dark-mode #lang-detect-indicator { color: var(--primary-color-light); }
+
+        .language-selector { display: flex; gap: var(--spacing-unit); align-items: center; margin: 0 auto; }
         .swap-btn {
-            background: var(--secondary-gradient);
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            background: var(--secondary-gradient); border: none; border-radius: 50%; width: 60px; height: 60px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
             transition: transform var(--transition-bounce), box-shadow var(--transition-medium);
-            box-shadow: 0 3px 8px hsla(var(--secondary-hue), 90%, 50%, 0.4);
-            z-index: 10;
-            flex-shrink: 0;
+            box-shadow: 0 3px 8px hsla(var(--secondary-hue), 90%, 50%, 0.4); z-index: 10; flex-shrink: 0;
         }
-       
-        .swap-btn:hover {
-            transform: scale(1.1) rotate(25deg);
-            box-shadow: 0 6px 15px hsla(var(--secondary-hue), 90%, 50%, 0.5);
-        }
-        .swap-btn:active {
-            transform: scale(0.95) rotate(10deg);
-        }
-       
-        .swap-btn svg {
-            width: 28px; height: 28px;
-        }
-        .swap-btn svg path {
-            stroke: #ffffff;
-            stroke-width: 2.5;
-        }
-        body.dark-mode .swap-btn svg path {
-             stroke: var(--text-color-dark);
-        }
-       
-        .text-area-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            min-width: 0;
-        }
-       
+        .swap-btn:hover { transform: scale(1.1) rotate(25deg); box-shadow: 0 6px 15px hsla(var(--secondary-hue), 90%, 50%, 0.5); }
+        .swap-btn:active { transform: scale(0.95) rotate(10deg); }
+        .swap-btn svg { width: 28px; height: 28px; }
+        .swap-btn svg path { stroke: #ffffff; stroke-width: 2.5; }
+        body.dark-mode .swap-btn svg path { stroke: var(--text-color-dark); }
+
+        .text-area-container { flex: 1; display: flex; flex-direction: column; position: relative; min-width: 0; }
         .text-area {
-            width: 100%;
-            height: 300px;
-            padding: calc(var(--spacing-unit) * 2);
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius-md);
-            resize: none;
-            font-family: var(--font-primary);
-            font-size: 1.05rem;
-            line-height: 1.75;
-            background-color: var(--surface-color);
-            color: var(--text-color);
+            width: 100%; height: 300px; padding: calc(var(--spacing-unit) * 2);
+            border: 2px solid var(--border-color); border-radius: var(--border-radius-md);
+            resize: none; font-family: var(--font-primary); font-size: 1.05rem; line-height: 1.75;
+            background-color: var(--surface-color); color: var(--text-color);
             transition: border-color var(--transition-medium), box-shadow var(--transition-medium), background-color var(--transition-medium);
         }
-        .text-area::placeholder {
-            color: var(--text-color-muted);
-            opacity: 0.8;
-        }
-       
+        .text-area::placeholder { color: var(--text-color-muted); opacity: 0.8; }
         .text-area:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 60%, 0.2), var(--shadow-sm);
-            background-color: var(--surface-color);
+            outline: none; border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 60%, 0.2), var(--shadow-sm); background-color: var(--surface-color);
         }
-        body.dark-mode .text-area:focus {
-            box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 70%, 0.25), var(--shadow-sm);
-        }
+        body.dark-mode .text-area:focus { box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 70%, 0.25), var(--shadow-sm); }
+        .text-area::-webkit-scrollbar { width: 8px; }
+        .text-area::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 60%, 0.5); border-radius: 10px; }
+        .text-area:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 60%, 0.8); }
+        body.dark-mode .text-area::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.4); }
+        body.dark-mode .text-area:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.7); }
 
-        .text-area::-webkit-scrollbar {
-            width: 8px;
-        }
-        .text-area::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: var(--border-radius-md);
-        }
-        .text-area::-webkit-scrollbar-thumb {
-            background-color: hsla(var(--primary-hue), 79%, 60%, 0.5);
-            border-radius: 10px;
-        }
-        .text-area:hover::-webkit-scrollbar-thumb {
-            background-color: hsla(var(--primary-hue), 79%, 60%, 0.8);
-        }
-        body.dark-mode .text-area::-webkit-scrollbar-thumb {
-            background-color: hsla(var(--primary-hue), 79%, 70%, 0.4);
-        }
-         body.dark-mode .text-area:hover::-webkit-scrollbar-thumb {
-            background-color: hsla(var(--primary-hue), 79%, 70%, 0.7);
-        }
-
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            margin-top: var(--spacing-unit);
-            align-items: center;
-            gap: var(--spacing-unit);
-        }
-       
+        .controls { display: flex; justify-content: space-between; margin-top: var(--spacing-unit); align-items: center; gap: var(--spacing-unit); flex-wrap: wrap; }
         .btn {
-            border: none;
-            border-radius: var(--border-radius-md);
-            cursor: pointer;
-            font-family: var(--font-primary);
-            font-weight: 600;
+            border: none; border-radius: var(--border-radius-md); cursor: pointer; font-family: var(--font-primary); font-weight: 600;
             padding: calc(var(--spacing-unit) * 1.2) calc(var(--spacing-unit) * 2.2);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-unit);
-            transition: all var(--transition-fast);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
+            display: inline-flex; align-items: center; justify-content: center; gap: var(--spacing-unit);
+            transition: all var(--transition-fast); text-decoration: none; position: relative; overflow: hidden;
         }
-        .btn i {
-            transition: transform var(--transition-fast);
-        }
-        .btn:hover i {
-            transform: scale(1.1);
-        }
+        .btn i { transition: transform var(--transition-fast); }
+        .btn:hover i { transform: scale(1.1); }
 
         .translate-btn {
-            background: var(--primary-gradient);
-            color: #ffffff;
+            background: var(--primary-gradient); color: #ffffff;
             padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
-            font-size: 1.1rem;
-            font-weight: 700;
-            box-shadow: 0 4px 12px hsla(var(--primary-hue), 79%, 50%, 0.35);
+            font-size: 1.1rem; font-weight: 700; box-shadow: 0 4px 12px hsla(var(--primary-hue), 79%, 50%, 0.35);
         }
-       
-        .translate-btn:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 7px 20px hsla(var(--primary-hue), 79%, 50%, 0.45);
-        }
-       
-        .translate-btn:active {
-            transform: translateY(0px) scale(0.98);
-            box-shadow: 0 2px 8px hsla(var(--primary-hue), 79%, 50%, 0.3);
-        }
-
-        .translate-btn.loading {
-            pointer-events: none;
-            color: transparent !important;
-        }
-        .translate-btn.loading .btn-text, .translate-btn.loading .btn-icon {
-            visibility: hidden;
-        }
+        .translate-btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 7px 20px hsla(var(--primary-hue), 79%, 50%, 0.45); }
+        .translate-btn:active { transform: translateY(0px) scale(0.98); box-shadow: 0 2px 8px hsla(var(--primary-hue), 79%, 50%, 0.3); }
+        .translate-btn.loading { pointer-events: none; color: transparent !important; }
+        .translate-btn.loading .btn-text, .translate-btn.loading .btn-icon { visibility: hidden; }
         .translate-btn .spinner {
-            display: none;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: #ffffff;
-            border-radius: 50%;
+            display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #ffffff; border-radius: 50%;
             animation: spin 0.6s linear infinite;
         }
-        .translate-btn.loading .spinner {
-            display: block;
-        }
-       
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .translate-btn.loading .spinner { display: block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .clear-btn {
-            background-color: transparent;
-            color: var(--text-color-muted);
-            border: 1.5px solid var(--border-color);
+        .cancel-btn {
+            background-color: #ff4d4f; color: #fff; display: none;
         }
-       
-        .clear-btn:hover {
-            background-color: hsla(var(--primary-hue), 20%, 95%, 1);
-            border-color: hsla(var(--primary-hue), 20%, 80%, 1);
-            color: var(--text-color);
-        }
-        body.dark-mode .clear-btn {
-            color: var(--text-color-muted-dark);
-            border-color: var(--border-color-dark);
-        }
-        body.dark-mode .clear-btn:hover {
-            background-color: hsla(var(--primary-hue), 15%, 25%, 1);
-            border-color: hsla(var(--primary-hue), 15%, 40%, 1);
-            color: var(--text-color-dark);
-        }
+        .cancel-btn.show { display: inline-flex; }
 
-        .copy-btn {
-            background-color: hsl(var(--primary-hue), 60%, 96%);
-            color: var(--primary-color);
-            border: 1px solid hsl(var(--primary-hue), 60%, 90%);
-        }
-        .copy-btn:hover {
-            background-color: hsl(var(--primary-hue), 60%, 92%);
-            border-color: hsl(var(--primary-hue), 60%, 85%);
-            transform: scale(1.02);
-        }
-         body.dark-mode .copy-btn {
-            background-color: hsla(var(--primary-hue), 20%, 28%, 1);
-            color: var(--primary-color-light);
-            border-color: hsla(var(--primary-hue), 20%, 35%, 1);
-        }
-        body.dark-mode .copy-btn:hover {
-            background-color: hsla(var(--primary-hue), 20%, 32%, 1);
-        }
-       
+        .clear-btn { background-color: transparent; color: var(--text-color-muted); border: 1.5px solid var(--border-color); }
+        .clear-btn:hover { background-color: hsla(var(--primary-hue), 20%, 95%, 1); border-color: hsla(var(--primary-hue), 20%, 80%, 1); color: var(--text-color); }
+        body.dark-mode .clear-btn { color: var(--text-color-muted-dark); border-color: var(--border-color-dark); }
+        body.dark-mode .clear-btn:hover { background-color: hsla(var(--primary-hue), 15%, 25%, 1); border-color: hsla(var(--primary-hue), 15%, 40%, 1); color: var(--text-color-dark); }
+
+        .copy-btn { background-color: hsl(var(--primary-hue), 60%, 96%); color: var(--primary-color); border: 1px solid hsl(var(--primary-hue), 60%, 90%); }
+        .copy-btn:hover { background-color: hsl(var(--primary-hue), 60%, 92%); border-color: hsl(var(--primary-hue), 60%, 85%); transform: scale(1.02); }
+        body.dark-mode .copy-btn { background-color: hsla(var(--primary-hue), 20%, 28%, 1); color: var(--primary-color-light); border-color: hsla(var(--primary-hue), 20%, 35%, 1); }
+        body.dark-mode .copy-btn:hover { background-color: hsla(var(--primary-hue), 20%, 32%, 1); }
+
         select {
             padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 2);
             padding-left: calc(var(--spacing-unit) * 5);
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius-md);
-            font-family: var(--font-primary);
-            font-weight: 500;
-            background-color: var(--surface-color);
-            color: var(--text-color);
-            min-width: 180px;
-            cursor: pointer;
-            transition: all var(--transition-medium);
+            border: 2px solid var(--border-color); border-radius: var(--border-radius-md);
+            font-family: var(--font-primary); font-weight: 500;
+            background-color: var(--surface-color); color: var(--text-color);
+            min-width: 180px; cursor: pointer; transition: all var(--transition-medium);
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: left calc(var(--spacing-unit) * 1.5) center;
+            background-repeat: no-repeat; background-position: left calc(var(--spacing-unit) * 1.5) center;
         }
         body.dark-mode select {
-             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23e9ecef' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='%23e9ecef' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
         }
-       
-        select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 60%, 0.15);
-        }
-        select:hover {
-            border-color: hsla(var(--primary-hue), 79%, 70%, 0.7);
-        }
-       
-        .loading {
-            display: none;
-            text-align: center;
-            padding: calc(var(--spacing-unit) * 4) 0;
-            font-size: 1.1rem;
-            color: var(--text-color-muted);
-        }
-       
+        select:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 4px hsla(var(--primary-hue), 79%, 60%, 0.15); }
+        select:hover { border-color: hsla(var(--primary-hue), 79%, 70%, 0.7); }
+
+        .loading { display: none; text-align: center; padding: calc(var(--spacing-unit) * 4) 0; font-size: 1.05rem; color: var(--text-color-muted); }
         .loader {
-            border: 6px solid hsla(var(--primary-hue), 79%, 60%, 0.2);
-            border-radius: 50%;
-            border-top: 6px solid var(--primary-color);
-            width: 60px;
-            height: 60px;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto calc(var(--spacing-unit) * 2);
+            border: 6px solid hsla(var(--primary-hue), 79%, 60%, 0.2); border-radius: 50%;
+            border-top: 6px solid var(--primary-color); width: 60px; height: 60px;
+            animation: spin 0.7s linear infinite; margin: 0 auto calc(var(--spacing-unit) * 2);
         }
-       
-        .char-count {
-            font-size: 0.9rem;
-            color: var(--text-color-muted);
-            transition: color var(--transition-medium), transform var(--transition-fast);
-            font-weight: 500;
-        }
-       
+
+        .progress { width: 100%; height: 10px; background: rgba(0,0,0,0.07); border-radius: 999px; overflow: hidden; display: none; }
+        .progress-bar { width: 0%; height: 100%; background: var(--secondary-gradient); transition: width 0.25s ease; }
+
+        .char-count { font-size: 0.9rem; color: var(--text-color-muted); transition: color var(--transition-medium), transform var(--transition-fast); font-weight: 500; }
         .char-count.warning { color: var(--warning-color); transform: scale(1.05); }
         .char-count.danger { color: var(--error-color); font-weight: 600; transform: scale(1.1); }
-       
+
         .footer {
             background-color: var(--surface-color);
             padding: calc(var(--spacing-unit) * 4) calc(var(--spacing-unit) * 2);
-            text-align: center;
-            color: var(--text-color-muted);
+            text-align: center; color: var(--text-color-muted);
             margin-top: calc(var(--spacing-unit) * 6);
             border-top: 1px solid var(--border-color);
             transition: background-color var(--transition-medium), border-color var(--transition-medium);
         }
-       
-        .footer p {
-            margin: var(--spacing-unit) 0;
-            font-size: 0.95rem;
-        }
+        .footer p { margin: var(--spacing-unit) 0; font-size: 0.95rem; }
         .footer .fa-heart { color: var(--error-color); animation: heartbeat 1.5s infinite ease-in-out; }
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-       
-        .footer .social-links {
-            margin-top: calc(var(--spacing-unit) * 2);
-            display: flex;
-            justify-content: center;
-            gap: calc(var(--spacing-unit) * 2.5);
-        }
-       
-        .footer .social-links a {
-            color: var(--text-color-muted);
-            font-size: 1.6rem;
-            transition: color var(--transition-medium), transform var(--transition-medium);
-        }
-       
-        .footer .social-links a:hover {
-            color: var(--primary-color);
-            transform: translateY(-4px) scale(1.15);
-        }
-       
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .footer .social-links { margin-top: calc(var(--spacing-unit) * 2); display: flex; justify-content: center; gap: calc(var(--spacing-unit) * 2.5); }
+        .footer .social-links a { color: var(--text-color-muted); font-size: 1.6rem; transition: color var(--transition-medium), transform var(--transition-medium); }
+        .footer .social-links a:hover { color: var(--primary-color); transform: translateY(-4px) scale(1.15); }
+
         .notification {
-            position: fixed;
-            top: calc(var(--spacing-unit) * 3);
-            left: 50%;
+            position: fixed; top: calc(var(--spacing-unit) * 3); left: 50%;
             transform: translateX(-50%) translateY(-150px) scale(0.9);
-            color: #ffffff;
-            padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 3.5);
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-xl);
-            display: flex;
-            align-items: center;
-            gap: calc(var(--spacing-unit) * 1.5);
-            font-weight: 600;
-            font-size: 1.05rem;
-            z-index: 1000;
-            opacity: 0;
+            color: #ffffff; padding: calc(var(--spacing-unit) * 2) calc(var(--spacing-unit) * 3.5);
+            border-radius: var(--border-radius-md); box-shadow: var(--shadow-xl);
+            display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.5);
+            font-weight: 600; font-size: 1.05rem; z-index: 1000; opacity: 0;
             transition: transform var(--transition-bounce), opacity var(--transition-medium);
             background: rgba(0, 0, 0, 0.5);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%); backdrop-filter: blur(12px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .notification.success { background: hsla(var(--success-hue, 134), 61%, 41%, 0.7); }
         .notification.error { background: hsla(var(--error-hue, 354), 70%, 54%, 0.7); }
-        body.dark-mode .notification {
-            background: rgba(40, 43, 51, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        body.dark-mode .notification { background: rgba(40, 43, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); }
         body.dark-mode .notification.success { background: hsla(var(--success-hue, 134), 61%, 35%, 0.7); }
         body.dark-mode .notification.error { background: hsla(var(--error-hue, 354), 70%, 48%, 0.7); }
-
-        .notification.show {
-            transform: translateX(-50%) translateY(0) scale(1);
-            opacity: 1;
-        }
+        .notification.show { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
         .notification i { font-size: 1.3em; }
 
-        .language-feature {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: calc(var(--spacing-unit) * 3.5);
-            margin-top: calc(var(--spacing-unit) * 7);
-        }
-       
+        .language-feature { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: calc(var(--spacing-unit) * 3.5); margin-top: calc(var(--spacing-unit) * 7); }
         .feature-item {
-            background: var(--surface-color);
-            border-radius: var(--border-radius-lg);
-            padding: calc(var(--spacing-unit) * 3);
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow var(--transition-medium);
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
+            background: var(--surface-color); border-radius: var(--border-radius-lg); padding: calc(var(--spacing-unit) * 3);
+            text-align: center; box-shadow: var(--shadow-lg); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow var(--transition-medium);
+            border: 1px solid var(--border-color); position: relative; overflow: hidden;
         }
-       
-        .feature-item:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: var(--shadow-xl);
-        }
+        .feature-item:hover { transform: translateY(-10px) scale(1.03); box-shadow: var(--shadow-xl); }
         .feature-item::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
+            content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-            transition: left 0.7s ease-in-out;
+            transform: skewX(-25deg); transition: left 0.7s ease-in-out;
         }
-        .feature-item:hover::before {
-            left: 150%;
-        }
-        body.dark-mode .feature-item::before {
-             background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
-        }
-       
+        .feature-item:hover::before { left: 150%; }
+        body.dark-mode .feature-item::before { background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%); }
         .feature-icon {
             background: linear-gradient(135deg, hsla(var(--primary-hue), 79%, 60%, 0.15) 0%, hsla(var(--primary-hue), 79%, 40%, 0.1) 100%);
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto calc(var(--spacing-unit) * 2.5);
-            color: var(--primary-color);
-            font-size: 2.2rem;
-            transition: all var(--transition-slow);
+            width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto calc(var(--spacing-unit) * 2.5); color: var(--primary-color); font-size: 2.2rem; transition: all var(--transition-slow);
         }
-        .feature-item:hover .feature-icon {
-            background: var(--primary-gradient);
-            color: #ffffff;
-            transform: rotateY(360deg) scale(1.1);
-            box-shadow: 0 5px 15px hsla(var(--primary-hue), 79%, 50%, 0.3);
-        }
-       
-        .feature-title {
-            font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: var(--spacing-unit);
-            color: var(--text-color);
-        }
+        .feature-item:hover .feature-icon { background: var(--primary-gradient); color: #ffffff; transform: rotateY(360deg) scale(1.1); box-shadow: 0 5px 15px hsla(var(--primary-hue), 79%, 50%, 0.3); }
+        .feature-title { font-weight: 700; font-size: 1.3rem; margin-bottom: var(--spacing-unit); color: var(--text-color); }
         body.dark-mode .feature-title { color: var(--primary-color-light); }
-       
-        .feature-desc {
-            color: var(--text-color-muted);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-       
+        .feature-desc { color: var(--text-color-muted); font-size: 0.95rem; line-height: 1.7; }
+
         .target-container { position: relative; }
-       
         .action-buttons {
-            position: absolute;
-            top: calc(var(--spacing-unit) * 1.5);
-            left: calc(var(--spacing-unit) * 1.5);
-            display: flex;
-            gap: calc(var(--spacing-unit) * 0.75);
+            position: absolute; top: calc(var(--spacing-unit) * 1.5); left: calc(var(--spacing-unit) * 1.5);
+            display: flex; gap: calc(var(--spacing-unit) * 0.75);
             background: hsla(var(--surface-color-rgb, 255,255,255), 0.8);
-            padding: calc(var(--spacing-unit) * 0.5);
-            border-radius: var(--border-radius-sm);
-            backdrop-filter: blur(5px);
-            box-shadow: var(--shadow-xs);
-            opacity: 0.7;
-            transition: opacity var(--transition-medium);
+            padding: calc(var(--spacing-unit) * 0.5); border-radius: var(--border-radius-sm);
+            backdrop-filter: blur(5px); box-shadow: var(--shadow-xs); opacity: 0.7; transition: opacity var(--transition-medium);
         }
-        .text-area-container:hover .action-buttons {
-            opacity: 1;
-        }
-       
+        .text-area-container:hover .action-buttons { opacity: 1; }
         .action-btn {
-            background: transparent;
-            border: none;
-            border-radius: var(--border-radius-sm);
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-color-muted);
-            transition: all var(--transition-fast);
+            background: transparent; border: none; border-radius: var(--border-radius-sm); width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-color-muted); transition: all var(--transition-fast);
         }
-       
-        .action-btn:hover {
-            background-color: var(--primary-color);
-            color: #ffffff;
-            transform: scale(1.1);
-        }
-         body.dark-mode .action-btn:hover {
-            background-color: var(--primary-color-light);
-            color: var(--bg-color-dark);
-        }
-       
+        .action-btn:hover { background-color: var(--primary-color); color: #ffffff; transform: scale(1.1); }
+        body.dark-mode .action-btn:hover { background-color: var(--primary-color-light); color: var(--bg-color-dark); }
+
         .history-panel {
-            background-color: var(--surface-color);
-            border-radius: var(--border-radius-lg);
-            padding: calc(var(--spacing-unit) * 3);
-            margin-top: calc(var(--spacing-unit) * 5);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
+            background-color: var(--surface-color); border-radius: var(--border-radius-lg);
+            padding: calc(var(--spacing-unit) * 3); margin-top: calc(var(--spacing-unit) * 5);
+            box-shadow: var(--shadow-lg); border: 1px solid var(--border-color);
         }
-       
-        .history-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: calc(var(--spacing-unit) * 2.5);
-            color: var(--text-color);
-            display: flex;
-            align-items: center;
-            gap: calc(var(--spacing-unit) * 1.5);
+        .history-title { font-size: 1.4rem; font-weight: 700; margin-bottom: calc(var(--spacing-unit) * 2); color: var(--text-color); display: flex; align-items: center; gap: calc(var(--spacing-unit) * 1.5); }
+        .history-title i { color: var(--primary-color); font-size: 1.2em; }
+        .history-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+        .history-tools input[type="text"] {
+            padding: 10px 12px; border-radius: 10px; border: 1.5px solid var(--border-color);
+            background-color: var(--surface-color); color: var(--text-color); min-width: 230px; flex: 1;
         }
-        .history-title i {
-            color: var(--primary-color);
-            font-size: 1.2em;
-        }
-       
-        .history-list {
-            max-height: 300px;
-            overflow-y: auto;
-            border-radius: var(--border-radius-md);
-        }
+        .history-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .history-actions .btn { padding: 8px 12px; font-weight: 600; }
+        .history-list { max-height: 320px; overflow-y: auto; border-radius: var(--border-radius-md); }
         .history-list::-webkit-scrollbar { width: 6px; }
-        .history-list::-webkit-scrollbar-track { background: transparent; }
         .history-list::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 60%, 0.3); border-radius: 6px; }
         .history-list:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 60%, 0.6); }
         body.dark-mode .history-list::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.25); }
         body.dark-mode .history-list:hover::-webkit-scrollbar-thumb { background-color: hsla(var(--primary-hue), 79%, 70%, 0.5); }
-       
+
         .history-item {
-            padding: calc(var(--spacing-unit) * 1.8) calc(var(--spacing-unit) * 2);
-            border-bottom: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: background-color var(--transition-medium), transform var(--transition-fast);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: var(--border-radius-sm);
-            margin-bottom: var(--spacing-unit);
+            padding: calc(var(--spacing-unit) * 1.4) calc(var(--spacing-unit) * 1.6);
+            border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background-color var(--transition-medium), transform var(--transition-fast);
+            display: grid; grid-template-columns: 1fr auto auto auto; align-items: center;
+            border-radius: var(--border-radius-sm); margin-bottom: var(--spacing-unit);
+            gap: 10px;
         }
         .history-item:last-child { border-bottom: none; margin-bottom: 0; }
-       
-        .history-item:hover {
-            background-color: hsla(var(--primary-hue), 60%, 95%, 0.7);
-            transform: translateX(-5px);
-            box-shadow: var(--shadow-sm);
+        .history-item:hover { background-color: hsla(var(--primary-hue), 60%, 95%, 0.7); transform: translateX(-5px); box-shadow: var(--shadow-sm); }
+        body.dark-mode .history-item:hover { background-color: hsla(var(--primary-hue), 15%, 22%, 0.7); }
+
+        .history-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; font-size: 0.95rem; font-weight: 500; }
+        .history-langs { color: var(--primary-color); font-size: 0.9rem; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+        .history-item .date-time { color: var(--text-color-muted); font-size: 0.8rem; white-space: nowrap; text-align: left; min-width: 110px; }
+        .history-ops { display: flex; gap: 8px; }
+        .icon-btn {
+            background: transparent; border: none; color: var(--text-color-muted); cursor: pointer; width: 34px; height: 34px; border-radius: 8px;
+            display: inline-flex; align-items: center; justify-content: center; transition: 0.15s;
         }
-        body.dark-mode .history-item:hover {
-            background-color: hsla(var(--primary-hue), 15%, 22%, 0.7);
-        }
-       
-        .history-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex-grow: 1;
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-right: var(--spacing-unit);
-        }
-       
-        .history-langs {
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-right: var(--spacing-unit) * 1.5;
-            white-space: nowrap;
-            display: inline-flex; align-items: center; gap: calc(var(--spacing-unit) * 0.5);
-        }
-        .history-langs .fa-long-arrow-alt-left { opacity: 0.6; }
-        body.dark-mode .history-langs { color: var(--secondary-color); }
-       
-        .history-item .date-time {
-            color: var(--text-color-muted);
-            font-size: 0.8rem;
-            white-space: nowrap;
-            text-align: left;
-            min-width: 110px;
-        }
-       
+        .icon-btn:hover { background: rgba(0,0,0,0.07); color: var(--text-color); }
+        body.dark-mode .icon-btn:hover { background: rgba(255,255,255,0.08); }
+        .icon-btn.pinned { color: #f7b500; }
+
         .voice-btn {
             background-color: hsla(var(--primary-hue), 20%, 95%, 1);
             border: 1px solid hsla(var(--primary-hue), 20%, 85%, 1);
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--primary-color);
-            transition: all var(--transition-medium);
-            box-shadow: var(--shadow-sm);
+            border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--primary-color); transition: all var(--transition-medium); box-shadow: var(--shadow-sm);
         }
-       
-        .voice-btn:hover {
-            background-color: var(--primary-color);
-            color: #ffffff;
-            transform: scale(1.12);
-            box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 60%, 0.3);
-        }
-       
-        .voice-btn.recording {
-            background-color: var(--error-color);
-            color: #ffffff;
-            animation: pulseError 1.5s infinite;
-            box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
-        }
-        @keyframes pulseError {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-         body.dark-mode .voice-btn {
-            background-color: hsla(var(--primary-hue), 15%, 28%, 1);
-            border-color: hsla(var(--primary-hue), 15%, 35%, 1);
-            color: var(--primary-color-light);
-         }
-         body.dark-mode .voice-btn:hover {
-            background-color: var(--primary-color-light);
-            color: var(--bg-color-dark);
-            box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 70%, 0.3);
-         }
-         body.dark-mode .voice-btn.recording {
-            background-color: var(--error-color);
-            color: #ffffff;
-            box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5);
-         }
+        .voice-btn:hover { background-color: var(--primary-color); color: #ffffff; transform: scale(1.12); box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 60%, 0.3); }
+        .voice-btn.recording { background-color: var(--error-color); color: #ffffff; animation: pulseError 1.5s infinite; box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5); }
+        @keyframes pulseError { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        body.dark-mode .voice-btn { background-color: hsla(var(--primary-hue), 15%, 28%, 1); border-color: hsla(var(--primary-hue), 15%, 35%, 1); color: var(--primary-color-light); }
+        body.dark-mode .voice-btn:hover { background-color: var(--primary-color-light); color: var(--bg-color-dark); box-shadow: 0 3px 10px hsla(var(--primary-hue), 79%, 70%, 0.3); }
+        body.dark-mode .voice-btn.recording { background-color: var(--error-color); color: #ffffff; box-shadow: 0 0 15px hsla(var(--error-hue), 70%, 54%, 0.5); }
 
         .tone-selector-container {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: calc(var(--spacing-unit) * 2);
-            margin-top: calc(var(--spacing-unit) * 4);
-            margin-bottom: calc(var(--spacing-unit) * 1);
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: calc(var(--spacing-unit) * 2);
+            margin-top: calc(var(--spacing-unit) * 4); margin-bottom: calc(var(--spacing-unit) * 1);
             padding: calc(var(--spacing-unit) * 2);
-            background-color: hsla(var(--primary-hue), 30%, 97%, 1);
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--border-color);
+            background-color: hsla(var(--primary-hue), 30%, 97%, 1); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);
             transition: background-color var(--transition-medium), border-color var(--transition-medium);
         }
-
-        body.dark-mode .tone-selector-container {
-            background-color: hsla(var(--primary-hue), 15%, 21%, 1);
-            border-color: hsla(var(--primary-hue), 15%, 28%, 1);
-        }
-
-        .tone-label {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-
-        .tone-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: calc(var(--spacing-unit) * 1.25);
-            justify-content: center;
-        }
-
+        body.dark-mode .tone-selector-container { background-color: hsla(var(--primary-hue), 15%, 21%, 1); border-color: hsla(var(--primary-hue), 15%, 28%, 1); }
+        .tone-label { font-size: 1rem; font-weight: 600; color: var(--text-color); margin-bottom: 0; flex-shrink: 0; }
+        .tone-buttons { display: flex; flex-wrap: wrap; gap: calc(var(--spacing-unit) * 1.25); justify-content: center; }
         .tone-btn {
-            background-color: var(--surface-color);
-            color: var(--text-color-muted);
-            border: 1.5px solid var(--border-color);
-            padding: calc(var(--spacing-unit) * 0.8) calc(var(--spacing-unit) * 2);
-            font-weight: 500;
-            border-radius: var(--border-radius-md);
-            transition: all var(--transition-medium);
-            box-shadow: var(--shadow-xs);
+            background-color: var(--surface-color); color: var(--text-color-muted);
+            border: 1.5px solid var(--border-color); padding: calc(var(--spacing-unit) * 0.8) calc(var(--spacing-unit) * 2);
+            font-weight: 500; border-radius: var(--border-radius-md); transition: all var(--transition-medium); box-shadow: var(--shadow-xs);
         }
+        .tone-btn:hover { border-color: var(--primary-color); color: var(--primary-color); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+        .tone-btn.active { background: var(--primary-gradient); color: #ffffff; border-color: transparent; box-shadow: 0 4px 10px hsla(var(--primary-hue), 79%, 50%, 0.3); transform: translateY(-2px); }
+        .tone-btn.active:hover { transform: translateY(-3px); box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 50%, 0.4); }
+        body.dark-mode .tone-btn { background-color: var(--surface-color-dark); color: var(--text-color-muted-dark); border-color: var(--border-color-dark); }
+        body.dark-mode .tone-btn:hover { border-color: var(--primary-color-light); color: var(--primary-color-light); box-shadow: var(--shadow-sm); }
+        body.dark-mode .tone-btn.active { border-color: transparent; box-shadow: 0 4px 10px hsla(var(--primary-hue), 79%, 60%, 0.35); }
+        body.dark-mode .tone-btn.active:hover { box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 60%, 0.45); }
 
-        .tone-btn:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
+        .prefs-bar {
+            margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; color: var(--text-color-muted);
         }
+        .prefs-item { display: inline-flex; gap: 8px; align-items: center; padding: 6px 10px; border: 1px dashed var(--border-color); border-radius: 10px; background: rgba(0,0,0,0.02); }
+        body.dark-mode .prefs-item { background: rgba(255,255,255,0.03); }
 
-        .tone-btn.active {
-            background: var(--primary-gradient);
-            color: #ffffff;
-            border-color: transparent;
-            box-shadow: 0 4px 10px hsla(var(--primary-hue), 79%, 50%, 0.3);
-            transform: translateY(-2px);
+        /* Batch Panel */
+        details#batch-panel { margin-top: 14px; border: 1px dashed var(--border-color); border-radius: 14px; padding: 10px 12px; }
+        details#batch-panel[open] { border-style: solid; }
+        details#batch-panel summary { cursor: pointer; font-weight: 700; color: var(--text-color); list-style: none; display: flex; align-items: center; gap: 8px; }
+        details#batch-panel summary::-webkit-details-marker { display: none; }
+        .dropzone {
+            margin-top: 12px; border: 2px dashed var(--border-color); border-radius: 12px; padding: 16px; text-align: center; color: var(--text-color-muted);
         }
-        .tone-btn.active:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 50%, 0.4);
-        }
+        .dropzone.dragover { border-color: var(--primary-color); background: rgba(0,0,0,0.03); }
+        .batch-tools { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .mini { padding: 8px 12px; }
 
-        body.dark-mode .tone-btn {
-            background-color: var(--surface-color-dark);
-            color: var(--text-color-muted-dark);
-            border-color: var(--border-color-dark);
-        }
-
-        body.dark-mode .tone-btn:hover {
-            border-color: var(--primary-color-light);
-            color: var(--primary-color-light);
-            box-shadow: var(--shadow-sm);
-        }
-
-        body.dark-mode .tone-btn.active {
-            border-color: transparent;
-            box-shadow: 0 4px 10px hsla(var(--primary-hue), 79%, 60%, 0.35);
-        }
-         body.dark-mode .tone-btn.active:hover {
-             box-shadow: 0 6px 15px hsla(var(--primary-hue), 79%, 60%, 0.45);
-        }
-       
         @media (max-width: 768px) {
             html { font-size: 15px; }
-            .header {
-                padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit);
-                flex-direction: column;
-                gap: var(--spacing-unit);
-            }
-             .header-actions {
-                align-self: flex-end;
-             }
+            .header { padding: calc(var(--spacing-unit) * 1.5) var(--spacing-unit); flex-direction: column; gap: var(--spacing-unit); }
+            .header-actions { align-self: flex-end; }
             .container { padding: calc(var(--spacing-unit) * 2.5) var(--spacing-unit); }
-           
-            .translator-box {
-                padding: calc(var(--spacing-unit) * 2.5);
-                flex-direction: column;
-            }
-            .language-selector {
-                align-self: center;
-                margin: var(--spacing-unit) 0 calc(var(--spacing-unit) * 2);
-            }
-            .swap-btn {
-                transform: rotate(90deg);
-            }
-            .swap-btn:hover {
-                transform: rotate(115deg) scale(1.1);
-            }
+            .translator-box { padding: calc(var(--spacing-unit) * 2.5); flex-direction: column; }
+            .language-selector { align-self: center; margin: var(--spacing-unit) 0 calc(var(--spacing-unit) * 2); }
+            .swap-btn { transform: rotate(90deg); }
+            .swap-btn:hover { transform: rotate(115deg) scale(1.1); }
             .text-area { height: 250px; }
-           
-            .language-feature {
-                grid-template-columns: 1fr;
-                gap: calc(var(--spacing-unit) * 2.5);
-                margin-top: calc(var(--spacing-unit) * 5);
-            }
-             .feature-item:hover {
-                transform: translateY(-6px) scale(1.01);
-            }
-            .translate-btn {
-                padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 3);
-                font-size: 1rem;
-            }
-            
-             .history-item { flex-wrap: wrap; gap: var(--spacing-unit) * 0.5; }
-             .history-text { width: 100%; order: 1; }
-             .history-langs { order: 2; margin-right: 0; }
-             .history-item .date-time { width: 100%; order: 3; text-align: right; font-size: 0.75rem; }
-
-            .tone-selector-container {
-                flex-direction: column;
-                gap: calc(var(--spacing-unit) * 1.5);
-                padding: calc(var(--spacing-unit) * 1.5);
-                margin-top: calc(var(--spacing-unit) * 3);
-            }
-            .tone-buttons {
-                gap: var(--spacing-unit);
-            }
-            .tone-btn {
-                padding: calc(var(--spacing-unit) * 0.8) calc(var(--spacing-unit) * 1.5);
-                font-size: 0.9rem;
-            }
+            .language-feature { grid-template-columns: 1fr; gap: calc(var(--spacing-unit) * 2.5); margin-top: calc(var(--spacing-unit) * 5); }
+            .feature-item:hover { transform: translateY(-6px) scale(1.01); }
+            .translate-btn { padding: calc(var(--spacing-unit) * 1.3) calc(var(--spacing-unit) * 3); font-size: 1rem; }
+            .history-item { grid-template-columns: 1fr auto auto; }
         }
-         @media (max-width: 480px) {
+        @media (max-width: 480px) {
             html { font-size: 14px; }
             .header h1 { letter-spacing: -0.2px; }
-            .controls {
-                flex-direction: column;
-                gap: var(--spacing-unit);
-                align-items: stretch;
-            }
+            .controls { flex-direction: column; gap: var(--spacing-unit); align-items: stretch; }
             .controls .btn { width: 100%; }
             .action-buttons { padding: calc(var(--spacing-unit) * 0.3); }
             .action-btn { width: 34px; height: 34px; }
             select { min-width: 150px; }
             .voice-btn { width: 44px; height: 44px; }
-            
-            .language-panel { flex-wrap: wrap; gap: calc(var(--spacing-unit) * 0.5); }
-            .language-panel select { flex-grow: 1; min-width: 120px; }
-            .language-panel #lang-detect-indicator { margin-right: calc(var(--spacing-unit) * 0.5); }
-            
-            .settings-popup {
-                width: 280px;
-                right: calc(var(--spacing-unit) * -1); /* Changed from left */
-            }
-         }
+            .language-panel { gap: calc(var(--spacing-unit) * 0.5); }
+            .settings-popup { width: 320px; right: calc(var(--spacing-unit) * -1); }
+        }
 
-        @keyframes fadeInScaleUp {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container, .tone-selector-container {
-            animation: fadeInScaleUp 0.6s var(--transition-slow) backwards;
-        }
+        @keyframes fadeInScaleUp { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .translator-box, .language-feature > .feature-item, .history-panel, .translate-btn-container, .tone-selector-container, details#batch-panel { animation: fadeInScaleUp 0.6s var(--transition-slow) backwards; }
         .language-feature > .feature-item:nth-child(1) { animation-delay: 0.1s; }
         .language-feature > .feature-item:nth-child(2) { animation-delay: 0.2s; }
         .language-feature > .feature-item:nth-child(3) { animation-delay: 0.3s; }
         .history-panel { animation-delay: 0.4s; }
         .tone-selector-container { animation-delay: 0.05s; }
     </style>
+
+    <!-- Tesseract.js for client-side OCR -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.3/dist/tesseract.min.js"></script>
 </head>
 <body>
-   
     <div class="header">
         <div class="header-actions">
+            <button id="help-btn" class="header-icon-btn quick-help-btn" title="میانبرها و راهنما"><i class="fas fa-question-circle"></i></button>
+            <div id="quick-help-popup" class="quick-help-popup">
+                <div class="settings-section">
+                    <h4><i class="fas fa-keyboard"></i>میانبرهای مفید</h4>
+                    <div class="quick-help-list">
+                        <div>- <b>Ctrl + Enter</b>: شروع ترجمه</div>
+                        <div>- <b>Ctrl + L</b>: پاک‌کردن متن</div>
+                        <div>- <b>Ctrl + Shift + S</b>: جابجایی زبان‌ها</div>
+                        <div>- <b>Esc</b>: لغو ترجمه یا بستن پنجره‌ها</div>
+                        <div>- <b>Alt + T</b>: تمرکز روی دکمه ترجمه</div>
+                    </div>
+                </div>
+            </div>
+
             <button id="settings-btn" class="header-icon-btn" title="تنظیمات">
                 <i class="fas fa-cog"></i>
             </button>
+
             <div id="settings-popup" class="settings-popup">
                 <div class="settings-section">
                     <h4><i class="fas fa-palette"></i>تنظیمات ظاهری</h4>
-                     <div class="setting-item">
+                    <div class="setting-item">
                         <label for="theme-switcher">حالت تاریک</label>
                         <input type="checkbox" id="theme-switcher" class="toggle-switch">
                     </div>
                 </div>
+
                 <div class="settings-section">
                     <h4><i class="fas fa-brain"></i>انتخاب موتور ترجمه</h4>
-                     <div class="setting-item">
-                       <label for="engine-selector">موتور فعلی</label>
-                       <select id="engine-selector" style="min-width: 150px;">
-                           <option value="gemini-2.5-flash" data-provider="gemini" selected>Gemini 2.5 Flash</option>
-                           <option value="gemini-2.5-pro" data-provider="gemini">Gemini 2.5 Pro</option>
-                           <option value="moonshotai/kimi-k2-instruct" data-provider="groq">kimi-k2 (Groq)</option>
-                           <option value="other" disabled>موتور دیگر (بزودی)</option>
-                       </select>
+                    <div class="setting-item">
+                        <label for="engine-selector">موتور فعلی</label>
+                        <select id="engine-selector" style="min-width: 150px;">
+                            <option value="gemini-2.5-flash" data-provider="gemini" selected>Gemini 2.5 Flash</option>
+                            <option value="gemini-2.5-pro" data-provider="gemini">Gemini 2.5 Pro</option>
+                            <option value="moonshotai/kimi-k2-instruct" data-provider="groq">kimi-k2 (Groq)</option>
+                            <option value="other" disabled>موتور دیگر (بزودی)</option>
+                        </select>
                     </div>
-                </div>
-                 <div class="settings-section">
-                    <h4><i class="fas fa-sliders-h"></i>تنظیمات موتور ترجمه</h4>
                     <div class="setting-item">
                         <label for="temp-slider">میزان خلاقیت</label>
                         <input type="range" id="temp-slider" min="0" max="1" step="0.1" value="0.4" title="0.4">
                     </div>
+                    <div class="setting-item">
+                        <label for="timeout-input">مهلت پاسخ (ثانیه)</label>
+                        <input type="number" id="timeout-input" min="5" max="120" step="5" value="45" style="max-width:120px;">
+                    </div>
+                    <div class="setting-item">
+                        <label for="fallback-switch">استفاده از موتور جایگزین در خطا</label>
+                        <input type="checkbox" id="fallback-switch" class="toggle-switch">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-sliders-h"></i>ترجیحات ترجمه</h4>
+                    <div class="setting-item">
+                        <label>کیفیت ترجمه</label>
+                        <div class="inline">
+                            <select id="quality-mode">
+                                <option value="adaptive">انطباقی (طبیعی‌تر)</option>
+                                <option value="literal">تحت‌اللفظی (دقیق کلمه‌به‌کلمه)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>طول متن خروجی</label>
+                        <div class="inline">
+                            <select id="length-mode">
+                                <option value="standard">استاندارد</option>
+                                <option value="concise">کوتاه</option>
+                                <option value="elaborate">مفصل</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-item" style="flex-direction: column; align-items: stretch;">
+                        <label style="margin-bottom:6px;">کانتکست/دستورالعمل‌های سفارشی (اختیاری)</label>
+                        <textarea id="context-notes" placeholder="مثلاً: اصطلاحات کامپیوتری را دقیق نگه‌دار؛ لحن برند رسمی و محترمانه باشد."></textarea>
+                    </div>
+                    <div class="setting-item">
+                        <label for="preserve-format-switch">حفظ قالب متن (فهرست‌ها/خطوط)</label>
+                        <input type="checkbox" id="preserve-format-switch" class="toggle-switch">
+                    </div>
+                    <div class="setting-item">
+                        <label for="protect-code-switch">حفظ کد/آدرس‌ها بدون تغییر</label>
+                        <input type="checkbox" id="protect-code-switch" class="toggle-switch">
+                    </div>
+                    <div class="setting-item">
+                        <label for="segmented-switch">حالت بخش‌بندی (جمله‌به‌جمله)</label>
+                        <input type="checkbox" id="segmented-switch" class="toggle-switch">
+                    </div>
+                    <div class="setting-item">
+                        <label for="auto-dir-switch">جهت نوشتار خودکار</label>
+                        <input type="checkbox" id="auto-dir-switch" class="toggle-switch" checked>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-user-shield"></i>حریم خصوصی</h4>
+                    <div class="setting-item">
+                        <label for="mask-pii-switch">ماسک ایمیل/تلفن/URL قبل از ترجمه</label>
+                        <input type="checkbox" id="mask-pii-switch" class="toggle-switch">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-book"></i>واژه‌نامه اختصاصی</h4>
+                    <div class="setting-item">
+                        <label for="glossary-enable-switch">فعال‌سازی واژه‌نامه</label>
+                        <input type="checkbox" id="glossary-enable-switch" class="toggle-switch">
+                    </div>
+                    <div class="setting-item" style="flex-direction: column; align-items: stretch; gap: 8px;">
+                        <div class="inline">
+                            <input id="gloss-src" placeholder="اصطلاح مبدأ" style="flex:1; padding: 10px; border-radius: 10px; border:1.5px solid var(--border-color);">
+                            <i class="fas fa-long-arrow-alt-left" style="opacity:0.6;"></i>
+                            <input id="gloss-tgt" placeholder="معادل مقصد" style="flex:1; padding: 10px; border-radius: 10px; border:1.5px solid var(--border-color);">
+                        </div>
+                        <div class="inline" style="justify-content: space-between;">
+                            <label><input type="checkbox" id="gloss-case"> حساس به حروف</label>
+                            <label><input type="checkbox" id="gloss-boundary" checked> مرز کلمه</label>
+                            <button id="gloss-add" class="btn mini" style="background: var(--primary-gradient); color:#fff;"><i class="fas fa-plus"></i> افزودن</button>
+                        </div>
+                        <div id="gloss-list" style="max-height: 180px; overflow:auto; border: 1px dashed var(--border-color); border-radius:10px; padding:8px;"></div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-headphones"></i>تنظیمات صدا (TTS)</h4>
+                    <div class="setting-item">
+                        <label for="voice-selector">صدای خروجی</label>
+                        <select id="voice-selector"></select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="tts-rate">سرعت گفتار</label>
+                        <input type="range" id="tts-rate" min="0.5" max="1.8" step="0.1" value="1" title="1" />
+                    </div>
+                    <div class="setting-item">
+                        <label for="tts-pitch">زیر و بمی صدا</label>
+                        <input type="range" id="tts-pitch" min="0" max="2" step="0.1" value="1" title="1" />
+                    </div>
                 </div>
             </div>
         </div>
+
         <h1>Ravid Translator Pro</h1>
     </div>
 
@@ -1251,23 +761,45 @@
                         <option value="pt">پرتغالی</option>
                         <option value="hi">هندی</option>
                     </select>
+                    <span id="detected-badge" class="detected-badge"></span>
                     <span id="lang-detect-indicator" style="display: none; margin-right: 8px; font-size: 0.8em;"><i class="fas fa-spinner fa-spin"></i></span>
                     <button class="voice-btn" id="source-voice-btn" title="ورودی صوتی">
                         <i class="fas fa-microphone-alt"></i>
                     </button>
                 </div>
+
                 <textarea id="source-text" class="text-area" placeholder="متن خود را اینجا وارد کنید یا از میکروفون استفاده نمایید..."></textarea>
+
+                <!-- OCR action buttons overlay for source -->
+                <div class="action-buttons" id="source-action-buttons">
+                    <button class="action-btn" id="ocr-btn" title="استخراج متن از تصویر (OCR)"><i class="fas fa-image"></i></button>
+                    <input type="file" id="ocr-image-input" accept="image/*" capture="environment" style="display:none;">
+                </div>
+                <!-- OCR progress (overlay at bottom of source box) -->
+                <div class="progress" id="ocr-progress" style="position:absolute; bottom: calc(var(--spacing-unit) * 1.5); right: calc(var(--spacing-unit) * 1.5); left: calc(var(--spacing-unit) * 1.5); display:none;">
+                    <div class="progress-bar" id="ocr-progress-bar"></div>
+                </div>
+
                 <div class="controls">
-                    <button class="btn clear-btn">
-                        <i class="fas fa-eraser"></i>
-                        <span class="btn-text">پاک کردن</span>
-                    </button>
-                    <span id="source-char-count" class="char-count">0 / 5000</span>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn clear-btn" id="clear-btn">
+                            <i class="fas fa-eraser"></i>
+                            <span class="btn-text">پاک کردن</span>
+                        </button>
+                        <button class="btn copy-btn" id="copy-source-btn" title="کپی متن مبدأ">
+                            <i class="fas fa-copy"></i>
+                            <span class="btn-text">کپی مبدأ</span>
+                        </button>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="source-char-count" class="char-count">0 / 5000</span>
+                        <span id="token-estimate" class="char-count" title="برآورد تقریبی توکن">(~0 توکن)</span>
+                    </div>
                 </div>
             </div>
-           
+
             <div class="language-selector">
-                <button class="swap-btn" title="جابجایی زبان‌ها">
+                <button class="swap-btn" title="جابجایی زبان‌ها" id="swap-btn">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16 3L19 6L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M5 11V6H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1276,7 +808,7 @@
                     </svg>
                 </button>
             </div>
-           
+
             <div class="text-area-container target-container">
                 <div class="language-panel">
                     <div class="language-label">زبان مقصد</div>
@@ -1302,93 +834,120 @@
                 </div>
                 <textarea id="target-text" class="text-area" placeholder="ترجمه متن شما در اینجا نمایش داده خواهد شد..." readonly></textarea>
                 <div class="action-buttons">
-                    <button class="action-btn" id="copy-btn-target" title="کپی ترجمه">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                    <button class="action-btn" id="share-btn" title="اشتراک‌گذاری">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                    <button class="action-btn" id="download-btn" title="دانلود متن">
-                        <i class="fas fa-download"></i>
-                    </button>
+                    <button class="action-btn" id="copy-btn-target" title="کپی ترجمه"><i class="fas fa-copy"></i></button>
+                    <button class="action-btn" id="share-btn" title="اشتراک‌گذاری"><i class="fas fa-share-alt"></i></button>
+                    <button class="action-btn" id="download-btn" title="دانلود متن"><i class="fas fa-download"></i></button>
                 </div>
                 <div class="controls">
-                    <button class="btn copy-btn">
-                        <i class="fas fa-clipboard-check"></i>
-                       <span class="btn-text">کپی ترجمه</span>
-                    </button>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn copy-btn" id="copy-translation-btn">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span class="btn-text">کپی ترجمه</span>
+                        </button>
+                        <button class="btn cancel-btn" id="cancel-btn">
+                            <i class="fas fa-ban"></i>
+                            <span>لغو ترجمه</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-       
+
         <div class="loading" id="loading-indicator">
             <div class="loader"></div>
             <p>در حال پردازش و ترجمه دقیق متن شما...</p>
+            <div class="progress" id="progress"><div class="progress-bar" id="progress-bar"></div></div>
         </div>
 
         <div class="tone-selector-container">
             <div class="tone-label">انتخاب لحن ترجمه:</div>
             <div class="tone-buttons">
-                <button class="btn tone-btn active" data-tone="auto">خودکار</button>
+                <button class="btn tone-btn" data-tone="auto">خودکار</button>
                 <button class="btn tone-btn" data-tone="formal">رسمی</button>
-                <button class="btn tone-btn" data-tone="informal"> خودمونی</button>
+                <button class="btn tone-btn" data-tone="informal">خودمونی</button>
                 <button class="btn tone-btn" data-tone="emotional">احساسی</button>
                 <button class="btn tone-btn" data-tone="street">خیابونی</button>
             </div>
+            <div class="prefs-bar">
+                <div class="prefs-item">
+                    <label for="segmented-quick" style="cursor:pointer;">
+                        <input type="checkbox" id="segmented-quick" style="vertical-align:middle; margin-left:6px;"> بخش‌بندی
+                    </label>
+                </div>
+                <div class="prefs-item" title="برآورد ساده، تقریبی">
+                    <i class="fas fa-calculator"></i>&nbsp; برآورد توکن: <span id="token-estimate-inline">~0</span>
+                </div>
+            </div>
         </div>
-       
-        <div style="text-align: center; margin-top: calc(var(--spacing-unit) * 2);" class="translate-btn-container">
+
+        <details id="batch-panel">
+            <summary><i class="fas fa-layer-group"></i> ترجمه دسته‌ای (متن‌های بلند/فایل .txt)</summary>
+            <div class="dropzone" id="dropzone">
+                فایل .txt را اینجا بیندازید یا از دکمه انتخاب فایل استفاده کنید.
+                <div class="batch-tools">
+                    <input type="file" id="batch-file" accept=".txt" />
+                    <button class="btn mini" id="batch-start" style="background: var(--primary-gradient); color:#fff;"><i class="fas fa-play"></i> شروع پردازش</button>
+                    <button class="btn mini" id="batch-cancel" style="background:#ff4d4f; color:#fff;"><i class="fas fa-ban"></i> لغو</button>
+                    <button class="btn mini" id="batch-download" style="display:none;"><i class="fas fa-download"></i> دانلود خروجی</button>
+                </div>
+                <div style="margin-top:10px;">
+                    <div class="progress" id="batch-progress"><div class="progress-bar" id="batch-progress-bar"></div></div>
+                </div>
+            </div>
+        </details>
+
+        <div class="translate-btn-container" style="text-align:center; margin-top: calc(var(--spacing-unit) * 2);">
             <button class="btn translate-btn" id="main-translate-btn">
                 <i class="fas fa-magic-wand-sparkles btn-icon"></i>
                 <span class="btn-text">ترجمه کن</span>
                 <span class="spinner"></span>
             </button>
         </div>
-       
+
         <div class="language-feature">
             <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
+                <div class="feature-icon"><i class="fas fa-robot"></i></div>
                 <div class="feature-title">ترجمه با هوش مصنوعی</div>
-                <div class="feature-desc">بهره‌گیری از آخرین نسل مدل‌های زبانی (<span id="model-name-display">Gemini 1.5 Flash</span>) برای ترجمه‌هایی دقیق، طبیعی و با درک عمیق از مفهوم و لحن متن اصلی.</div>
+                <div class="feature-desc">بهره‌گیری از مدل‌های به‌روز (<span id="model-name-display">Gemini 2.5 Flash </span>) با حفظ لحن، دقت معنایی و طبیعی‌بودن خروجی.</div>
             </div>
-           
             <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fas fa-globe-asia"></i>
-                </div>
+                <div class="feature-icon"><i class="fas fa-globe-asia"></i></div>
                 <div class="feature-title">پشتیبانی گسترده از زبان‌ها</div>
-                <div class="feature-desc">ترجمه روان بین بیش از ۱۵ زبان پرکاربرد دنیا، از جمله زبان‌های پیچیده با ساختارهای گرامری متفاوت.</div>
+                <div class="feature-desc">ترجمه روان بین بیش از ۱۵ زبان پرکاربرد دنیا، با درک تفاوت‌های ساختاری و فرهنگی.</div>
             </div>
-           
             <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fas fa-headset"></i>
-                </div>
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
                 <div class="feature-title">تعامل صوتی پیشرفته</div>
-                <div class="feature-desc">تجربه‌ای بی‌نظیر با ورودی صوتی دقیق و خروجی گفتاری طبیعی و واضح، ترجمه را آسان‌تر از همیشه می‌کند.</div>
+                <div class="feature-desc">ورودی گفتاری دقیق و خروجی گفتاری طبیعی با تنظیمات صدا (انتخاب صدا، سرعت و زیر و بمی).</div>
             </div>
         </div>
-       
+
         <div class="history-panel">
             <div class="history-title">
                 <i class="fas fa-history"></i>
                 تاریخچه ترجمه‌های اخیر شما
             </div>
-            <div class="history-list" id="history-list">
+            <div class="history-tools">
+                <input type="text" id="history-search" placeholder="جستجو در تاریخچه...">
+                <div class="history-actions">
+                    <button class="btn mini" id="history-export"><i class="fas fa-file-export"></i> برون‌بری</button>
+                    <label class="btn mini" for="history-import-file" style="cursor:pointer;"><i class="fas fa-file-import"></i> درون‌بری</label>
+                    <input type="file" id="history-import-file" accept="application/json" style="display:none;">
+                    <button class="btn mini" id="history-clear" style="background:#ff4d4f; color:#fff;"><i class="fas fa-trash"></i> پاک‌سازی</button>
                 </div>
+            </div>
+            <div class="history-list" id="history-list"></div>
         </div>
     </div>
-   
+
     <div class="notification" id="notification">
         <i class="fas fa-info-circle"></i>
         <span id="notification-text"></span>
     </div>
-   
+
     <div class="footer">
         <p>با <i class="fas fa-heart"></i> طراحی و توسعه یافته توسط Ravid</p>
-        <p>مترجم Ravid نسخه Pro | © 2025 - تمامی حقوق محفوظ است.</p>
+        <p>مترجم Ravid نسخه Pro+ | © 2025 - تمامی حقوق محفوظ است.</p>
         <div class="social-links">
             <a href="https://t.me/raviiiid" title="تلگرام Ravid" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
             <a href="https://github.com/" title="پروژه در گیت‌هاب" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
@@ -1397,186 +956,421 @@
     </div>
 
     <script>
-        // DOM Elements Cache
+        // --------- عناصر DOM ---------
         const sourceTextEl = document.getElementById('source-text');
         const targetTextEl = document.getElementById('target-text');
         const sourceLangEl = document.getElementById('source-language');
         const targetLangEl = document.getElementById('target-language');
         const sourceCharCountEl = document.getElementById('source-char-count');
+        const tokenEstimateEl = document.getElementById('token-estimate');
+        const tokenEstimateInlineEl = document.getElementById('token-estimate-inline');
         const loadingIndicatorEl = document.getElementById('loading-indicator');
+        const progressEl = document.getElementById('progress');
+        const progressBarEl = document.getElementById('progress-bar');
+
         const notificationEl = document.getElementById('notification');
         const notificationTextEl = document.getElementById('notification-text');
+
         const historyListEl = document.getElementById('history-list');
+        const historySearchEl = document.getElementById('history-search');
+        const historyExportBtn = document.getElementById('history-export');
+        const historyImportFile = document.getElementById('history-import-file');
+        const historyClearBtn = document.getElementById('history-clear');
+
         const mainTranslateBtn = document.getElementById('main-translate-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const copyTargetBtn1 = document.getElementById('copy-btn-target');
+        const copyTargetBtn2 = document.getElementById('copy-translation-btn');
+        const copySourceBtn = document.getElementById('copy-source-btn');
+
+        const shareBtn = document.getElementById('share-btn');
+        const downloadBtn = document.getElementById('download-btn');
+
         const sourceVoiceBtn = document.getElementById('source-voice-btn');
         const targetVoiceBtn = document.getElementById('target-voice-btn');
+
         const toneButtonsEl = document.querySelectorAll('.tone-btn');
         const langDetectIndicatorEl = document.getElementById('lang-detect-indicator');
+        const detectedBadgeEl = document.getElementById('detected-badge');
+
         const settingsBtn = document.getElementById('settings-btn');
         const settingsPopup = document.getElementById('settings-popup');
         const themeSwitcher = document.getElementById('theme-switcher');
         const tempSlider = document.getElementById('temp-slider');
         const engineSelectorEl = document.getElementById('engine-selector');
+        const timeoutInputEl = document.getElementById('timeout-input');
+        const fallbackSwitchEl = document.getElementById('fallback-switch');
+
+        const preserveFormatSwitchEl = document.getElementById('preserve-format-switch');
+        const protectCodeSwitchEl = document.getElementById('protect-code-switch');
+        const qualityModeEl = document.getElementById('quality-mode');
+        const lengthModeEl = document.getElementById('length-mode');
+        const contextNotesEl = document.getElementById('context-notes');
+        const segmentedSwitchEl = document.getElementById('segmented-switch');
+        const segmentedQuickEl = document.getElementById('segmented-quick');
+        const autoDirSwitchEl = document.getElementById('auto-dir-switch');
+
+        const maskPIISwitchEl = document.getElementById('mask-pii-switch');
+
+        const glossEnableSwitchEl = document.getElementById('glossary-enable-switch');
+        const glossSrcEl = document.getElementById('gloss-src');
+        const glossTgtEl = document.getElementById('gloss-tgt');
+        const glossCaseEl = document.getElementById('gloss-case');
+        const glossBoundaryEl = document.getElementById('gloss-boundary');
+        const glossAddBtn = document.getElementById('gloss-add');
+        const glossListEl = document.getElementById('gloss-list');
+
+        const voiceSelectorEl = document.getElementById('voice-selector');
+        const ttsRateEl = document.getElementById('tts-rate');
+        const ttsPitchEl = document.getElementById('tts-pitch');
+
+        const clearBtn = document.getElementById('clear-btn');
+        const swapBtn = document.getElementById('swap-btn');
+
+        const helpBtn = document.getElementById('help-btn');
+        const helpPopup = document.getElementById('quick-help-popup');
+
         const modelNameDisplayEl = document.getElementById('model-name-display');
+
+        // OCR elements
+        const ocrBtn = document.getElementById('ocr-btn');
+        const ocrFileInput = document.getElementById('ocr-image-input');
+        const ocrProgressEl = document.getElementById('ocr-progress');
+        const ocrProgressBarEl = document.getElementById('ocr-progress-bar');
+
+        // Batch elements
+        const batchPanel = document.getElementById('batch-panel');
+        const dropzone = document.getElementById('dropzone');
+        const batchFileInput = document.getElementById('batch-file');
+        const batchStartBtn = document.getElementById('batch-start');
+        const batchCancelBtn = document.getElementById('batch-cancel');
+        const batchDownloadBtn = document.getElementById('batch-download');
+        const batchProgressEl = document.getElementById('batch-progress');
+        const batchProgressBarEl = document.getElementById('batch-progress-bar');
+
+        // --------- وضعیت‌های سراسری ---------
         let debouncedDetectLanguage;
+        let currentAbortController = null;
+        let isTranslating = false;
 
+        let recognition; let isRecognizing = false;
+        let currentUtterance = null;
+        const synth = window.speechSynthesis;
+
+        let isOCRRunning = false;
+
+        // ذخیره‌سازی کلیدها
+        const LS = {
+            theme: 'ravid.theme',
+            engine: 'ravid.engine',
+            temp: 'ravid.temp',
+            timeout: 'ravid.timeout',
+            fallback: 'ravid.fallback',
+            sourceLang: 'ravid.sourceLang',
+            targetLang: 'ravid.targetLang',
+            tone: 'ravid.tone',
+            prefs: 'ravid.prefs',
+            glossary: 'ravid.glossary',
+            tts: 'ravid.tts',
+            segmented: 'ravid.segmented',
+            history: 'translationHistory'
+        };
+
+        // --------- ابزارها ---------
         function debounce(func, delay) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), delay);
-            };
+            let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func.apply(this, args), delay); };
+        }
+        function showNotification(message, type = 'info', iconClass = 'fas fa-info-circle') {
+            const iconEl = notificationEl.querySelector('i');
+            notificationEl.className = 'notification';
+            notificationEl.classList.add(type);
+            iconEl.className = iconClass || ('fas ' + (type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle'));
+            notificationTextEl.textContent = message;
+            notificationEl.classList.add('show');
+            setTimeout(() => notificationEl.classList.remove('show'), 4000);
+        }
+        function estimateTokens(text) {
+            const approx = Math.ceil(text.length / 3.8);
+            return approx;
+        }
+        function setDirectionByLang(textarea, lang) {
+            if (!autoDirSwitchEl.checked) return;
+            const rtlLangs = ['fa', 'ar', 'ur', 'he', 'ps'];
+            const dir = rtlLangs.includes(lang) ? 'rtl' : 'ltr';
+            textarea.setAttribute('dir', dir);
+        }
+        function getLanguageName(langCode) {
+            const el = sourceLangEl.querySelector(`option[value="${langCode}"]`) || targetLangEl.querySelector(`option[value="${langCode}"]`);
+            return el ? el.textContent : langCode;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            loadTheme();
-            loadHistory();
+        // --------- ذخیره و بارگذاری تنظیمات ---------
+        function saveSettings() {
+            try {
+                localStorage.setItem(LS.engine, engineSelectorEl.value);
+                localStorage.setItem(LS.temp, String(tempSlider.value));
+                localStorage.setItem(LS.timeout, String(timeoutInputEl.value || 45));
+                localStorage.setItem(LS.fallback, fallbackSwitchEl.checked ? '1' : '0');
+                localStorage.setItem(LS.sourceLang, sourceLangEl.value);
+                localStorage.setItem(LS.targetLang, targetLangEl.value);
 
-            sourceTextEl.addEventListener('input', debounce(handleSourceTextInput, 300));
+                const activeTone = document.querySelector('.tone-btn.active')?.dataset.tone || 'auto';
+                localStorage.setItem(LS.tone, activeTone);
 
-            document.getElementById('copy-btn-target').addEventListener('click', copyTranslation);
-            document.querySelector('.controls .copy-btn').addEventListener('click', copyTranslation);
+                const prefs = {
+                    preserveFormat: preserveFormatSwitchEl.checked,
+                    protectCode: protectCodeSwitchEl.checked,
+                    quality: qualityModeEl.value,
+                    length: lengthModeEl.value,
+                    context: contextNotesEl.value,
+                    maskPII: maskPIISwitchEl.checked,
+                    autoDir: autoDirSwitchEl.checked
+                };
+                localStorage.setItem(LS.prefs, JSON.stringify(prefs));
 
-            document.getElementById('share-btn').addEventListener('click', shareTranslation);
-            document.getElementById('download-btn').addEventListener('click', downloadTranslation);
-            
-            sourceVoiceBtn.addEventListener('click', startVoiceInput);
-            targetVoiceBtn.addEventListener('click', speakTranslation);
-            mainTranslateBtn.addEventListener('click', translateText);
-            document.querySelector('.clear-btn').addEventListener('click', clearSourceText);
-            document.querySelector('.swap-btn').addEventListener('click', swapLanguages);
+                localStorage.setItem(LS.segmented, segmentedSwitchEl.checked ? '1' : '0');
 
-            settingsBtn.addEventListener('click', (event) => {
-                event.stopPropagation();
-                settingsPopup.classList.toggle('show');
-            });
-
-            document.addEventListener('click', (event) => {
-                if (!settingsPopup.contains(event.target) && !settingsBtn.contains(event.target)) {
-                    settingsPopup.classList.remove('show');
+                const ttsSettings = {
+                    voiceURI: voiceSelectorEl.value || '',
+                    rate: parseFloat(ttsRateEl.value) || 1,
+                    pitch: parseFloat(ttsPitchEl.value) || 1
+                };
+                localStorage.setItem(LS.tts, JSON.stringify(ttsSettings));
+            } catch (e) { /* ignore */ }
+        }
+        function loadSettings() {
+            try {
+                const savedEngine = localStorage.getItem(LS.engine);
+                if (savedEngine && engineSelectorEl.querySelector(`option[value="${savedEngine}"]`)) {
+                    engineSelectorEl.value = savedEngine;
                 }
-            });
+                const savedTemp = localStorage.getItem(LS.temp);
+                if (savedTemp) { tempSlider.value = savedTemp; tempSlider.title = savedTemp; }
+                const savedTimeout = localStorage.getItem(LS.timeout); if (savedTimeout) timeoutInputEl.value = savedTimeout;
+                const savedFallback = localStorage.getItem(LS.fallback); fallbackSwitchEl.checked = savedFallback === '1';
 
-            themeSwitcher.addEventListener('change', toggleTheme);
-            
-            tempSlider.addEventListener('input', function() {
-                this.title = this.value;
-            });
-            
-            engineSelectorEl.addEventListener('change', () => {
-                const selectedOption = engineSelectorEl.options[engineSelectorEl.selectedIndex];
-                if (modelNameDisplayEl) {
-                    modelNameDisplayEl.textContent = selectedOption.text;
-                }
-            });
+                const savedSource = localStorage.getItem(LS.sourceLang); if (savedSource && sourceLangEl.querySelector(`option[value="${savedSource}"]`)) sourceLangEl.value = savedSource;
+                const savedTarget = localStorage.getItem(LS.targetLang); if (savedTarget && targetLangEl.querySelector(`option[value="${savedTarget}"]`)) targetLangEl.value = savedTarget;
 
-            toneButtonsEl.forEach(button => {
-                button.addEventListener('click', function() {
-                    toneButtonsEl.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
+                const savedTone = localStorage.getItem(LS.tone) || 'auto';
+                document.querySelectorAll('.tone-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tone === savedTone));
+
+                const savedPrefs = JSON.parse(localStorage.getItem(LS.prefs) || '{}');
+                preserveFormatSwitchEl.checked = !!savedPrefs.preserveFormat;
+                protectCodeSwitchEl.checked = !!savedPrefs.protectCode;
+                qualityModeEl.value = savedPrefs.quality || 'adaptive';
+                lengthModeEl.value = savedPrefs.length || 'standard';
+                contextNotesEl.value = savedPrefs.context || '';
+                maskPIISwitchEl.checked = !!savedPrefs.maskPII;
+                autoDirSwitchEl.checked = savedPrefs.autoDir !== false;
+
+                const seg = localStorage.getItem(LS.segmented) === '1';
+                segmentedSwitchEl.checked = seg;
+                segmentedQuickEl.checked = seg;
+
+                const tts = JSON.parse(localStorage.getItem(LS.tts) || '{}');
+                ttsRateEl.value = tts.rate || 1;
+                ttsRateEl.title = tts.rate || 1;
+                ttsPitchEl.value = tts.pitch || 1;
+                ttsPitchEl.title = tts.pitch || 1;
+
+                updateModelNameDisplay();
+                syncThemeControls(); // theme is handled separately
+                setDirectionByLang(sourceTextEl, sourceLangEl.value === 'auto' ? 'fa' : sourceLangEl.value);
+                setDirectionByLang(targetTextEl, targetLangEl.value);
+            } catch(e) { /* ignore */ }
+        }
+
+        // --------- Theme ---------
+        function syncThemeControls() {
+            const isDark = document.body.classList.contains('dark-mode');
+            themeSwitcher.checked = isDark;
+        }
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            syncThemeControls();
+        }
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.body.classList.add('dark-mode');
+            }
+            syncThemeControls();
+        }
+
+        // --------- واژه‌نامه ---------
+        function loadGlossary() {
+            const data = JSON.parse(localStorage.getItem(LS.glossary) || '{"enabled":false,"items":[]}');
+            glossEnableSwitchEl.checked = !!data.enabled;
+            renderGlossaryList(data.items || []);
+        }
+        function getGlossary() {
+            return JSON.parse(localStorage.getItem(LS.glossary) || '{"enabled":false,"items":[]}');
+        }
+        function setGlossary(data) {
+            localStorage.setItem(LS.glossary, JSON.stringify(data || {enabled:false, items:[]}));
+        }
+        function renderGlossaryList(items) {
+            glossListEl.innerHTML = '';
+            if (!items || items.length === 0) {
+                glossListEl.innerHTML = '<div style="text-align:center; color:var(--text-color-muted); padding:8px;">خالی است.</div>';
+                return;
+            }
+            items.forEach((it, idx) => {
+                const row = document.createElement('div');
+                row.style.display = 'grid';
+                row.style.gridTemplateColumns = '1fr 1fr auto';
+                row.style.alignItems = 'center';
+                row.style.gap = '8px';
+                row.style.padding = '6px 4px';
+
+                const left = document.createElement('div');
+                left.style.fontSize = '0.92rem';
+                left.textContent = it.src;
+
+                const mid = document.createElement('div');
+                mid.style.fontSize = '0.92rem';
+                mid.style.color = 'var(--primary-color)';
+                mid.textContent = it.tgt;
+
+                const ops = document.createElement('div');
+                ops.style.display = 'flex'; ops.style.gap = '6px'; ops.style.alignItems = 'center';
+                const cs = document.createElement('input'); cs.type = 'checkbox'; cs.checked = !!it.caseSensitive; cs.title = 'حساس به حروف';
+                cs.addEventListener('change', () => { const g = getGlossary(); g.items[idx].caseSensitive = cs.checked; setGlossary(g); });
+                const wb = document.createElement('input'); wb.type = 'checkbox'; wb.checked = it.boundary !== false; wb.title = 'مرز کلمه';
+                wb.addEventListener('change', () => { const g = getGlossary(); g.items[idx].boundary = wb.checked; setGlossary(g); });
+                const del = document.createElement('button');
+                del.className = 'icon-btn'; del.innerHTML = '<i class="fas fa-trash"></i>'; del.title = 'حذف';
+                del.addEventListener('click', () => {
+                    const g = getGlossary(); g.items.splice(idx,1); setGlossary(g); renderGlossaryList(g.items);
                 });
+                ops.append('Aa', cs, '|', '⟂', wb, del);
+
+                row.append(left, mid, ops);
+                glossListEl.appendChild(row);
             });
-
-            sourceTextEl.addEventListener('keydown', function(e) {
-                if (e.ctrlKey && e.key === 'Enter') {
-                    e.preventDefault();
-                    translateText();
+        }
+        function applyGlossary(text) {
+            const g = getGlossary();
+            if (!g.enabled || !g.items || g.items.length === 0) return text;
+            let out = text;
+            for (const entry of g.items) {
+                if (!entry.src) continue;
+                const src = entry.src;
+                const tgt = entry.tgt ?? '';
+                const flags = entry.caseSensitive ? 'g' : 'gi';
+                let pattern = src.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                if (entry.boundary !== false) {
+                    pattern = `\\b${pattern}\\b`;
                 }
-            });
-
-            debouncedDetectLanguage = debounce(async (text) => {
-                if (sourceLangEl.value === 'auto' && text.length > 15) {
-                    langDetectIndicatorEl.style.display = 'inline-block';
-                    try {
-                        const detectedLangCode = await getDetectedLanguageWithGemini(text);
-                        if (detectedLangCode && Array.from(sourceLangEl.options).some(opt => opt.value === detectedLangCode)) {
-                            sourceLangEl.value = detectedLangCode;
-                        }
-                    } catch (error) {
-                        console.error("Debounced language detection error:", error);
-                    } finally {
-                        langDetectIndicatorEl.style.display = 'none';
-                    }
-                } else {
-                    langDetectIndicatorEl.style.display = 'none';
-                }
-            }, 1000);
-
-            sourceLangEl.addEventListener('change', () => {
-                if (sourceLangEl.value !== 'auto') {
-                    langDetectIndicatorEl.style.display = 'none';
-                }
-            });
-        });
-
-
-        function handleSourceTextInput() {
-            const text = sourceTextEl.value;
-            const charCount = text.length;
-            sourceCharCountEl.textContent = `${charCount} / 5000`;
-
-            sourceCharCountEl.classList.remove('warning', 'danger');
-            if (charCount > 4800) {
-                sourceCharCountEl.classList.add('danger');
-            } else if (charCount > 4000) {
-                sourceCharCountEl.classList.add('warning');
+                try {
+                    out = out.replace(new RegExp(pattern, flags), tgt);
+                } catch(e) { /* ignore invalid regex */ }
             }
-
-            if (charCount > 5000) {
-                sourceTextEl.value = text.substring(0, 5000);
-                sourceCharCountEl.textContent = `5000 / 5000`;
-                showNotification('حداکثر تعداد کاراکتر (5000) وارد شده است.', 'error');
-            }
-
-            if (sourceLangEl.value === 'auto') {
-                if (text.trim().length === 0) {
-                    langDetectIndicatorEl.style.display = 'none';
-                } else {
-                    debouncedDetectLanguage(text.trim());
-                }
-            } else {
-                langDetectIndicatorEl.style.display = 'none';
-            }
+            return out;
         }
 
-        // Shared function to create the core translation prompt
-        function createTranslationPrompt(sourceLangName, targetLangName, text) {
-             const activeToneBtn = document.querySelector('.tone-btn.active');
-            const selectedTone = activeToneBtn ? activeToneBtn.dataset.tone : 'auto';
+        // --------- ماسک اطلاعات حساس ---------
+        function maskPII(text) {
+            const mapping = [];
+            let masked = text;
 
-            let toneInstruction = "";
-            if (selectedTone === 'formal') toneInstruction = `The translation must be in a formal and official tone.`;
-            else if (selectedTone === 'informal') toneInstruction = `The translation must be in an informal, colloquial, and friendly tone.`;
-            else if (selectedTone === 'emotional') toneInstruction = `The translation must be in an emotional tone, conveying the original feelings.`;
-            else if (selectedTone === 'street') toneInstruction = `The translation must be in a "street" or highly colloquial slangy tone.`;
-            else toneInstruction = `Your primary goal is to preserve the original text's tone. Analyze and replicate it meticulously.`;
+            const urlRegex = /\b(https?:\/\/[^\s]+|www\.[^\s]+)\b/gi;
+            masked = masked.replace(urlRegex, (m) => {
+                const token = `[URL_${mapping.length+1}]`;
+                mapping.push({ token, value: m });
+                return token;
+            });
 
-            return `You are an expert translator. Your task is to translate the user's text from ${sourceLangName} to ${targetLangName}.
-        Key Instructions:
-        1.  **Tone Application:** ${toneInstruction} This is a critical instruction.
-        2.  **Idioms & Nuances:** Meticulously translate idioms, metaphors, and cultural references to their closest natural equivalent in ${targetLangName}.
-        3.  **Output Format:** Return *only* the translated text. Do not include any extra notes or comments.
-        4.  **Fluency:** The translation must read as if it were originally written in ${targetLangName} by a native speaker.
-        5.  **Accuracy:** Ensure the core meaning and intent of the original text are perfectly conveyed.
+            const emailRegex = /\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}\b/gi;
+            masked = masked.replace(emailRegex, (m) => {
+                const token = `[EMAIL_${mapping.length+1}]`;
+                mapping.push({ token, value: m });
+                return token;
+            });
 
-        Translate the following text:
-        "${text}"`;
+            const phoneRegex = /(\+?\d[\d\-\s]{6,}\d)/g;
+            masked = masked.replace(phoneRegex, (m) => {
+                const token = `[PHONE_${mapping.length+1}]`;
+                mapping.push({ token, value: m });
+                return token;
+            });
+
+            return { masked, mapping };
         }
-        
-        // --- API CALL FUNCTIONS ---
+        function unmaskPII(text, mapping) {
+            if (!mapping || mapping.length === 0) return text;
+            let out = text;
+            for (const { token, value } of mapping) {
+                const pattern = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                out = out.replace(new RegExp(pattern, 'g'), value);
+            }
+            return out;
+        }
 
-        async function callGroqAPI(text, sourceLanguage, targetLanguage, model) {
-            // WARNING: Storing API keys in frontend code is insecure. Use a backend proxy for production.
-            const GROQ_API_KEY = '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'; // <--  کلید API گروک خود را اینجا قرار بده
+        // --------- پرامپت ترجمه ---------
+        function createTranslationPrompt({ sourceLangName, targetLangName, text, prefs, tone }) {
+            const { preserveFormat, protectCode, quality, length, context } = prefs;
+            const toneInstruction = (() => {
+                switch (tone) {
+                    case 'formal': return 'The translation must be in a formal and official tone.';
+                    case 'informal': return 'The translation must be in an informal, colloquial, and friendly tone.';
+                    case 'emotional': return 'The translation must convey emotions and feelings of the original text.';
+                    case 'street': return 'Use a highly colloquial, slangy "street" tone.';
+                    default: return `Preserve the original tone; analyze and replicate it meticulously.`;
+                }
+            })();
+            const qualityInstruction = quality === 'literal'
+                ? 'Prefer literal fidelity and close alignment with source wording.'
+                : 'Prefer adaptive, natural phrasing that reads like native writing.';
+            const lengthInstruction = length === 'concise' ? 'Make the output as concise as possible without losing meaning.'
+                : length === 'elaborate' ? 'Elaborate where helpful for clarity, while staying faithful to meaning.'
+                : 'Use a standard length comparable to the source.';
+            const formatInstruction = preserveFormat
+                ? 'Preserve line breaks, lists, and obvious formatting cues.'
+                : 'Formatting preservation is not required.';
+            const codeInstruction = protectCode
+                ? 'Do NOT alter code snippets, markdown code fences, URLs, or placeholders like [EMAIL_1], [URL_2], [PHONE_3]. Return them exactly as-is.'
+                : 'Placeholders (like [EMAIL_1]) should remain unmodified.';
+            const contextInstruction = context && context.trim().length > 0
+                ? `Additional context/instructions: ${context.trim()}`
+                : '';
+
+            return `You are a senior professional translator. Translate the user's text from ${sourceLangName} to ${targetLangName}.
+
+Key Requirements:
+- Tone: ${toneInstruction}
+- Quality: ${qualityInstruction}
+- Length: ${lengthInstruction}
+- Formatting: ${formatInstruction}
+- Placeholders & Code: ${codeInstruction}
+${contextInstruction ? '- ' + contextInstruction : ''}
+
+Rules:
+1) Translate idioms, metaphors, and cultural references naturally into ${targetLangName}.
+2) Return only the translated text. No extra explanations.
+3) The translation must read as if written natively in ${targetLangName}.
+4) Ensure perfect semantic accuracy.
+
+Text to translate:
+"${text}"`;
+        }
+
+        // --------- API ها ---------
+        async function callGroqAPI({ text, sourceLanguage, targetLanguage, model, signal, timeoutSec }) {
+            const GROQ_API_KEY = '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';
             const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-
-            if (GROQ_API_KEY === 'YOUR_GROQ_API_KEY_HERE' || !GROQ_API_KEY) {
-                throw new Error('سرویس Groq به درستی پیکربندی نشده. کلید API یافت نشد.');
-            }
+            if (!GROQ_API_KEY) { throw new Error('سرویس Groq پیکربندی نشده است.'); }
 
             const sourceLangName = sourceLanguage === 'auto' ? 'the auto-detected language' : getLanguageName(sourceLanguage);
             const targetLangName = getLanguageName(targetLanguage);
-            const prompt = createTranslationPrompt(sourceLangName, targetLangName, text);
+
+            const prefs = getPrefs();
+            const tone = getActiveTone();
+            const prompt = createTranslationPrompt({ sourceLangName, targetLangName, text, prefs, tone });
 
             const payload = {
                 messages: [{ role: 'user', content: prompt }],
@@ -1585,180 +1379,289 @@
                 max_tokens: 2048
             };
 
+            const controller = new AbortController();
+            const to = setTimeout(() => controller.abort(), (timeoutSec || 45) * 1000);
+
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${GROQ_API_KEY}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
+                headers: { 'Authorization': `Bearer ${GROQ_API_KEY}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+                signal: (signal || controller.signal)
+            }).catch(err => { clearTimeout(to); throw err; });
+
+            clearTimeout(to);
 
             if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Groq API Error:', errorData);
-                throw new Error(errorData.error?.message || `خطای HTTP: ${response.status}`);
+                let msg = `خطای HTTP: ${response.status}`;
+                try { const errorData = await response.json(); msg = errorData.error?.message || msg; } catch {}
+                throw new Error(msg);
             }
-
             const data = await response.json();
-            if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-                return data.choices[0].message.content.trim();
-            } else {
-                 throw new Error('پاسخ دریافت شده از سرویس Groq قابل پردازش نیست.');
-            }
+            const content = data.choices?.[0]?.message?.content?.trim();
+            if (!content) throw new Error('پاسخ Groq قابل پردازش نیست.');
+            return content;
         }
 
-        async function callGeminiAPI(text, sourceLanguage, targetLanguage, model) {
-            // WARNING: Storing API keys in frontend code is insecure. Use a backend proxy for production.
-            const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s'; // <-- کلید API جیمنای خود را اینجا قرار بده
+        async function callGeminiAPI({ text, sourceLanguage, targetLanguage, model, signal, timeoutSec }) {
+            const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s';
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+            if (!GEMINI_API_KEY) { throw new Error('سرویس Gemini پیکربندی نشده است.'); }
 
-            if (GEMINI_API_KEY === 'YOUR_API_KEY_HERE' || !GEMINI_API_KEY) {
-                throw new Error('سرویس Gemini به درستی پیکربندی نشده. کلید API یافت نشد.');
-            }
-            
             const sourceLangName = sourceLanguage === 'auto' ? 'the auto-detected language' : getLanguageName(sourceLanguage);
             const targetLangName = getLanguageName(targetLanguage);
-            const prompt = createTranslationPrompt(sourceLangName, targetLangName, text);
+
+            const prefs = getPrefs();
+            const tone = getActiveTone();
+            const prompt = createTranslationPrompt({ sourceLangName, targetLangName, text, prefs, tone });
 
             const payload = {
-              contents: [{ parts: [{ "text": prompt }] }],
-              generationConfig: {
-                temperature: parseFloat(tempSlider.value) || 0.4,
-                topP: 0.95,
-                maxOutputTokens: 2048
-              }
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: {
+                    temperature: parseFloat(tempSlider.value) || 0.4,
+                    topP: 0.95,
+                    maxOutputTokens: 2048
+                }
             };
+
+            const controller = new AbortController();
+            const to = setTimeout(() => controller.abort(), (timeoutSec || 45) * 1000);
 
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+                body: JSON.stringify(payload),
+                signal: (signal || controller.signal)
+            }).catch(err => { clearTimeout(to); throw err; });
+
+            clearTimeout(to);
 
             if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Gemini API Error:', errorData);
-                throw new Error(errorData.error?.message || `خطای HTTP: ${response.status}`);
+                let msg = `خطای HTTP: ${response.status}`;
+                try { const errorData = await response.json(); msg = errorData.error?.message || msg; } catch {}
+                throw new Error(msg);
             }
 
             const data = await response.json();
-
-            if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+            if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
                 return data.candidates[0].content.parts[0].text.trim();
-            } else if (data.candidates && data.candidates[0].finishReason === 'SAFETY') {
+            } else if (data.candidates && data.candidates[0]?.finishReason === 'SAFETY') {
                 throw new Error('ترجمه به دلیل محدودیت‌های ایمنی Gemini متوقف شد.');
             } else {
-                throw new Error('پاسخ دریافت شده از سرویس Gemini قابل پردازش نیست.');
+                throw new Error('پاسخ Gemini قابل پردازش نیست.');
             }
         }
 
-        // This function will remain unchanged for language detection
         async function getDetectedLanguageWithGemini(textToDetect) {
-             const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s'; // Uses Gemini key for detection
-             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-             const prompt = `You are a language detection assistant. Detect the language of the following text and respond with ONLY the two-letter ISO 639-1 code (e.g., "en", "fa"). Text: "${textToDetect.substring(0, 100)}"`;
-             const payload = { contents: [{ parts: [{ "text": prompt }] }], generationConfig: { temperature: 0.0 }};
-             try {
+            const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s';
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+            const prompt = `You are a language detection assistant. Detect the language of the following text and respond with ONLY the two-letter ISO 639-1 code (e.g., "en", "fa"). Text: "${textToDetect.substring(0, 120)}"`;
+            const payload = { contents: [{ parts: [{ "text": prompt }] }], generationConfig: { temperature: 0.0 } };
+            try {
                 const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!response.ok) return null;
                 const data = await response.json();
-                return data.candidates[0]?.content?.parts[0]?.text.trim().toLowerCase().slice(0, 2);
-             } catch (error) {
-                 return null;
-             }
+                return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim().toLowerCase().slice(0,2);
+            } catch (error) { return null; }
         }
 
-        // Main translation router
-        async function translateText() {
-            const sourceTextValue = sourceTextEl.value.trim();
-            if (!sourceTextValue) {
-                showNotification('لطفاً متنی برای ترجمه وارد کنید.', 'error', 'fas fa-keyboard');
-                return;
+        // --------- ترجمه با مدیریت لغو و fallback ---------
+        function getActiveTone() {
+            return document.querySelector('.tone-btn.active')?.dataset.tone || 'auto';
+        }
+        function getPrefs() {
+            return {
+                preserveFormat: preserveFormatSwitchEl.checked,
+                protectCode: protectCodeSwitchEl.checked,
+                quality: qualityModeEl.value,
+                length: lengthModeEl.value,
+                context: contextNotesEl.value,
+                maskPII: maskPIISwitchEl.checked,
+            };
+        }
+        function updateModelNameDisplay() {
+            const selectedOption = engineSelectorEl.options[engineSelectorEl.selectedIndex];
+            if (modelNameDisplayEl && selectedOption) modelNameDisplayEl.textContent = selectedOption.text;
+        }
+
+        async function translateWithSelectedProvider(text, srcLang, tgtLang) {
+            const selectedOption = engineSelectorEl.options[engineSelectorEl.selectedIndex];
+            const provider = selectedOption.dataset.provider;
+            const model = selectedOption.value;
+            const timeoutSec = parseInt(timeoutInputEl.value) || 45;
+
+            const args = {
+                text, sourceLanguage: srcLang, targetLanguage: tgtLang,
+                model, signal: currentAbortController?.signal, timeoutSec
+            };
+
+            if (provider === 'gemini') {
+                return await callGeminiAPI(args);
+            } else if (provider === 'groq') {
+                return await callGroqAPI(args);
+            } else {
+                throw new Error("موتور ترجمه انتخاب شده معتبر نیست.");
             }
+        }
+
+        async function translateWithFallback(text, srcLang, tgtLang) {
+            try {
+                return await translateWithSelectedProvider(text, srcLang, tgtLang);
+            } catch (err) {
+                if (!fallbackSwitchEl.checked) throw err;
+                const selectedOption = engineSelectorEl.options[engineSelectorEl.selectedIndex];
+                const provider = selectedOption.dataset.provider;
+
+                try {
+                    if (provider === 'gemini') {
+                        return await callGroqAPI({
+                            text, sourceLanguage: srcLang, targetLanguage: tgtLang,
+                            model: 'moonshotai/kimi-k2-instruct',
+                            signal: currentAbortController?.signal,
+                            timeoutSec: parseInt(timeoutInputEl.value) || 45
+                        });
+                    } else {
+                        return await callGeminiAPI({
+                            text, sourceLanguage: srcLang, targetLanguage: tgtLang,
+                            model: 'gemini-2.5-flash',
+                            signal: currentAbortController?.signal,
+                            timeoutSec: parseInt(timeoutInputEl.value) || 45
+                        });
+                    }
+                } catch (err2) {
+                    throw err2;
+                }
+            }
+        }
+
+        async function translateText() {
+            const sourceTextValueRaw = sourceTextEl.value;
+            const sourceTextValue = sourceTextValueRaw.trim();
+            if (!sourceTextValue) { showNotification('لطفاً متنی برای ترجمه وارد کنید.', 'error', 'fas fa-keyboard'); return; }
+
             if (sourceLangEl.value !== 'auto' && sourceLangEl.value === targetLangEl.value) {
                 showNotification('زبان مبدأ و مقصد یکسان است!', 'info', 'fas fa-exchange-alt');
                 targetTextEl.value = sourceTextValue;
                 return;
             }
 
+            targetTextEl.value = '';
             mainTranslateBtn.classList.add('loading');
             loadingIndicatorEl.style.display = 'flex';
-            targetTextEl.value = '';
+            cancelBtn.classList.add('show');
+            progressEl.style.display = 'none';
+            progressBarEl.style.width = '0%';
+            isTranslating = true;
 
-            const selectedOption = engineSelectorEl.options[engineSelectorEl.selectedIndex];
-            const provider = selectedOption.dataset.provider;
-            const model = selectedOption.value;
+            currentAbortController?.abort();
+            currentAbortController = new AbortController();
 
+            let maskingMap = null;
+            let textToSend = sourceTextValue;
+            if (maskPIISwitchEl.checked) {
+                const res = maskPII(sourceTextValue);
+                textToSend = res.masked;
+                maskingMap = res.mapping;
+            }
+
+            const segmented = segmentedSwitchEl.checked || segmentedQuickEl.checked;
             try {
-                let translation;
-                if (provider === 'gemini') {
-                    translation = await callGeminiAPI(sourceTextValue, sourceLangEl.value, targetLangEl.value, model);
-                } else if (provider === 'groq') {
-                    translation = await callGroqAPI(sourceTextValue, sourceLangEl.value, targetLangEl.value, model);
+                if (!segmented) {
+                    let out = await translateWithFallback(textToSend, sourceLangEl.value, targetLangEl.value);
+                    if (maskingMap) out = unmaskPII(out, maskingMap);
+                    out = applyGlossary(out);
+                    targetTextEl.value = out;
                 } else {
-                    throw new Error("موتور ترجمه انتخاب شده معتبر نیست.");
+                    const segments = splitToSegments(textToSend);
+                    progressEl.style.display = 'block';
+
+                    const translatedSegments = [];
+                    for (let i = 0; i < segments.length; i++) {
+                        if (!isTranslating) throw new Error('لغو شد');
+                        const seg = segments[i];
+                        if (!seg.trim()) { translatedSegments.push(''); updateProgress((i+1)/segments.length); continue; }
+                        let out = await translateWithFallback(seg, sourceLangEl.value, targetLangEl.value);
+                        if (maskingMap) out = unmaskPII(out, maskingMap);
+                        out = applyGlossary(out);
+                        translatedSegments.push(out);
+                        updateProgress((i+1)/segments.length);
+                        targetTextEl.value = translatedSegments.join(preserveFormatSwitchEl.checked ? '\n' : ' ');
+                    }
                 }
 
-                targetTextEl.value = translation;
                 showNotification('ترجمه با موفقیت انجام شد.', 'success', 'fas fa-check-double');
-                addToHistory(sourceTextValue, translation, sourceLangEl.value, targetLangEl.value);
+                addToHistory(sourceTextValue, targetTextEl.value, sourceLangEl.value, targetLangEl.value);
             } catch (error) {
-                console.error('خطا در ترجمه:', error);
-                targetTextEl.value = 'خطا در ترجمه رخ داد. لطفاً دوباره امتحان کنید.';
-                showNotification(`خطا در سرویس ترجمه: ${error.message}`, 'error', 'fas fa-server');
+                if (error.name === 'AbortError' || error.message === 'لغو شد') {
+                    showNotification('فرآیند ترجمه لغو شد.', 'info', 'fas fa-ban');
+                } else {
+                    console.error('خطا در ترجمه:', error);
+                    targetTextEl.value = 'خطا در ترجمه رخ داد. لطفاً دوباره امتحان کنید.';
+                    showNotification(`خطا در سرویس ترجمه: ${error.message}`, 'error', 'fas fa-server');
+                }
             } finally {
                 mainTranslateBtn.classList.remove('loading');
                 loadingIndicatorEl.style.display = 'none';
+                cancelBtn.classList.remove('show');
+                isTranslating = false;
+                currentAbortController = null;
             }
         }
 
+        function splitToSegments(text) {
+            if (preserveFormatSwitchEl.checked) {
+                return text.split(/\r?\n/).map(s => s.trim()).filter(s => s.length > 0);
+            } else {
+                const parts = text.split(/(?<=[\.!\?؟])\s+|\r?\n+/).map(s => s.trim()).filter(Boolean);
+                return parts.length > 0 ? parts : [text];
+            }
+        }
+
+        function updateProgress(ratio) {
+            const pct = Math.round((ratio || 0) * 100);
+            progressBarEl.style.width = pct + '%';
+        }
+
+        function cancelTranslation() {
+            if (isTranslating && currentAbortController) {
+                isTranslating = false;
+                currentAbortController.abort();
+            }
+        }
+
+        // --------- ورودی/خروجی کمکی ---------
         function clearSourceText() {
             sourceTextEl.value = '';
             targetTextEl.value = '';
             handleSourceTextInput();
             sourceTextEl.focus();
         }
-
-        function copyTranslation() {
-            const text = targetTextEl.value.trim();
-            if (!text) {
-                showNotification('ترجمه‌ای برای کپی کردن وجود ندارد.', 'error');
-                return;
-            }
-            navigator.clipboard.writeText(text)
-                .then(() => showNotification('متن ترجمه کپی شد!', 'success', 'fas fa-clipboard-check'))
-                .catch(() => showNotification('کپی خودکار ناموفق بود.', 'error'));
+        function copyTextToClipboard(text, successMsg = 'کپی شد!') {
+            if (!text) { showNotification('متنی برای کپی وجود ندارد.', 'error'); return; }
+            navigator.clipboard.writeText(text).then(() => showNotification(successMsg, 'success', 'fas fa-clipboard-check'))
+            .catch(() => showNotification('کپی خودکار ناموفق بود.', 'error'));
         }
-
         function shareTranslation() {
             const text = targetTextEl.value.trim();
-            if (!text) {
-                showNotification('ترجمه‌ای برای اشتراک‌گذاری نیست.', 'error');
-                return;
-            }
+            if (!text) { showNotification('ترجمه‌ای برای اشتراک‌گذاری نیست.', 'error'); return; }
             if (navigator.share) {
                 navigator.share({ title: 'ترجمه از Ravid Translator Pro', text: text })
                     .catch(error => { if (error.name !== 'AbortError') console.error(error); });
             } else {
-                copyTranslation();
-                showNotification('قابلیت اشتراک‌گذاری مستقیم در این مرورگر نیست. متن کپی شد.', 'info');
+                copyTextToClipboard(text, 'متن ترجمه کپی شد (اشتراک‌گذاری مستقیم پشتیبانی نشد).');
             }
         }
-
-        function downloadTranslation() {
-            const text = targetTextEl.value.trim();
-            if (!text) {
-                showNotification('ترجمه‌ای برای دانلود وجود ندارد.', 'error');
-                return;
-            }
-            const filename = `RavidTranslate.txt`;
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        function downloadContent(filename, content) {
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = filename;
             link.click();
             URL.revokeObjectURL(link.href);
+        }
+        function downloadTranslation() {
+            const text = targetTextEl.value.trim();
+            if (!text) { showNotification('ترجمه‌ای برای دانلود وجود ندارد.', 'error'); return; }
+            downloadContent('RavidTranslate.txt', text);
             showNotification('فایل ترجمه دانلود شد.', 'success', 'fas fa-file-download');
         }
 
@@ -1770,153 +1673,510 @@
             [sourceLangEl.value, targetLangEl.value] = [targetLangEl.value, sourceLangEl.value];
             [sourceTextEl.value, targetTextEl.value] = [targetTextEl.value, sourceTextEl.value];
             handleSourceTextInput();
-            if (sourceTextEl.value.trim()) {
-                translateText();
+            setDirectionByLang(sourceTextEl, sourceLangEl.value);
+            setDirectionByLang(targetTextEl, targetLangEl.value);
+            saveSettings();
+            if (sourceTextEl.value.trim()) translateText();
+        }
+
+        // --------- تشخیص زبان ورودی ---------
+        function handleSourceTextInput() {
+            const text = sourceTextEl.value;
+            const charCount = text.length;
+            sourceCharCountEl.textContent = `${charCount} / 5000`;
+
+            const tokens = estimateTokens(text);
+            tokenEstimateEl.textContent = `(~${tokens} توکن)`;
+            tokenEstimateInlineEl.textContent = `~${tokens}`;
+
+            sourceCharCountEl.classList.remove('warning', 'danger');
+            if (charCount > 4800) sourceCharCountEl.classList.add('danger');
+            else if (charCount > 4000) sourceCharCountEl.classList.add('warning');
+
+            if (charCount > 5000) {
+                sourceTextEl.value = text.substring(0, 5000);
+                sourceCharCountEl.textContent = `5000 / 5000`;
+                showNotification('حداکثر تعداد کاراکتر (5000) وارد شده است.', 'error');
             }
-        }
 
-        function getLanguageName(langCode) {
-            const el = sourceLangEl.querySelector(`option[value="${langCode}"]`);
-            return el ? el.textContent : langCode;
-        }
-
-        function showNotification(message, type = 'info', iconClass = 'fas fa-info-circle') {
-            const iconEl = notificationEl.querySelector('i');
-            notificationEl.className = 'notification'; // Reset classes
-            notificationEl.classList.add(type);
-            iconEl.className = 'fas ' + (type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle');
-            notificationTextEl.textContent = message;
-            notificationEl.classList.add('show');
-            setTimeout(() => notificationEl.classList.remove('show'), 4000);
-        }
-
-        function syncThemeControls() {
-            const isDark = document.body.classList.contains('dark-mode');
-            themeSwitcher.checked = isDark;
-        }
-        
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            syncThemeControls();
-        }
-
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                document.body.classList.add('dark-mode');
+            if (sourceLangEl.value === 'auto') {
+                if (text.trim().length === 0) {
+                    langDetectIndicatorEl.style.display = 'none';
+                    detectedBadgeEl.style.display = 'none';
+                } else {
+                    debouncedDetectLanguage(text.trim());
+                }
+            } else {
+                langDetectIndicatorEl.style.display = 'none';
+                detectedBadgeEl.style.display = 'none';
             }
-            syncThemeControls();
+            saveSettings();
         }
 
+        // --------- تاریخچه ---------
         function addToHistory(sourceText, translatedText, sourceLang, targetLang) {
-            let history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
-            const historyItem = { id: Date.now(), sourceText, translatedText, sourceLang, targetLang, timestamp: new Date().toISOString() };
+            let history = JSON.parse(localStorage.getItem(LS.history) || '[]');
+            const historyItem = { id: Date.now(), pinned: false, sourceText, translatedText, sourceLang, targetLang, timestamp: new Date().toISOString() };
             history.unshift(historyItem);
-            if (history.length > 30) history = history.slice(0, 30);
-            localStorage.setItem('translationHistory', JSON.stringify(history));
+            if (history.length > 200) history = history.slice(0, 200);
+            localStorage.setItem(LS.history, JSON.stringify(history));
             updateHistoryDisplay();
         }
-
         function updateHistoryDisplay() {
             historyListEl.innerHTML = '';
-            const history = JSON.parse(localStorage.getItem('translationHistory') || '[]');
+            const q = (historySearchEl.value || '').toLowerCase();
+            const history = JSON.parse(localStorage.getItem(LS.history) || '[]');
             if (history.length === 0) {
-                historyListEl.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: var(--text-color-muted);">تاریخچه خالی است.</div>`;
+                historyListEl.innerHTML = `<div style="padding: 1.2rem; text-align: center; color: var(--text-color-muted);">تاریخچه خالی است.</div>`;
                 return;
             }
-            history.forEach(item => {
-                const sourceLangName = getLanguageName(item.sourceLang);
-                const targetLangName = getLanguageName(item.targetLang);
-                const dateTime = new Date(item.timestamp);
-                const time = dateTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-                const date = dateTime.toLocaleDateString('fa-IR-u-nu-latn');
+            history
+                .sort((a,b) => (b.pinned - a.pinned) || (new Date(b.timestamp) - new Date(a.timestamp)))
+                .filter(item => !q || item.sourceText.toLowerCase().includes(q) || item.translatedText.toLowerCase().includes(q))
+                .forEach(item => {
+                    const sourceLangName = getLanguageName(item.sourceLang);
+                    const targetLangName = getLanguageName(item.targetLang);
+                    const dateTime = new Date(item.timestamp);
+                    const time = dateTime.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+                    const date = dateTime.toLocaleDateString('fa-IR-u-nu-latn');
 
-                const historyItemElement = document.createElement('div');
-                historyItemElement.className = 'history-item';
-                historyItemElement.tabIndex = 0;
-                historyItemElement.innerHTML = `
-                    <div class="history-text" title="${item.sourceText.replace(/"/g, '"')}">${item.sourceText.substring(0, 70)}...</div>
-                    <div class="history-langs">${sourceLangName} <i class="fas fa-long-arrow-alt-left"></i> ${targetLangName}</div>
-                    <div class="date-time">${date} - ${time}</div>
-                `;
-                historyItemElement.addEventListener('click', () => restoreTranslation(item));
-                historyListEl.appendChild(historyItemElement);
-            });
+                    const row = document.createElement('div');
+                    row.className = 'history-item';
+                    row.innerHTML = `
+                        <div class="history-text" title="${item.sourceText.replace(/"/g, '"')}">${item.sourceText.substring(0, 70)}${item.sourceText.length>70?'...':''}</div>
+                        <div class="history-langs">${sourceLangName} <i class="fas fa-long-arrow-alt-left"></i> ${targetLangName}</div>
+                        <div class="date-time">${date} - ${time}</div>
+                        <div class="history-ops">
+                            <button class="icon-btn pin-btn ${item.pinned ? 'pinned' : ''}" title="${item.pinned ? 'حذف از پین' : 'پین'}"><i class="fas fa-thumbtack"></i></button>
+                            <button class="icon-btn copy-src" title="کپی مبدأ"><i class="fas fa-copy"></i></button>
+                            <button class="icon-btn del-btn" title="حذف"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    row.addEventListener('click', (e) => {
+                        if (e.target.closest('.icon-btn')) return;
+                        restoreHistoryItem(item);
+                    });
+                    row.querySelector('.pin-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const hist = JSON.parse(localStorage.getItem(LS.history) || '[]');
+                        const idx = hist.findIndex(h => h.id === item.id);
+                        if (idx >= 0) { hist[idx].pinned = !hist[idx].pinned; localStorage.setItem(LS.history, JSON.stringify(hist)); updateHistoryDisplay(); }
+                    });
+                    row.querySelector('.copy-src').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copyTextToClipboard(item.sourceText, 'متن مبدأ کپی شد!');
+                    });
+                    row.querySelector('.del-btn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const hist = JSON.parse(localStorage.getItem(LS.history) || '[]').filter(h => h.id !== item.id);
+                        localStorage.setItem(LS.history, JSON.stringify(hist));
+                        updateHistoryDisplay();
+                    });
+
+                    historyListEl.appendChild(row);
+                });
         }
-
-        function restoreTranslation(item) {
+        function restoreHistoryItem(item) {
             sourceLangEl.value = item.sourceLang;
             targetLangEl.value = item.targetLang;
             sourceTextEl.value = item.sourceText;
             targetTextEl.value = item.translatedText;
             handleSourceTextInput();
+            setDirectionByLang(sourceTextEl, sourceLangEl.value);
+            setDirectionByLang(targetTextEl, targetLangEl.value);
             showNotification('ترجمه از تاریخچه بازیابی شد.', 'success', 'fas fa-undo-alt');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function loadHistory() { updateHistoryDisplay(); }
-
-        let recognition;
-        let isRecognizing = false;
-        let currentUtterance = null;
-        const synth = window.speechSynthesis;
-
-        function startVoiceInput() {
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                showNotification('مرورگر شما از تشخیص گفتار پشتیبانی نمی‌کند.', 'error'); return;
+        // --------- Voice ---------
+        function updateVoices() {
+            const voices = synth.getVoices();
+            voiceSelectorEl.innerHTML = '';
+            voices.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.voiceURI;
+                opt.textContent = `${v.name} (${v.lang})`;
+                voiceSelectorEl.appendChild(opt);
+            });
+            const tts = JSON.parse(localStorage.getItem(LS.tts) || '{}');
+            if (tts.voiceURI && voices.some(v => v.voiceURI === tts.voiceURI)) {
+                voiceSelectorEl.value = tts.voiceURI;
+            } else {
+                const langPref = (langVoiceMap[targetLangEl.value] || 'en-US').slice(0,2);
+                const candidate = voices.find(v => v.lang.startsWith(langPref));
+                if (candidate) voiceSelectorEl.value = candidate.voiceURI;
             }
+        }
+        function speakTranslation() {
+            const text = targetTextEl.value.trim();
+            if (!text) { showNotification('ترجمه‌ای برای خواندن وجود ندارد.', 'error'); return; }
+            if (synth.speaking) { synth.cancel(); if (currentUtterance && currentUtterance.text === text) return; }
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            const voices = synth.getVoices();
+            const chosen = voices.find(v => v.voiceURI === voiceSelectorEl.value);
+            if (chosen) currentUtterance.voice = chosen;
+            currentUtterance.lang = (chosen && chosen.lang) || (langVoiceMap[targetLangEl.value] || 'en-US');
+            currentUtterance.rate = parseFloat(ttsRateEl.value) || 1;
+            currentUtterance.pitch = parseFloat(ttsPitchEl.value) || 1;
+
+            currentUtterance.onend = () => { targetVoiceBtn.classList.remove('recording'); targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>'; };
+            targetVoiceBtn.classList.add('recording'); targetVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
+            synth.speak(currentUtterance);
+        }
+        function startVoiceInput() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { showNotification('مرورگر شما از تشخیص گفتار پشتیبانی نمی‌کند.', 'error'); return; }
             if (isRecognizing) { recognition.stop(); return; }
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             recognition = new SpeechRecognition();
-            const langTagMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
-            recognition.lang = sourceLangEl.value === 'auto' ? 'fa-IR' : (langTagMap[sourceLangEl.value] || 'fa-IR');
-            recognition.continuous = true;
-            recognition.interimResults = true;
-            
-            recognition.onstart = () => {
-                isRecognizing = true;
-                sourceVoiceBtn.classList.add('recording');
-                sourceVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
-                sourceTextEl.placeholder = "در حال شنیدن...";
-            };
+            recognition.lang = sourceLangEl.value === 'auto' ? 'fa-IR' : (langVoiceMap[sourceLangEl.value] || 'fa-IR');
+            recognition.continuous = true; recognition.interimResults = true;
 
+            recognition.onstart = () => { isRecognizing = true; sourceVoiceBtn.classList.add('recording'); sourceVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>'; sourceTextEl.placeholder = "در حال شنیدن..."; };
             recognition.onresult = event => {
-                let finalTranscript = '';
-                let interimTranscript = '';
+                let finalTranscript = '', interimTranscript = '';
                 for (let i = event.resultIndex; i < event.results.length; ++i) {
                     if (event.results[i].isFinal) finalTranscript += event.results[i][0].transcript;
                     else interimTranscript += event.results[i][0].transcript;
                 }
                 sourceTextEl.value = finalTranscript + interimTranscript;
             };
-            
             recognition.onend = () => {
-                isRecognizing = false;
-                sourceVoiceBtn.classList.remove('recording');
-                sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
+                isRecognizing = false; sourceVoiceBtn.classList.remove('recording'); sourceVoiceBtn.innerHTML = '<i class="fas fa-microphone-alt"></i>';
                 sourceTextEl.placeholder = "متن خود را اینجا وارد کنید...";
                 handleSourceTextInput();
                 if (sourceTextEl.value.trim()) translateText();
             };
-
             recognition.onerror = event => { showNotification(`خطای تشخیص گفتار: ${event.error}`, 'error'); };
             recognition.start();
         }
+        const langVoiceMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
 
-        function speakTranslation() {
-            const text = targetTextEl.value.trim();
-            if (!text) { showNotification('ترجمه‌ای برای خواندن وجود ندارد.', 'error'); return; }
-            if (synth.speaking) { synth.cancel(); if (currentUtterance && currentUtterance.text === text) return; }
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            const langVoiceMap = { 'fa': 'fa-IR', 'en': 'en-US', 'ar': 'ar-SA', 'fr': 'fr-FR', 'de': 'de-DE', 'es': 'es-ES', 'ru': 'ru-RU', 'zh': 'zh-CN', 'ja': 'ja-JP', 'ko': 'ko-KR', 'tr': 'tr-TR', 'it': 'it-IT', 'pt': 'pt-BR', 'hi': 'hi-IN' };
-            currentUtterance.lang = langVoiceMap[targetLangEl.value] || 'en-US';
-            currentUtterance.onend = () => { targetVoiceBtn.classList.remove('recording'); targetVoiceBtn.innerHTML = '<i class="fas fa-volume-high"></i>'; };
-            targetVoiceBtn.classList.add('recording'); targetVoiceBtn.innerHTML = '<i class="fas fa-stop-circle fa-beat"></i>';
-            synth.speak(currentUtterance);
+        // --------- Batch ترجمه ---------
+        let batchCancelled = false;
+        function setupDropzone() {
+            ['dragenter','dragover'].forEach(evt => dropzone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); dropzone.classList.add('dragover'); }));
+            ['dragleave','drop'].forEach(evt => dropzone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('dragover'); }));
+            dropzone.addEventListener('drop', e => {
+                const file = e.dataTransfer.files?.[0];
+                if (file && file.type === 'text/plain') { batchFileInput.files = e.dataTransfer.files; }
+            });
         }
+        function resetBatchUI() {
+            batchProgressEl.style.display = 'none';
+            batchProgressBarEl.style.width = '0%';
+            batchDownloadBtn.style.display = 'none';
+        }
+        async function startBatch() {
+            const file = batchFileInput.files?.[0];
+            if (!file) { showNotification('لطفاً فایل .txt انتخاب کنید.', 'error'); return; }
+            const text = await file.text();
+            const segments = text.split(/\r?\n\r?\n/).map(s => s.trim()).filter(Boolean);
+            if (segments.length === 0) { showNotification('فایل خالی است.', 'error'); return; }
+
+            batchCancelled = false;
+            batchProgressEl.style.display = 'block';
+            batchProgressBarEl.style.width = '0%';
+            batchDownloadBtn.style.display = 'none';
+
+            currentAbortController?.abort();
+            currentAbortController = new AbortController();
+
+            const outputs = [];
+            for (let i = 0; i < segments.length; i++) {
+                if (batchCancelled) { showNotification('فرآیند دسته‌ای لغو شد.', 'info'); break; }
+                let seg = segments[i];
+
+                let maskingMap = null;
+                if (maskPIISwitchEl.checked) {
+                    const res = maskPII(seg);
+                    seg = res.masked;
+                    maskingMap = res.mapping;
+                }
+                try {
+                    let out = await translateWithFallback(seg, sourceLangEl.value, targetLangEl.value);
+                    if (maskingMap) out = unmaskPII(out, maskingMap);
+                    out = applyGlossary(out);
+                    outputs.push(out);
+                } catch (e) {
+                    outputs.push('[ERROR]');
+                }
+                batchProgressBarEl.style.width = Math.round(((i+1)/segments.length)*100) + '%';
+            }
+
+            const finalOut = outputs.join('\n\n');
+            targetTextEl.value = finalOut;
+            batchDownloadBtn.style.display = 'inline-flex';
+            batchDownloadBtn.onclick = () => downloadContent('RavidBatchTranslate.txt', finalOut);
+            showNotification('ترجمه دسته‌ای کامل شد.', 'success', 'fas fa-check');
+            currentAbortController = null;
+        }
+
+        // --------- OCR (تصویر به متن) ---------
+        const tesseractLangMap = {
+            fa: 'fas', ar: 'ara', en: 'eng', fr: 'fra', de: 'deu', es: 'spa',
+            ru: 'rus', zh: 'chi_sim', ja: 'jpn', ko: 'kor', tr: 'tur', it: 'ita',
+            pt: 'por', hi: 'hin'
+        };
+        function getOcrLang() {
+            const src = sourceLangEl.value;
+            if (src === 'auto') return 'eng+fas+ara';
+            return tesseractLangMap[src] || 'eng';
+        }
+        function setOcrProgress(p) {
+            ocrProgressEl.style.display = 'block';
+            const pct = Math.max(0, Math.min(100, Math.round((p || 0) * 100)));
+            ocrProgressBarEl.style.width = pct + '%';
+        }
+        async function runOCR(fileOrBlob) {
+            if (!window.Tesseract || isOCRRunning) return;
+            try {
+                isOCRRunning = true;
+                ocrBtn.disabled = true;
+                setOcrProgress(0);
+                showNotification('در حال استخراج متن از تصویر...', 'info', 'fas fa-image');
+
+                const { data: { text } } = await Tesseract.recognize(fileOrBlob, getOcrLang(), {
+                    logger: m => {
+                        if (m && typeof m.progress === 'number') {
+                            setOcrProgress(m.progress);
+                        }
+                    }
+                });
+
+                const cleaned = (text || '').replace(/\r/g, '').trim();
+                if (cleaned) {
+                    sourceTextEl.value = cleaned;
+                    handleSourceTextInput();
+                    showNotification('متن از تصویر استخراج شد.', 'success', 'fas fa-file-alt');
+                } else {
+                    showNotification('متنی در تصویر یافت نشد.', 'error', 'fas fa-eye-slash');
+                }
+            } catch (err) {
+                console.error('OCR error:', err);
+                showNotification('خطا در OCR: ' + (err?.message || 'نامشخص'), 'error', 'fas fa-triangle-exclamation');
+            } finally {
+                isOCRRunning = false;
+                ocrBtn.disabled = false;
+                setTimeout(() => { ocrProgressEl.style.display = 'none'; ocrProgressBarEl.style.width = '0%'; }, 400);
+            }
+        }
+
+        // --------- رویدادها و مقداردهی اولیه ---------
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+
+            // رویداد باز/بستن تنظیمات
+            settingsBtn.addEventListener('click', (event) => { event.stopPropagation(); settingsPopup.classList.toggle('show'); helpPopup.classList.remove('show'); });
+            helpBtn.addEventListener('click', (event) => { event.stopPropagation(); helpPopup.classList.toggle('show'); settingsPopup.classList.remove('show'); });
+            document.addEventListener('click', (event) => {
+                if (!settingsPopup.contains(event.target) && !settingsBtn.contains(event.target)) settingsPopup.classList.remove('show');
+                if (!helpPopup.contains(event.target) && !helpBtn.contains(event.target)) helpPopup.classList.remove('show');
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { cancelTranslation(); settingsPopup.classList.remove('show'); helpPopup.classList.remove('show'); }
+                if (e.ctrlKey && e.key.toLowerCase() === 'l') { e.preventDefault(); clearSourceText(); }
+                if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 's') { e.preventDefault(); swapLanguages(); }
+                if (e.altKey && e.key.toLowerCase() === 't') { e.preventDefault(); mainTranslateBtn.focus(); }
+            });
+
+            // مقداردهی UI و تنظیمات
+            loadSettings();
+            loadHistory();
+            loadGlossary();
+            setupDropzone();
+
+            // انتخاب لحن
+            if (!document.querySelector('.tone-btn.active')) {
+                document.querySelector('.tone-btn[data-tone="auto"]').classList.add('active');
+            }
+
+            // رویدادها
+            sourceTextEl.addEventListener('input', debounce(handleSourceTextInput, 250));
+            sourceTextEl.addEventListener('keydown', function(e) { if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); translateText(); } });
+
+            copyTargetBtn1.addEventListener('click', () => copyTextToClipboard(targetTextEl.value.trim(), 'متن ترجمه کپی شد!'));
+            copyTargetBtn2.addEventListener('click', () => copyTextToClipboard(targetTextEl.value.trim(), 'متن ترجمه کپی شد!'));
+            copySourceBtn.addEventListener('click', () => copyTextToClipboard(sourceTextEl.value.trim(), 'متن مبدأ کپی شد!'));
+
+            shareBtn.addEventListener('click', shareTranslation);
+            downloadBtn.addEventListener('click', downloadTranslation);
+
+            sourceVoiceBtn.addEventListener('click', startVoiceInput);
+            targetVoiceBtn.addEventListener('click', speakTranslation);
+            mainTranslateBtn.addEventListener('click', translateText);
+            cancelBtn.addEventListener('click', cancelTranslation);
+            clearBtn.addEventListener('click', clearSourceText);
+            swapBtn.addEventListener('click', swapLanguages);
+
+            themeSwitcher.addEventListener('change', () => { toggleTheme(); });
+            tempSlider.addEventListener('input', function() { this.title = this.value; saveSettings(); });
+
+            engineSelectorEl.addEventListener('change', () => { updateModelNameDisplay(); saveSettings(); });
+            timeoutInputEl.addEventListener('input', saveSettings);
+            fallbackSwitchEl.addEventListener('change', saveSettings);
+
+            preserveFormatSwitchEl.addEventListener('change', saveSettings);
+            protectCodeSwitchEl.addEventListener('change', saveSettings);
+            qualityModeEl.addEventListener('change', saveSettings);
+            lengthModeEl.addEventListener('change', saveSettings);
+            contextNotesEl.addEventListener('input', debounce(saveSettings, 300));
+            segmentedSwitchEl.addEventListener('change', () => { segmentedQuickEl.checked = segmentedSwitchEl.checked; saveSettings(); });
+            segmentedQuickEl.addEventListener('change', () => { segmentedSwitchEl.checked = segmentedQuickEl.checked; saveSettings(); });
+            autoDirSwitchEl.addEventListener('change', () => { setDirectionByLang(sourceTextEl, sourceLangEl.value); setDirectionByLang(targetTextEl, targetLangEl.value); saveSettings(); });
+
+            toneButtonsEl.forEach(button => {
+                button.addEventListener('click', function() {
+                    toneButtonsEl.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    saveSettings();
+                });
+            });
+
+            sourceLangEl.addEventListener('change', () => {
+                if (sourceLangEl.value !== 'auto') {
+                    langDetectIndicatorEl.style.display = 'none';
+                    detectedBadgeEl.style.display = 'none';
+                }
+                setDirectionByLang(sourceTextEl, sourceLangEl.value === 'auto' ? 'fa' : sourceLangEl.value);
+                saveSettings();
+            });
+            targetLangEl.addEventListener('change', () => { setDirectionByLang(targetTextEl, targetLangEl.value); saveSettings(); });
+
+            debouncedDetectLanguage = debounce(async (text) => {
+                if (sourceLangEl.value === 'auto' && text.length > 15) {
+                    langDetectIndicatorEl.style.display = 'inline-block';
+                    try {
+                        const detectedLangCode = await getDetectedLanguageWithGemini(text);
+                        if (detectedLangCode && Array.from(sourceLangEl.options).some(opt => opt.value === detectedLangCode)) {
+                            sourceLangEl.value = detectedLangCode;
+                            detectedBadgeEl.textContent = `تشخیص: ${getLanguageName(detectedLangCode)}`;
+                            detectedBadgeEl.style.display = 'inline-block';
+                            setDirectionByLang(sourceTextEl, detectedLangCode);
+                        } else {
+                            detectedBadgeEl.style.display = 'none';
+                        }
+                    } catch (error) {
+                        console.error("خطای تشخیص زبان:", error);
+                    } finally {
+                        langDetectIndicatorEl.style.display = 'none';
+                        saveSettings();
+                    }
+                } else {
+                    langDetectIndicatorEl.style.display = 'none';
+                }
+            }, 800);
+
+            // تاریخچه
+            historySearchEl.addEventListener('input', updateHistoryDisplay);
+            historyExportBtn.addEventListener('click', () => {
+                const history = localStorage.getItem(LS.history) || '[]';
+                downloadContent('RavidHistory.json', history);
+            });
+            historyImportFile.addEventListener('change', async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                try {
+                    const txt = await file.text();
+                    const json = JSON.parse(txt);
+                    if (Array.isArray(json)) {
+                        localStorage.setItem(LS.history, JSON.stringify(json));
+                        updateHistoryDisplay();
+                        showNotification('تاریخچه با موفقیت درون‌ریزی شد.', 'success', 'fas fa-file-import');
+                    } else {
+                        showNotification('فایل تاریخچه معتبر نیست.', 'error');
+                    }
+                } catch { showNotification('خطا در خواندن فایل تاریخچه.', 'error'); }
+            });
+            historyClearBtn.addEventListener('click', () => {
+                if (confirm('همه تاریخچه حذف شود؟')) {
+                    localStorage.removeItem(LS.history);
+                    updateHistoryDisplay();
+                }
+            });
+
+            // Glossary
+            glossEnableSwitchEl.addEventListener('change', () => {
+                const g = getGlossary(); g.enabled = glossEnableSwitchEl.checked; setGlossary(g);
+            });
+            glossAddBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const src = (glossSrcEl.value || '').trim();
+                const tgt = (glossTgtEl.value || '').trim();
+                if (!src || !tgt) { showNotification('لطفاً هر دو فیلد واژه‌نامه را پر کنید.', 'error'); return; }
+                const g = getGlossary();
+                g.items = g.items || [];
+                g.items.push({ src, tgt, caseSensitive: glossCaseEl.checked, boundary: glossBoundaryEl.checked });
+                setGlossary(g);
+                glossSrcEl.value = ''; glossTgtEl.value = '';
+                renderGlossaryList(g.items);
+            });
+
+            // Voices
+            try {
+                window.speechSynthesis.onvoiceschanged = updateVoices;
+                setTimeout(updateVoices, 500);
+            } catch(e){}
+
+            ttsRateEl.addEventListener('input', () => { ttsRateEl.title = ttsRateEl.value; saveSettings(); });
+            ttsPitchEl.addEventListener('input', () => { ttsPitchEl.title = ttsPitchEl.value; saveSettings(); });
+            voiceSelectorEl.addEventListener('change', saveSettings);
+
+            // Batch
+            batchStartBtn.addEventListener('click', startBatch);
+            batchCancelBtn.addEventListener('click', () => { batchCancelled = true; cancelTranslation(); });
+            batchDownloadBtn.addEventListener('click', () => {}); // set on finish
+
+            // OCR handlers
+            if (ocrBtn && ocrFileInput) {
+                ocrBtn.addEventListener('click', () => ocrFileInput.click());
+                ocrFileInput.addEventListener('change', () => {
+                    const f = ocrFileInput.files?.[0];
+                    if (f && f.type.startsWith('image/')) {
+                        runOCR(f);
+                        ocrFileInput.value = '';
+                    } else if (f) {
+                        showNotification('لطفاً یک فایل تصویر انتخاب کنید.', 'error');
+                    }
+                });
+            }
+            // Drag & drop تصویر روی باکس مبدأ
+            sourceTextEl.addEventListener('dragover', (e) => {
+                if (e.dataTransfer?.types?.includes('Files')) e.preventDefault();
+            });
+            sourceTextEl.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files?.[0];
+                if (file && file.type.startsWith('image/')) {
+                    runOCR(file);
+                } else if (file) {
+                    showNotification('فقط تصویر قابل پذیرش است.', 'error');
+                }
+            });
+            // Paste تصویر از کلیپ‌بورد (اختیاری)
+            sourceTextEl.addEventListener('paste', (e) => {
+                const items = e.clipboardData?.items || [];
+                for (const it of items) {
+                    if (it.type && it.type.indexOf('image') === 0) {
+                        const blob = it.getAsFile();
+                        if (blob) {
+                            e.preventDefault();
+                            runOCR(blob);
+                            break;
+                        }
+                    }
+                }
+            });
+        });
+
+        function loadHistory() { updateHistoryDisplay(); }
+
+        // --------- پایان: ابزار کمکی دیگر ---------
+        const translateBtnContainer = document.querySelector('.translate-btn-container');
+
+        document.getElementById('copy-btn-target')?.addEventListener('click', () => copyTextToClipboard(targetTextEl.value.trim(), 'متن ترجمه کپی شد!'));
+        document.querySelector('.controls .copy-btn')?.addEventListener('click', () => copyTextToClipboard(targetTextEl.value.trim(), 'متن ترجمه کپی شد!'));
+
+        // --------- پایان اسکریپت ---------
     </script>
 </body>
 </html>
