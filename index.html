@@ -1452,7 +1452,7 @@ Text to translate:
         }
 
         async function getDetectedLanguageWithGemini(textToDetect) {
-            const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s';
+            const GEMINI_API_KEY = 'AIzaSyC3X1sFmvIhCYPYcLwATOSC-f3-jlA3QoM';
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
             const prompt = `You are a language detection assistant. Detect the language of the following text and respond with ONLY the two-letter ISO 639-1 code (e.g., "en", "fa"). Text: "${textToDetect.substring(0, 120)}"`;
             const payload = { contents: [{ parts: [{ "text": prompt }] }], generationConfig: { temperature: 0.0 } };
@@ -2180,3 +2180,4 @@ Text to translate:
     </script>
 </body>
 </html>
+
