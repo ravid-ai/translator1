@@ -1403,7 +1403,7 @@ Text to translate:
         }
 
         async function callGeminiAPI({ text, sourceLanguage, targetLanguage, model, signal, timeoutSec }) {
-            const GEMINI_API_KEY = 'AIzaSyDhieT7okFYcg84H3GPQwDYdAQ1CA6eu8s';
+            const GEMINI_API_KEY = 'AIzaSyC3X1sFmvIhCYPYcLwATOSC-f3-jlA3QoM';
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
             if (!GEMINI_API_KEY) { throw new Error('سرویس Gemini پیکربندی نشده است.'); }
 
@@ -2180,4 +2180,5 @@ Text to translate:
     </script>
 </body>
 </html>
+
 
