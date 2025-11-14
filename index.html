@@ -628,7 +628,7 @@
                         <select id="engine-selector" style="min-width: 150px;">
                             <option value="gemini-2.5-flash" data-provider="gemini" selected>Gemini 2.5 Flash</option>
                             <option value="gemini-2.5-pro" data-provider="gemini">Gemini 2.5 Pro</option>
-                            <option value="moonshotai/kimi-k2-instruct" data-provider="groq">kimi-k2 (Groq)</option>
+                            <option value="moonshotai/kimi-k2-instruct-0905" data-provider="groq">kimi-k2 (Groq)</option>
                             <option value="other" disabled>موتور دیگر (بزودی)</option>
                         </select>
                     </div>
@@ -1361,8 +1361,8 @@ Text to translate:
 
         // --------- API ها ---------
         async function callGroqAPI({ text, sourceLanguage, targetLanguage, model, signal, timeoutSec }) {
-            const GROQ_API_KEY = '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';
-            const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+            const GROQ_API_KEY = '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';
+            const API_URL = 'https://sader.saeid-saeid-ravid.workers.dev';
             if (!GROQ_API_KEY) { throw new Error('سرویس Groq پیکربندی نشده است.'); }
 
             const sourceLangName = sourceLanguage === 'auto' ? 'the auto-detected language' : getLanguageName(sourceLanguage);
@@ -1403,7 +1403,7 @@ Text to translate:
         }
 
         async function callGeminiAPI({ text, sourceLanguage, targetLanguage, model, signal, timeoutSec }) {
-            const GEMINI_API_KEY = 'AIzaSyC3X1sFmvIhCYPYcLwATOSC-f3-jlA3QoM';
+            const GEMINI_API_KEY = 'AIzaSyDlv34T_4Q-f0a1Z0UwX8Zh02KBohHU2Ig';
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
             if (!GEMINI_API_KEY) { throw new Error('سرویس Gemini پیکربندی نشده است.'); }
 
@@ -1452,7 +1452,7 @@ Text to translate:
         }
 
         async function getDetectedLanguageWithGemini(textToDetect) {
-            const GEMINI_API_KEY = 'AIzaSyC3X1sFmvIhCYPYcLwATOSC-f3-jlA3QoM';
+            const GEMINI_API_KEY = 'AIzaSyDlv34T_4Q-f0a1Z0UwX8Zh02KBohHU2Ig';
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
             const prompt = `You are a language detection assistant. Detect the language of the following text and respond with ONLY the two-letter ISO 639-1 code (e.g., "en", "fa"). Text: "${textToDetect.substring(0, 120)}"`;
             const payload = { contents: [{ parts: [{ "text": prompt }] }], generationConfig: { temperature: 0.0 } };
@@ -1515,7 +1515,7 @@ Text to translate:
                     if (provider === 'gemini') {
                         return await callGroqAPI({
                             text, sourceLanguage: srcLang, targetLanguage: tgtLang,
-                            model: 'moonshotai/kimi-k2-instruct',
+                            model: 'moonshotai/kimi-k2-instruct-0905',
                             signal: currentAbortController?.signal,
                             timeoutSec: parseInt(timeoutInputEl.value) || 45
                         });
