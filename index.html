@@ -588,7 +588,6 @@
         .tone-selector-container { animation-delay: 0.05s; }
     </style>
 
-    <!-- Tesseract.js for client-side OCR -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.3/dist/tesseract.min.js"></script>
 </head>
 <body>
@@ -629,7 +628,9 @@
                             <option value="gemini-2.5-flash" data-provider="gemini" selected>Gemini 2.5 Flash</option>
                             <option value="gemini-2.5-pro" data-provider="gemini">Gemini 2.5 Pro</option>
                             <option value="moonshotai/kimi-k2-instruct-0905" data-provider="groq">kimi-k2 (Groq)</option>
-                            <option value="other" disabled>موتور دیگر (بزودی)</option>
+                            <option value="x-ai/grok-4.1-fast:free" data-provider="openrouter">Grok 4.1 Fast (Free)</option>
+                            <option value="z-ai/glm-4.5-air:free" data-provider="openrouter">GLM 4.5 Air (Free)</option>
+                            <option value="openai/gpt-oss-20b:free" data-provider="openrouter">GPT OSS 20B (Free)</option>
                         </select>
                     </div>
                     <div class="setting-item">
@@ -770,12 +771,10 @@
 
                 <textarea id="source-text" class="text-area" placeholder="متن خود را اینجا وارد کنید یا از میکروفون استفاده نمایید..."></textarea>
 
-                <!-- OCR action buttons overlay for source -->
                 <div class="action-buttons" id="source-action-buttons">
                     <button class="action-btn" id="ocr-btn" title="استخراج متن از تصویر (OCR)"><i class="fas fa-image"></i></button>
                     <input type="file" id="ocr-image-input" accept="image/*" capture="environment" style="display:none;">
                 </div>
-                <!-- OCR progress (overlay at bottom of source box) -->
                 <div class="progress" id="ocr-progress" style="position:absolute; bottom: calc(var(--spacing-unit) * 1.5); right: calc(var(--spacing-unit) * 1.5); left: calc(var(--spacing-unit) * 1.5); display:none;">
                     <div class="progress-bar" id="ocr-progress-bar"></div>
                 </div>
@@ -1451,6 +1450,55 @@ Text to translate:
             }
         }
 
+        // تابع جدید برای OpenRouter
+        async function callOpenRouterAPI({ text, sourceLanguage, targetLanguage, model, signal, timeoutSec }) {
+            const OPENROUTER_API_KEY = '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';
+            const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+
+            const sourceLangName = sourceLanguage === 'auto' ? 'the auto-detected language' : getLanguageName(sourceLanguage);
+            const targetLangName = getLanguageName(targetLanguage);
+
+            const prefs = getPrefs();
+            const tone = getActiveTone();
+            const prompt = createTranslationPrompt({ sourceLangName, targetLangName, text, prefs, tone });
+
+            const payload = {
+                model: model,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: parseFloat(tempSlider.value) || 0.4,
+                top_p: 1,
+                repetition_penalty: 1.1
+            };
+
+            const controller = new AbortController();
+            const to = setTimeout(() => controller.abort(), (timeoutSec || 45) * 1000);
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+                    'Content-Type': 'application/json',
+                    'HTTP-Referer': 'https://ravid-translator.local', // برای رتبه‌بندی OpenRouter لازمه
+                    'X-Title': 'Ravid Translator Pro'
+                },
+                body: JSON.stringify(payload),
+                signal: (signal || controller.signal)
+            }).catch(err => { clearTimeout(to); throw err; });
+
+            clearTimeout(to);
+
+            if (!response.ok) {
+                let msg = `خطای HTTP: ${response.status}`;
+                try { const errorData = await response.json(); msg = errorData.error?.message || msg; } catch {}
+                throw new Error(msg);
+            }
+
+            const data = await response.json();
+            const content = data.choices?.[0]?.message?.content?.trim();
+            if (!content) throw new Error('پاسخ OpenRouter خالی بود.');
+            return content;
+        }
+
         async function getDetectedLanguageWithGemini(textToDetect) {
             const GEMINI_API_KEY = 'AIzaSyDlv34T_4Q-f0a1Z0UwX8Zh02KBohHU2Ig';
             const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -1498,6 +1546,8 @@ Text to translate:
                 return await callGeminiAPI(args);
             } else if (provider === 'groq') {
                 return await callGroqAPI(args);
+            } else if (provider === 'openrouter') {
+                return await callOpenRouterAPI(args);
             } else {
                 throw new Error("موتور ترجمه انتخاب شده معتبر نیست.");
             }
@@ -1513,6 +1563,7 @@ Text to translate:
 
                 try {
                     if (provider === 'gemini') {
+                        // اگر جمنای خطا داد، برو روی Groq
                         return await callGroqAPI({
                             text, sourceLanguage: srcLang, targetLanguage: tgtLang,
                             model: 'moonshotai/kimi-k2-instruct-0905',
@@ -1520,6 +1571,7 @@ Text to translate:
                             timeoutSec: parseInt(timeoutInputEl.value) || 45
                         });
                     } else {
+                        // اگر بقیه خطا دادن، برو روی Gemini
                         return await callGeminiAPI({
                             text, sourceLanguage: srcLang, targetLanguage: tgtLang,
                             model: 'gemini-2.5-flash',
@@ -2180,5 +2232,3 @@ Text to translate:
     </script>
 </body>
 </html>
-
-
